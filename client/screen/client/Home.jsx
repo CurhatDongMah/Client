@@ -1,0 +1,74 @@
+import React from 'react'
+import { SafeAreaView, Text, View, Image, FlatList } from 'react-native';
+import tailwind from 'tailwind-rn';
+
+export default function Home() {
+  const DATA = [
+    {
+      id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+      title: 'First Item',
+    },
+    {
+      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+      title: 'Second Item',
+    },
+    {
+      id: '58694a0f-3da1-471f-bd96-145571e29d72',
+      title: 'Third Item',
+    },
+    {
+      id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f6w',
+      title: 'Second Item',
+    },
+    {
+      id: '58694a0f-3da1-471f-bd96-145571e29d7v',
+      title: 'Third Item',
+    },
+  ];
+
+  const Item = ({ title }) => (
+    <View style={tailwind('flex flex-row my-2 rounded-xl py-6 bg-white w-80 justify-center')}>
+      <View>
+        <Image 
+          style={tailwind('w-20 h-20 rounded-full')}
+          source={{
+            uri: 'https://picsum.photos/id/237/200/300'
+          }}
+        />
+      </View>
+      <View style={tailwind('flex items-center justify-center px-10')}>
+        <Text style={tailwind('text-2xl')}>John Doe</Text>
+        <Text style={tailwind('text-lg')}>Jakarta</Text>
+        <Text style={tailwind('text-lg text-gray-400')}>Male</Text>
+      </View>
+    </View>
+  );
+
+  const renderItem = ({ item }) => (
+    <Item title={item.title} />
+  );
+  return (
+    <SafeAreaView style={tailwind('flex-1 items-center')}>
+      <View style={tailwind('flex flex-row py-10 bg-white w-full justify-center')}>
+        <View>
+          <Image 
+            style={tailwind('w-20 h-20 rounded-full')}
+            source={{
+              uri: 'https://picsum.photos/id/237/200/300'
+            }}
+          />
+        </View>
+        <View style={tailwind('flex items-center justify-center px-10')}>
+          <Text style={tailwind('text-2xl')}>John Doe</Text>
+          <Text style={tailwind('text-lg')}>Jakarta</Text>
+          <Text style={tailwind('text-lg text-gray-400')}>Male</Text>
+        </View>
+      </View>
+      <FlatList
+        data={DATA}
+        renderItem={renderItem}
+        keyExtractor={item => item.id}
+      />
+    </SafeAreaView>
+  )
+}
