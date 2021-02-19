@@ -3,9 +3,9 @@ import { Text, TextInput, TouchableOpacity, View, SafeAreaView, Button } from 'r
 import tailwind from 'tailwind-rn'
 
 
-export default function SigninForm({ navigation }) {
+export default function SignupForm({ navigation }) {
   const [name, setName] = useState()
-  const [role, setRole] = useState('client')
+  const [level, setLevel] = useState('client')
   const [error, setError] = useState()
   // const dispatch = useDispatch()
   const handleChange = (text) => {
@@ -13,63 +13,86 @@ export default function SigninForm({ navigation }) {
     setError('')
   }
   const handleSubmit = () => {
-    if (role === 'client') navigation.navigate('ClientPage')
-    else navigation.navigate('TherapistPage')
+    navigation.navigate('ClientPage')
+    // if (name) {
+    //   dispatch(setPlayer({
+    //     name,
+    //     level
+    //   }))
+    //   setName('')
+    //   setLevel('easy')
+    //   navigation.navigate('Game')
+    // } else {
+    //   setError('are you an alien?, please insert your name')
+    // }
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center')}>
-      <Text style={tailwind('text-center text-3xl text-green-500 font-bold')}>Welcome To</Text>
-      <Text style={tailwind('text-center text-3xl text-green-500 font-bold my-2')}>Curhat Dong Mah</Text>
       <TextInput
         onChangeText={ handleChange }
-        style={tailwind('w-80 mt-12 text-center content-center py-2 bg-white text-xl text-gray-600 border-2 border-green-500 rounded-xl')}
-        value={name}
-        placeholder="Insert your name"
+        style={tailwind('w-80 my-3 text-center content-center py-2 bg-white text-xl text-gray-600 border-2 border-green-500 rounded-xl')}
+        placeholder="Username"
       ></TextInput>
       <TextInput
         onChangeText={ handleChange }
-        style={tailwind('w-80 mt-12 text-center content-center py-2 bg-white text-xl text-gray-600 border-2 border-green-500 rounded-xl')}
-        value={name}
-        placeholder="Insert your name"
+        style={tailwind('w-80 my-3 text-center content-center py-2 bg-white text-xl text-gray-600 border-2 border-green-500 rounded-xl')}
+        placeholder="Email"
       ></TextInput>
-      {
-        error ? <Text style={tailwind('text-sm text-red-400')}>{ error }</Text> : <Text></Text>
-      }
+      <TextInput
+        onChangeText={ handleChange }
+        style={tailwind('w-80 my-3 text-center content-center py-2 bg-white text-xl text-gray-600 border-2 border-green-500 rounded-xl')}
+        placeholder="Password"
+      ></TextInput>
+      <TextInput
+        onChangeText={ handleChange }
+        style={tailwind('w-80 my-3 text-center content-center py-2 bg-white text-xl text-gray-600 border-2 border-green-500 rounded-xl')}
+        placeholder="Photo Url"
+      ></TextInput>
+      <TextInput
+        onChangeText={ handleChange }
+        style={tailwind('w-80 my-3 text-center content-center py-2 bg-white text-xl text-gray-600 border-2 border-green-500 rounded-xl')}
+        placeholder="Birthdate"
+      ></TextInput>
+      <TextInput
+        onChangeText={ handleChange }
+        style={tailwind('w-80 my-3 text-center content-center py-2 bg-white text-xl text-gray-600 border-2 border-green-500 rounded-xl')}
+        placeholder="City"
+      ></TextInput>
       <View style={tailwind('items-center mt-2')}>
         <View style={tailwind('flex-row w-80 justify-center')}>
           {
-            role === 'client' ? (
+            level === 'client' ? (
               <TouchableOpacity
                 style={tailwind('w-1/3 items-center py-1 rounded-l-xl bg-green-500 border-2 border-r border-green-500')}>
                 <Text 
                   style={tailwind('text-xl text-gray-100')}
-                >Client</Text>
+                >Female</Text>
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                onPress={() => setRole('client')}
+                onPress={() => setLevel('client')}
                 style={tailwind('w-1/3 items-center py-1 rounded-l-xl bg-gray-100 border-2 border-r border-green-500')}>
                 <Text 
                   style={tailwind('text-xl text-green-500')}
-                >Client</Text>
+                >Female</Text>
               </TouchableOpacity>
             )
           }
           {
-            role === 'therapist' ? (
+            level === 'therapist' ? (
               <TouchableOpacity
                 style={tailwind('w-1/3 items-center py-1 rounded-r-xl bg-green-500 border-2 border-l border-green-500')}>
                 <Text 
                   style={tailwind('text-xl text-gray-100')}
-                >Therapist</Text>
+                >Male</Text>
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
-                onPress={() => setRole('therapist')}
+                onPress={() => setLevel('therapist')}
                 style={tailwind('w-1/3 items-center py-1 rounded-r-xl bg-gray-100 border-2 border-l border-green-500')}>
                 <Text 
                   style={tailwind('text-xl text-green-500')}
-                >Therapist</Text>
+                >Male</Text>
               </TouchableOpacity>
             )
           }
@@ -80,12 +103,12 @@ export default function SigninForm({ navigation }) {
           style={tailwind('w-80 items-center py-3 mt-8 rounded-full bg-green-500 border-2 border-green-500')}>
           <Text 
             style={tailwind('text-xl text-gray-100')}
-          >Sign in</Text>
+          >Sign up</Text>
         </TouchableOpacity>
       <Text 
-        onPress={() => navigation.navigate('Confirm')}
+        onPress={() => navigation.navigate('Signin')}
         style={tailwind('my-8 text-green-500')}
-      >Dont have an account?, Sign up</Text>
+      >Already have an account, Sign In</Text>
     </SafeAreaView>
   )
 }

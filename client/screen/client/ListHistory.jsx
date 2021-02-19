@@ -3,7 +3,7 @@ import { SafeAreaView, Text, View, Image, FlatList, TouchableOpacity } from 'rea
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
 
-export default function Profile({ navigation }) {
+export default function ListHistory({ navigation }) {
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -48,11 +48,11 @@ export default function Profile({ navigation }) {
         </View>
         <Text style={tailwind('text-lg text-gray-400')}>IDR 100.000/h</Text>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Detail')} 
+          onPress={() => navigation.navigate('Review')} 
           style={tailwind('items-center py-1 px-6 rounded-full bg-green-500 border-2 border-green-500')}>
           <Text 
             style={tailwind('text-xl text-gray-100')}
-          >Detail</Text>
+          >Give Review</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -63,21 +63,6 @@ export default function Profile({ navigation }) {
   );
   return (
     <SafeAreaView style={tailwind('flex-1 items-center')}>
-      <View style={tailwind('flex flex-row py-8 bg-white w-full justify-center')}>
-        <View>
-          <Image 
-            style={tailwind('w-20 h-20 rounded-full')}
-            source={{
-              uri: 'https://picsum.photos/id/237/200/300'
-            }}
-          />
-        </View>
-        <View style={tailwind('flex items-center justify-center px-10')}>
-          <Text style={tailwind('text-2xl')}>John Doe</Text>
-          <Text style={tailwind('text-lg')}>Jakarta</Text>
-          <Text style={tailwind('text-lg text-gray-400')}>Male</Text>
-        </View>
-      </View>
       <FlatList
         data={DATA}
         renderItem={renderItem}

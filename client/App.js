@@ -8,6 +8,7 @@ import SigninForm from './screen/SigninForm'
 import SignupForm from './screen/client/SignupForm'
 import Confirm from './screen/Confirm'
 import ClientPage from './screen/client/ClientPage'
+import TherapistPage from './screen/therapist/TherapistPage'
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ export default function App() {
         <Stack.Screen name="Confirm" component={Confirm} />
         <Stack.Screen name="Signup" component={SignupForm} />
         <Stack.Screen name="ClientPage" component={ClientPage} />
+        <Stack.Screen name="TherapistPage" component={TherapistPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
