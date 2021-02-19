@@ -5,7 +5,7 @@ import tailwind from 'tailwind-rn';
 
 export default function Payment({ navigation }) {
   return (
-    <SafeAreaView style={tailwind('flex-1 items-center')}>
+    <SafeAreaView style={tailwind('flex-1 items-center mt-32')}>
     <Text>Payment</Text>
     <TouchableOpacity
       onPress={() => navigation.navigate('Success')}

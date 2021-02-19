@@ -5,11 +5,12 @@ import tailwind from 'tailwind-rn';
 
 export default function Success({ navigation }) {
   return (
-    <SafeAreaView style={tailwind('flex-1 items-center justify-center')}>
-      <View style={tailwind('p-20 bg-green-500 rounded-full')}>
-        <Text style={tailwind('text-gray-100')}>Oke</Text>
+    <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
+      <View style={tailwind('p-6 bg-green-500 rounded-full')}>
+        <Ionicons style={tailwind('mx-1 text-gray-100 text-4xl font-bold')} name='checkmark'/>
       </View>
-      <Text style={tailwind('my-5 text-2xl')}>Your booking is success</Text>
+      <Text style={tailwind('my-5 text-2xl')}>Your booking is complete</Text>
+      <Text style={tailwind('text-lg text-gray-400 text-center w-80')}>Your request sent to the psychologist you can contact with consultant according date and time</Text>
     </SafeAreaView>
   )
 }
