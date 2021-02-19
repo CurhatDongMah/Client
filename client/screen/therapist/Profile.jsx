@@ -1,9 +1,16 @@
-import React from 'react'
-import { SafeAreaView, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react'
+import { SafeAreaView, Text, View, Image, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
+import { Toggle } from '@ui-kitten/components';
 
 export default function Profile({ navigation }) {
+
+  const [checked, setChecked] = useState(false);
+
+  const onCheckedChange = (isChecked) => {
+    setChecked(isChecked);
+  };
   const DATA = [
     {
       id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -73,6 +80,9 @@ export default function Profile({ navigation }) {
           />
         </View>
         <View style={tailwind('flex items-center justify-center px-10')}>
+          <Toggle checked={checked} onChange={onCheckedChange}>
+            {`Checked: ${checked}`}
+          </Toggle>
           <Text style={tailwind('text-2xl')}>John Doe</Text>
           <Text style={tailwind('text-lg')}>Jakarta</Text>
           <Text style={tailwind('text-lg text-gray-400')}>Male</Text>
@@ -86,3 +96,22 @@ export default function Profile({ navigation }) {
     </SafeAreaView>
   )
 }
+
+
+const styles = StyleSheet.create({
+  topContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  card: {
+    flex: 1,
+    margin: 2,
+  },
+  footerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  footerControl: {
+    marginHorizontal: 2,
+  },
+});
