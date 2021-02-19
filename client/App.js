@@ -9,20 +9,24 @@ import SignupForm from './screen/client/SignupForm'
 import Confirm from './screen/Confirm'
 import ClientPage from './screen/client/ClientPage'
 import TherapistPage from './screen/therapist/TherapistPage'
+import { Provider } from 'react-redux';
+import store from './store';
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Signin" component={SigninForm} />
-        <Stack.Screen name="Confirm" component={Confirm} />
-        <Stack.Screen name="Signup" component={SignupForm} />
-        <Stack.Screen name="ClientPage" component={ClientPage} />
-        <Stack.Screen name="TherapistPage" component={TherapistPage} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Signin" component={SigninForm} />
+          <Stack.Screen name="Confirm" component={Confirm} />
+          <Stack.Screen name="Signup" component={SignupForm} />
+          <Stack.Screen name="ClientPage" component={ClientPage} />
+          <Stack.Screen name="TherapistPage" component={TherapistPage} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
 
