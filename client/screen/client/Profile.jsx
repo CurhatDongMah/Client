@@ -40,7 +40,7 @@ export default function Profile({ navigation }) {
           <Image 
             style={tailwind('w-12 h-12 rounded-full')}
             source={{
-              uri: 'https://picsum.photos/id/237/200/300'
+              uri: 'https://placeimg.com/140/140/any'
             }}
           />
         </View>
@@ -89,7 +89,7 @@ export default function Profile({ navigation }) {
           <Image 
             style={tailwind('w-20 h-20 rounded-full')}
             source={{
-              uri: 'https://picsum.photos/id/237/200/300'
+              uri: 'https://placeimg.com/140/140/people'
             }}
           />
         </View>

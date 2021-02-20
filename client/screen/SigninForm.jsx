@@ -46,8 +46,8 @@ export default function SigninForm({ navigation }) {
           {
             error.email ? (
               <View style={tailwind('flex flex-row items-center')}>
-                <Ionicons style={tailwind('mx-1 text-red-300 text-lg')} name='warning-outline'/>
-                <Text style={tailwind('text-sm text-red-300')}>{error.email}</Text> 
+                <Ionicons style={tailwind('mx-1 text-red-400 text-lg')} name='warning-outline'/>
+                <Text style={tailwind('text-sm text-red-400')}>{error.email}</Text> 
               </View>
             ): <Text></Text>
           }
@@ -65,7 +65,12 @@ export default function SigninForm({ navigation }) {
             secureTextEntry={true}
           ></TextInput>
           {
-            error.password ? <Text style={tailwind('px-3 text-sm text-red-400')}>{error.password}</Text> : <Text></Text>
+            error.password ? (
+              <View style={tailwind('flex flex-row items-center')}>
+                <Ionicons style={tailwind('mx-1 text-red-400 text-lg')} name='warning-outline'/>
+                <Text style={tailwind('text-sm text-red-400')}>{error.password}</Text> 
+              </View>
+            ): <Text></Text>
           }
         </View>
       </View>
