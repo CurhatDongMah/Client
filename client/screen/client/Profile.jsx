@@ -57,9 +57,9 @@ export default function Profile({ navigation }) {
             <Ionicons style={tailwind('mr-1 text-yellow-500 text-base')} name='star'/>
           </View>
           <Text style={tailwind('text-gray-400')}>Jakarta</Text>
+          <Text style={tailwind('text-gray-500')}>IDR {therapist.price}/h</Text>
         </View>
         <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
-          <Text style={tailwind('text-gray-500')}>IDR {therapist.price}/h</Text>
           <TouchableOpacity
             onPress={() => navigation.navigate('Detail')}
             style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-gray-100 border border-r border-green-400')}>

@@ -7,18 +7,19 @@ import { Radio, RadioGroup} from '@ui-kitten/components';
 
 export default function SignupForm({ navigation }) {
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const [date, setDate] = React.useState(new Date());
-  const [name, setName] = useState()
-  const [gender, setGender] = useState('female')
+  const [date, setDate] = useState(new Date());
+  const [value, setValue] = useState({})
   const [error, setError] = useState()
   const widthWindow = useWindowDimensions().width
-  // const dispatch = useDispatch()
-  const handleChange = (text) => {
-    setName(text)
-    setError('')
+  const handleChange = (text, name) => {
+    setError({})
+    setValue({ ...value, [name]: text})
   }
   const handleSubmit = () => {
-    navigation.navigate('ClientPage')
+    // console.log(value);
+    console.log(date);
+    console.log(selectedIndex);
+    // navigation.navigate('ClientPage')
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
@@ -29,26 +30,30 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>FULL NAME</Text>
           <TextInput
-            style={tailwind('text-center content-center py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
+            onChangeText={(text) => handleChange(text, 'fullName')}
+            style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>EMAIL</Text>
           <TextInput
-            style={tailwind('text-center content-center py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
+            onChangeText={(text) => handleChange(text, 'email')}
+            style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PASSWORD</Text>
           <TextInput
-            style={tailwind('text-center content-center py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
+            onChangeText={(text) => handleChange(text, 'password')}
+            style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
             secureTextEntry={true}
           ></TextInput>
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PHOTO URL</Text>
           <TextInput
-            style={tailwind('text-center content-center py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
+            onChangeText={(text) => handleChange(text, 'photoUrl')}
+            style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>
         </View>
         <View style={tailwind('mt-5')}>
@@ -57,62 +62,20 @@ export default function SignupForm({ navigation }) {
             date={date}
             onSelect={nextDate => setDate(nextDate)}
           />
-          {/* <TextInput
-            style={tailwind('text-center content-center py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
-          ></TextInput> */}
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>CITY</Text>
           <TextInput
-            style={tailwind('text-center content-center py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
+            onChangeText={(text) => handleChange(text, 'city')}
+            style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>
         </View>
         <RadioGroup
           selectedIndex={selectedIndex}
           onChange={index => setSelectedIndex(index)}>
-          <Radio status='success' style={tailwind('text-2xl')}>Female</Radio>
+          <Radio status='success'>Female</Radio>
           <Radio status='success'>Male</Radio>
         </RadioGroup>
-        {/* <View style={tailwind('items-center mt-5')}>
-          <View style={tailwind('flex-row w-80 justify-center')}>
-            {
-              gender === 'female' ? (
-                <TouchableOpacity
-                  style={tailwind('w-1/3 items-center py-1 rounded-l-full bg-green-400 border border-r border-green-400')}>
-                  <Text 
-                    style={tailwind('text-xl text-gray-100')}
-                  >Female</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  onPress={() => setGender('female')}
-                  style={tailwind('w-1/3 items-center py-1 rounded-l-full bg-gray-100 border border-r border-green-400')}>
-                  <Text 
-                    style={tailwind('text-xl text-green-400')}
-                  >Female</Text>
-                </TouchableOpacity>
-              )
-            }
-            {
-              gender === 'male' ? (
-                <TouchableOpacity
-                  style={tailwind('w-1/3 items-center py-1 rounded-r-full bg-green-400 border border-l border-green-400')}>
-                  <Text 
-                    style={tailwind('text-xl text-gray-100')}
-                  >Male</Text>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity
-                  onPress={() => setGender('male')}
-                  style={tailwind('w-1/3 items-center py-1 rounded-r-full bg-gray-100 border border-l border-green-400')}>
-                  <Text 
-                    style={tailwind('text-xl text-green-400')}
-                  >Male</Text>
-                </TouchableOpacity>
-              )
-            }
-          </View>
-        </View> */}
           <TouchableOpacity
             onPress={() => handleSubmit()} 
             style={tailwind('items-center py-3 mt-8 rounded-full bg-green-400')}>

@@ -14,37 +14,20 @@ export default function TherapistPage() {
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-
             if (route.name === 'Home') {
-              iconName = focused
-                ? 'ios-home'
-                : 'ios-home';
-            } else if (route.name === 'Settings') {
-              iconName = focused ? 'ios-list-box' : 'ios-list';
+              iconName = focused ? 'ios-home' : 'ios-home';
+            } else if (route.name === 'History') {
+              iconName = focused ? 'list' : 'list';
+            } else if (route.name === 'Inbox') {
+              iconName = focused ? 'ios-chatbox' : 'ios-chatbox';
             }
-
-            if (route.name === 'History') {
-              iconName = focused
-                ? 'ios-reload'
-                : 'ios-reload';
-            } else if (route.name === 'Settings') {
-              iconName = focused ? 'ios-list-box' : 'ios-list';
-            }
-
-            if (route.name === 'Inbox') {
-              iconName = focused
-                ? 'ios-chatbox'
-                : 'ios-chatbox';
-            } else if (route.name === 'Settings') {
-              iconName = focused ? 'ios-list-box' : 'ios-list';
-            }
-            // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
         })}
         tabBarOptions={{
-          activeTintColor: 'green',
-          inactiveTintColor: 'gray',
+          activeTintColor: '#00af91',
+          inactiveTintColor: '#e7e6e1',
+          showLabel: false
         }}
       >
         <Tab.Screen name="Home" component={Home} />
