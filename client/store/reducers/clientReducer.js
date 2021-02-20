@@ -2,6 +2,7 @@ const initialState = {
   clients: [],
   loading: false,
   error: null,
+  successRegister: false
 }
 
 const clientReducer = (state = initialState, action) => {
@@ -24,6 +25,10 @@ const clientReducer = (state = initialState, action) => {
         ...state, error: action.payload
       }
   
+    case 'SUCCESS_REGISTER':
+      return {
+        ...state, successRegister: true
+      }
     default:
       return state
   }

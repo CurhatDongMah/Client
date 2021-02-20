@@ -6,6 +6,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CheckBox } from '@ui-kitten/components';
 import { clientLogin } from '../store/actions/client'
 import * as SecureStore from 'expo-secure-store';
+import { validate } from 'validate.js'
+import constraints from '../helpers/constraints'
 
 export default function SigninForm({ navigation }) {
   const widthWindow = useWindowDimensions().width
@@ -21,19 +23,23 @@ export default function SigninForm({ navigation }) {
     setValue({ ...value, [name]: text})
   }
   const handleSubmit = async () => {
+    const validateEmail = validate({ emailAddress: value.email }, constraints)
     if (!value.email) setError({...error, email: 'Email must be filled'})
+    else if (validateEmail) setError({...error, email: validateEmail.emailAddress[0]})
     else if (!value.password) setError({...error, password: 'Password must be filled'})
     else {
-      // if (checked) navigation.navigate('TherapistPage')
-      // else navigation.navigate('ClientPage')
-      // if (checked) dispatch(clientLogin(value))
-      // else dispatch(clientLogin(value))
-    await dispatch(clientLogin(value))
-    const getToken = () => {
-      return SecureStore.getItemAsync('access_token');
-    }
-    getToken().then(token => console.log(token, 'di form login'))
-    setValue({})
+      if (checked) {
+        console.log('therapist')
+        // if (checked) navigation.navigate('TherapistPage')
+      } else {
+        await dispatch(clientLogin(value))
+        const token = await SecureStore.getItemAsync('access_token')
+        if (token) {
+          console.log(token, 'login token')
+          navigation.navigate('ClientPage')
+          setValue({})
+        }
+      }
     }
   }
 
@@ -107,6 +113,13 @@ export default function SigninForm({ navigation }) {
           style={tailwind('my-5 text-green-400 text-lg')}
         >Sign up</Text>
       </View>
+      <TouchableOpacity
+          onPress={async () => await SecureStore.deleteItemAsync('access_token')} 
+          style={tailwind('w-80 items-center py-3 mt-8 rounded-full bg-green-400')}>
+          <Text 
+            style={tailwind('text-xl text-gray-100 tracking-wider')}
+          >DELETE TOKEN</Text>
+        </TouchableOpacity>
     </SafeAreaView>
   )
 }
