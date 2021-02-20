@@ -13,7 +13,7 @@ export default function ChatRoom({ navigation, route }) {
   const roomId = therapist.fullName
 
   const messagesRef = firestore.collection(roomId); // ambil collectionnya
-  const query = messagesRef.orderBy('createdAt').limit(25); // sort isi collectionnya
+  const query = messagesRef.orderBy('createdAt', 'desc').limit(25); // sort isi collectionnya
   const [messages] = useCollectionData(query, { idField: '_id' });
 
 
@@ -23,7 +23,7 @@ export default function ChatRoom({ navigation, route }) {
     await messagesRef.add({
       _id,
       text,
-      createdAt,
+      createdAt: Date.parse(createdAt),
       user
     })
       .then(ref => console.log(ref._id))
