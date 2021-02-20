@@ -5,6 +5,7 @@ import tailwind from 'tailwind-rn'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CheckBox } from '@ui-kitten/components';
 import { therapistLogin } from '../store/actions/therapist'
+import { clientLogin } from '../store/actions/client'
 import * as SecureStore from 'expo-secure-store';
 import { validate } from 'validate.js'
 import constraints from '../helpers/constraints'
@@ -29,21 +30,29 @@ export default function SigninForm({ navigation }) {
     else if (!value.password) setError({...error, password: 'Password must be filled'})
     else {
       if (checked) {
-        console.log('therapist')
-        await dispatch(therapistLogin(value))
-        const token = await SecureStore.getItemAsync('access_token')
-        if (token) {
-          console.log(token, 'login token')
-          navigation.navigate('TherapistPage')
-          setValue({})
+        try {
+          console.log('therapist')
+          await dispatch(therapistLogin(value))
+          const token = await SecureStore.getItemAsync('access_token')
+          if (token) {
+            console.log(token, 'login token')
+            navigation.navigate('TherapistPage')
+            setValue({})
+          }
+        } catch (error) {
+          console.log(error)
         }
       } else {
-        await dispatch(clientLogin(value))
-        const token = await SecureStore.getItemAsync('access_token')
-        if (token) {
-          console.log(token, 'login token')
-          navigation.navigate('ClientPage')
-          setValue({})
+        try {
+          await dispatch(clientLogin(value))
+          const token = await SecureStore.getItemAsync('access_token')
+          if (token) {
+            console.log(token, 'login token')
+            navigation.navigate('ClientPage')
+            setValue({})
+          }
+        } catch (error) {
+          console.log(error)
         }
       }
     }
