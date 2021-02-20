@@ -6,31 +6,28 @@ import tailwind from 'tailwind-rn';
 import { useState } from 'react';
 import 'firebase/firestore'
 import firestore from '../../helpers/FirebaseSVC';
-
+import firebase from 'firebase'
 
 export default function ChatRoom({ navigation, route }) {
   const therapist = route.params.therapist
-  const roomId = 'masuk'
+  const roomId = therapist.fullName
 
   const messagesRef = firestore.collection(roomId); // ambil collectionnya
   const query = messagesRef.orderBy('createdAt').limit(25); // sort isi collectionnya
-  const [messages] = useCollectionData(query, { idField: 'id' });
-  const [messageId, setMessageId] = useState('');
+  const [messages] = useCollectionData(query, { idField: '_id' });
 
 
-  async function sendMessage (user, message, roomId) {
+  const sendMessage = async (user, message, roomId) => {
     const messagesRef = firestore.collection(roomId); // ambil collectionnya
+    const { _id, text, createdAt } = message[0]
     await messagesRef.add({
+      _id,
+      text,
+      createdAt,
       user
     })
-      .then(ref => setMessageId(ref.id))
-  console.log(messageId);
-    await messagesRef.doc(messageId)
-      .set({
-        _id: messageId,
-        text: message[0].text,
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-      }, { merge: true })
+      .then(ref => console.log(ref._id))
+      .catch(err => console.log(err))
   }
 
   function handleSendMessage (message) {
@@ -39,8 +36,6 @@ export default function ChatRoom({ navigation, route }) {
       name: "userclient 1",
       avatar: 'https://placeimg.com/140/140/any',
     }
-
-    console.log(user, message, roomId);
     sendMessage(user, message, roomId)
   }
 
