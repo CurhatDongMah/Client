@@ -1,33 +1,48 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions } from 'react-native'
 import tailwind from 'tailwind-rn'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CheckBox } from '@ui-kitten/components';
+import { clientLogin } from '../store/actions/client'
+import * as SecureStore from 'expo-secure-store';
+import { validate } from 'validate.js'
+import constraints from '../helpers/constraints'
 
 export default function SigninForm({ navigation }) {
+  const widthWindow = useWindowDimensions().width
   const [checked, setChecked] = useState(false);
   const [value, setValue] = useState({
     email: '',
     password: ''
   })
   const [error, setError] = useState({})
-  const widthWindow = useWindowDimensions().width
+  const dispatch = useDispatch()
   const handleChange = (text, name) => {
     setError({})
     setValue({ ...value, [name]: text})
   }
-  const handleSubmit = () => {
-    console.log(value)
-    console.log(checked)
+  const handleSubmit = async () => {
+    const validateEmail = validate({ emailAddress: value.email }, constraints)
     if (!value.email) setError({...error, email: 'Email must be filled'})
+    else if (validateEmail) setError({...error, email: validateEmail.emailAddress[0]})
     else if (!value.password) setError({...error, password: 'Password must be filled'})
     else {
-      if (checked) navigation.navigate('TherapistPage')
-      else navigation.navigate('ClientPage')
-      setValue({})
+      if (checked) {
+        console.log('therapist')
+        // if (checked) navigation.navigate('TherapistPage')
+      } else {
+        await dispatch(clientLogin(value))
+        const token = await SecureStore.getItemAsync('access_token')
+        if (token) {
+          console.log(token, 'login token')
+          navigation.navigate('ClientPage')
+          setValue({})
+        }
+      }
     }
   }
+
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <Ionicons style={tailwind('mx-2 text-green-400 text-4xl')} name='leaf'/>
@@ -98,6 +113,13 @@ export default function SigninForm({ navigation }) {
           style={tailwind('my-5 text-green-400 text-lg')}
         >Sign up</Text>
       </View>
+      <TouchableOpacity
+          onPress={async () => await SecureStore.deleteItemAsync('access_token')} 
+          style={tailwind('w-80 items-center py-3 mt-8 rounded-full bg-green-400')}>
+          <Text 
+            style={tailwind('text-xl text-gray-100 tracking-wider')}
+          >DELETE TOKEN</Text>
+        </TouchableOpacity>
     </SafeAreaView>
   )
 }

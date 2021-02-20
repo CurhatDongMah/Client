@@ -7,14 +7,21 @@ import { Datepicker } from '@ui-kitten/components'
 import { Radio, RadioGroup} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { clientRegister } from '../../store/actions/client'
+import { validate } from 'validate.js';
+import constraints from '../../helpers/constraints';
 
 export default function SignupForm({ navigation }) {
+  const { successRegister } = useSelector(state => state.client)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date())
   const [value, setValue] = useState({})
   const [error, setError] = useState({})
   const widthWindow = useWindowDimensions().width
   const dispatch = useDispatch()
+  useEffect(() => {
+    console.log(successRegister);
+    if (successRegister) navigation.navigate('ClientPage')
+  }, [successRegister])
   useEffect(() => {
     setValue({...value, birthDate: birthDate})
   }, [birthDate])
@@ -27,15 +34,19 @@ export default function SignupForm({ navigation }) {
     setValue({ ...value, [name]: text})
   }
   const handleSubmit = () => {
+    const validateEmail = validate({ emailAddress: value.email }, constraints)
     if (!value.fullName) setError({...error, fullName: 'Required'})
     else if (!value.email) setError({...error, email: 'Required'})
+    else if (validateEmail) setError({...error, email: validateEmail.emailAddress[0]})
     else if (!value.password) setError({...error, password: 'Required'})
     else if (!value.photoUrl) setError({...error, photoUrl: 'Required'})
     else if (!value.birthDate) setError({...error, birthDate: 'Required'})
     else if (!value.city) setError({...error, city: 'Required'})
     // else navigation.navigate('ClientPage')
     // else console.log(value);    
-    else dispatch(clientRegister(value))
+    else {
+      dispatch(clientRegister(value))
+    }
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
