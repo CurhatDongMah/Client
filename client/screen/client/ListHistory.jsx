@@ -47,7 +47,7 @@ export default function ListHistory({ navigation }) {
           <Image 
             style={tailwind('w-12 h-12 rounded-full')}
             source={{
-              uri: 'https://picsum.photos/id/237/200/300'
+              uri: 'https://placeimg.com/140/140/people'
             }}
           />
         </View>

@@ -5,20 +5,27 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CheckBox } from '@ui-kitten/components';
 
 export default function SigninForm({ navigation }) {
-  const [checked, setChecked] = React.useState(false);
-  const [email, setEmail] = useState()
-  const [password, setPassword] = useState()
-  const [role, setRole] = useState('client')
-  const [error, setError] = useState()
+  const [checked, setChecked] = useState(false);
+  const [value, setValue] = useState({
+    email: '',
+    password: ''
+  })
+  const [error, setError] = useState({})
   const widthWindow = useWindowDimensions().width
-  // const dispatch = useDispatch()
-  const handleChange = (text) => {
-    setName(text)
-    setError('')
+  const handleChange = (text, name) => {
+    setError({})
+    setValue({ ...value, [name]: text})
   }
   const handleSubmit = () => {
-    if (checked) navigation.navigate('TherapistPage')
-    else navigation.navigate('ClientPage')
+    console.log(value)
+    console.log(checked)
+    if (!value.email) setError({...error, email: 'Email must be filled'})
+    else if (!value.password) setError({...error, password: 'Password must be filled'})
+    else {
+      if (checked) navigation.navigate('TherapistPage')
+      else navigation.navigate('ClientPage')
+      setValue({})
+    }
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
@@ -31,10 +38,19 @@ export default function SigninForm({ navigation }) {
             <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>EMAIL</Text>
           </View>
           <TextInput
-            onChangeText={(text) => setEmail(text)}
+            onChangeText={(text) => handleChange(text, 'email')}
             style={tailwind('px-2 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
-            value={email}
+            value={value.email}
+            name='email'
           ></TextInput>
+          {
+            error.email ? (
+              <View style={tailwind('flex flex-row items-center')}>
+                <Ionicons style={tailwind('mx-1 text-red-400 text-lg')} name='warning-outline'/>
+                <Text style={tailwind('text-sm text-red-400')}>{error.email}</Text> 
+              </View>
+            ): <Text></Text>
+          }
         </View>
         <View style={tailwind('mt-5')}>
           <View style={tailwind('flex flex-row items-center')}>
@@ -42,63 +58,29 @@ export default function SigninForm({ navigation }) {
             <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PASSWORD</Text>
           </View>
           <TextInput
-            onChangeText={ (text) => setPassword(text) }
+            onChangeText={(text) => handleChange(text, 'password')}
             style={tailwind('px-2 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
-            value={password}
+            value={value.password}
+            name='password'
             secureTextEntry={true}
           ></TextInput>
+          {
+            error.password ? (
+              <View style={tailwind('flex flex-row items-center')}>
+                <Ionicons style={tailwind('mx-1 text-red-400 text-lg')} name='warning-outline'/>
+                <Text style={tailwind('text-sm text-red-400')}>{error.password}</Text> 
+              </View>
+            ): <Text></Text>
+          }
         </View>
       </View>
-      {
-        error ? <Text style={tailwind('text-sm text-red-400')}>{ error }</Text> : <Text></Text>
-      }
       <CheckBox
-        style={tailwind('text-green-400 self-start mx-12')}
+        style={tailwind('text-green-400 self-start mx-12 mt-2')}
         status='success'
         checked={checked}
         onChange={nextChecked => setChecked(nextChecked)}>
         {`I am Therapist`}
       </CheckBox>
-      {/* <View style={tailwind('mt-2')}>
-        <View style={tailwind('flex-row justify-start')}>
-          {
-            role === 'client' ? (
-              <TouchableOpacity
-                style={tailwind('w-1/3 items-center py-1 rounded-l-full bg-green-400 border border-r border-green-400')}>
-                <Text 
-                  style={tailwind('text-xl text-gray-100')}
-                >Client</Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={() => setRole('client')}
-                style={tailwind('w-1/3 items-center py-1 rounded-l-full bg-gray-100 border border-r border-green-400')}>
-                <Text 
-                  style={tailwind('text-xl text-green-400')}
-                >Client</Text>
-              </TouchableOpacity>
-            )
-          }
-          {
-            role === 'therapist' ? (
-              <TouchableOpacity
-                style={tailwind('w-1/3 items-center py-1 rounded-r-full bg-green-400 border border-l border-green-400')}>
-                <Text 
-                  style={tailwind('text-xl text-gray-100')}
-                >Therapist</Text>
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={() => setRole('therapist')}
-                style={tailwind('w-1/3 items-center py-1 rounded-r-full bg-gray-100 border border-l border-green-400')}>
-                <Text 
-                  style={tailwind('text-xl text-green-400')}
-                >Therapist</Text>
-              </TouchableOpacity>
-            )
-          }
-        </View>
-      </View> */}
         <View style={{ elevation: 5 }}>
           <TouchableOpacity
             onPress={() => handleSubmit()} 

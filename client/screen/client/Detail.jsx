@@ -12,7 +12,7 @@ export default function Detail({ navigation }) {
             <Image 
               style={tailwind('w-24 h-24 rounded-full')}
               source={{
-                uri: 'https://picsum.photos/id/237/200/300'
+                uri: 'https://placeimg.com/140/140/any'
               }}
             />
             <Text style={tailwind('text-2xl my-2')}>John Doe</Text>
