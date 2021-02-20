@@ -1,5 +1,6 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
+const baseUrl = 'http://192.168.43.213:3000'
 
 const getClients = () => {
   return async () => {
@@ -21,17 +22,17 @@ const getClients = () => {
   }
 }
 
-const clientRegister = (payload) => {
+export const clientRegister = (payload) => {
   return async (dispatch) => {
     try {
       const resRegister = await axios({
         method: 'POST',
-        url: `http://192.168.43.213:3000/client/register`,
+        url: `${baseUrl}/client/register`,
         data: payload
       })
       if (resRegister) {
         dispatch({
-          type: 'SUCCESS_REGISTER'
+          type: 'CLIENT_SUCCESS_REGISTER'
         })
       }
     } catch (error) {
@@ -45,7 +46,7 @@ export const clientLogin = (payload) => {
     try {
       const res = await axios({
         method: 'POST',
-        url: `http://192.168.43.213:3000/client/login`,
+        url: `${baseUrl}/client/login`,
         data: payload
       })
       console.log(res.data.access_token, 'access_token')
@@ -61,6 +62,5 @@ export const clientLogin = (payload) => {
 }
 
 export {
-  getClients,
-  clientRegister
+  getClients
 }

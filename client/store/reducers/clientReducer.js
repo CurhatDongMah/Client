@@ -25,7 +25,7 @@ const clientReducer = (state = initialState, action) => {
         ...state, error: action.payload
       }
   
-    case 'SUCCESS_REGISTER':
+    case 'CLIENT_SUCCESS_REGISTER':
       return {
         ...state, successRegister: true
       }

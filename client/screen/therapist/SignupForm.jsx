@@ -1,31 +1,43 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import tailwind from 'tailwind-rn'
 import { Datepicker } from '@ui-kitten/components'
 import { Radio, RadioGroup} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { validate } from 'validate.js';
+import constraints from '../../helpers/constraints';
+import { therapistRegister } from '../../store/actions/therapist'
 
 
 export default function SignupForm({ navigation }) {
+  const { successRegister } = useSelector(state => state.therapist)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date())
   const [value, setValue] = useState({})
   const [error, setError] = useState({})
   const widthWindow = useWindowDimensions().width
+  const dispatch = useDispatch()
   useEffect(() => {
     setValue({...value, birthDate: birthDate})
   }, [birthDate])
   useEffect(() => {
     selectedIndex === 1 ? setValue({...value, gender: 'male'}) : setValue({...value, gender: 'female'})
   }, [selectedIndex])
+  useEffect(() => {
+    console.log(successRegister);
+    if (successRegister) navigation.navigate('Signin')
+  }, [successRegister])
   const handleChange = (text, name) => {
     setError({})
     setValue({ ...value, [name]: text})
   }
   const handleSubmit = () => {
+    const validateEmail = validate({ emailAddress: value.email }, constraints)
     if (!value.fullName) setError({...error, fullName: 'Required'})
     else if (!value.email) setError({...error, email: 'Required'})
+    else if (validateEmail) setError({...error, email: validateEmail.emailAddress[0]})
     else if (!value.password) setError({...error, password: 'Required'})
     else if (!value.photoUrl) setError({...error, photoUrl: 'Required'})
     else if (!value.birthDate) setError({...error, birthDate: 'Required'})
@@ -33,8 +45,9 @@ export default function SignupForm({ navigation }) {
     else if (!value.licenseUrl) setError({...error, licenseUrl: 'Required'})
     else if (!value.price) setError({...error, price: 'Required'})
     else if (!value.about) setError({...error, about: 'Required'})
-    else navigation.navigate('TherapistPage')
-    // else console.log(value);
+    else {
+      dispatch(therapistRegister(value))
+    }
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>

@@ -2,6 +2,7 @@ const initialState = {
   therapists: [],
   loading: false,
   error: null,
+  successRegister: false
 }
 
 const therapistReducer = (state = initialState, action) => {
@@ -23,7 +24,10 @@ const therapistReducer = (state = initialState, action) => {
       return {
         ...state, error: action.payload
       }
-  
+    case 'THERAPIST_SUCCESS_REGISTER':
+      return {
+        ...state, successRegister: true
+      }
     default:
       return state
   }
