@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import SigninForm from './screen/SigninForm'
@@ -10,26 +9,29 @@ import ClientPage from './screen/client/ClientPage'
 import TherapistPage from './screen/therapist/TherapistPage'
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components';
-import tailwind from 'tailwind-rn';
+import { Provider } from 'react-redux'
+import store from './store'
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <ApplicationProvider {...eva} theme={eva.light}>
-      <NavigationContainer>
-        <Stack.Navigator 
-          screenOptions={{ headerShown: false }}
-        >
-          <Stack.Screen name="Signin" component={SigninForm} />
-          <Stack.Screen name="Confirm" component={Confirm} />
-          <Stack.Screen name="SignupClient" component={SignupFormClient} />
-          <Stack.Screen name="SignupTherapist" component={SignupFormTherapist} />
-          <Stack.Screen name="ClientPage" component={ClientPage} />
-          <Stack.Screen name="TherapistPage" component={TherapistPage} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </ApplicationProvider>
+    <Provider store={store}>
+      <ApplicationProvider {...eva} theme={eva.light}>
+        <NavigationContainer>
+          <Stack.Navigator 
+            screenOptions={{ headerShown: false }}
+          >
+            <Stack.Screen name="Signin" component={SigninForm} />
+            <Stack.Screen name="Confirm" component={Confirm} />
+            <Stack.Screen name="SignupClient" component={SignupFormClient} />
+            <Stack.Screen name="SignupTherapist" component={SignupFormTherapist} />
+            <Stack.Screen name="ClientPage" component={ClientPage} />
+            <Stack.Screen name="TherapistPage" component={TherapistPage} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ApplicationProvider>
+    </Provider>
   );
 }
 

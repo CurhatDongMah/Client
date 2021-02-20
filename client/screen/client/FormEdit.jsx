@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'  
 import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import tailwind from 'tailwind-rn'
 import { Datepicker } from '@ui-kitten/components'
 import { Radio, RadioGroup} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { clientRegister } from '../../store/actions/client'
 
 export default function SignupForm({ navigation }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -14,7 +12,6 @@ export default function SignupForm({ navigation }) {
   const [value, setValue] = useState({})
   const [error, setError] = useState({})
   const widthWindow = useWindowDimensions().width
-  const dispatch = useDispatch()
   useEffect(() => {
     setValue({...value, birthDate: birthDate})
   }, [birthDate])
@@ -28,14 +25,11 @@ export default function SignupForm({ navigation }) {
   }
   const handleSubmit = () => {
     if (!value.fullName) setError({...error, fullName: 'Required'})
-    else if (!value.email) setError({...error, email: 'Required'})
-    else if (!value.password) setError({...error, password: 'Required'})
     else if (!value.photoUrl) setError({...error, photoUrl: 'Required'})
     else if (!value.birthDate) setError({...error, birthDate: 'Required'})
     else if (!value.city) setError({...error, city: 'Required'})
-    // else navigation.navigate('ClientPage')
-    // else console.log(value);    
-    else dispatch(clientRegister(value))
+    else navigation.navigate('ClientPage')
+    // else console.log(value);
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
@@ -54,37 +48,6 @@ export default function SignupForm({ navigation }) {
               <View style={tailwind('flex flex-row items-center')}>
                 <Ionicons style={tailwind('mx-1 text-red-400 text-lg')} name='warning-outline'/>
                 <Text style={tailwind('text-sm text-red-400')}>{error.fullName}</Text> 
-              </View>
-            ): <Text></Text>
-          }
-        </View>
-        <View style={tailwind('mt-5')}>
-          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>EMAIL</Text>
-          <TextInput
-            onChangeText={(text) => handleChange(text, 'email')}
-            style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
-          ></TextInput>
-          {
-            error.email ? (
-              <View style={tailwind('flex flex-row items-center')}>
-                <Ionicons style={tailwind('mx-1 text-red-400 text-lg')} name='warning-outline'/>
-                <Text style={tailwind('text-sm text-red-400')}>{error.email}</Text> 
-              </View>
-            ): <Text></Text>
-          }
-        </View>
-        <View style={tailwind('mt-5')}>
-          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PASSWORD</Text>
-          <TextInput
-            onChangeText={(text) => handleChange(text, 'password')}
-            style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
-            secureTextEntry={true}
-          ></TextInput>
-          {
-            error.password ? (
-              <View style={tailwind('flex flex-row items-center')}>
-                <Ionicons style={tailwind('mx-1 text-red-400 text-lg')} name='warning-outline'/>
-                <Text style={tailwind('text-sm text-red-400')}>{error.password}</Text> 
               </View>
             ): <Text></Text>
           }
@@ -158,4 +121,3 @@ export default function SignupForm({ navigation }) {
     </SafeAreaView>
   )
 }
-

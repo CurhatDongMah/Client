@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions } from 'react-native'
 import tailwind from 'tailwind-rn'
 import Ionicons from 'react-native-vector-icons/Ionicons';
