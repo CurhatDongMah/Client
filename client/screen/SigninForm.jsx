@@ -4,7 +4,7 @@ import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensi
 import tailwind from 'tailwind-rn'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CheckBox } from '@ui-kitten/components';
-import { clientLogin } from '../store/actions/client'
+import { therapistLogin } from '../store/actions/therapist'
 import * as SecureStore from 'expo-secure-store';
 import { validate } from 'validate.js'
 import constraints from '../helpers/constraints'
@@ -30,7 +30,13 @@ export default function SigninForm({ navigation }) {
     else {
       if (checked) {
         console.log('therapist')
-        // if (checked) navigation.navigate('TherapistPage')
+        await dispatch(therapistLogin(value))
+        const token = await SecureStore.getItemAsync('access_token')
+        if (token) {
+          console.log(token, 'login token')
+          navigation.navigate('TherapistPage')
+          setValue({})
+        }
       } else {
         await dispatch(clientLogin(value))
         const token = await SecureStore.getItemAsync('access_token')

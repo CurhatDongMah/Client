@@ -20,7 +20,7 @@ export default function SignupForm({ navigation }) {
   const dispatch = useDispatch()
   useEffect(() => {
     console.log(successRegister);
-    if (successRegister) navigation.navigate('ClientPage')
+    if (successRegister) navigation.navigate('Signin')
   }, [successRegister])
   useEffect(() => {
     setValue({...value, birthDate: birthDate})
@@ -42,8 +42,6 @@ export default function SignupForm({ navigation }) {
     else if (!value.photoUrl) setError({...error, photoUrl: 'Required'})
     else if (!value.birthDate) setError({...error, birthDate: 'Required'})
     else if (!value.city) setError({...error, city: 'Required'})
-    // else navigation.navigate('ClientPage')
-    // else console.log(value);    
     else {
       dispatch(clientRegister(value))
     }
