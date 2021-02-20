@@ -81,19 +81,22 @@ export default function SigninForm({ navigation }) {
         onChange={nextChecked => setChecked(nextChecked)}>
         {`I am Therapist`}
       </CheckBox>
-        <View style={{ elevation: 5 }}>
-          <TouchableOpacity
-            onPress={() => handleSubmit()} 
-            style={tailwind('w-80 items-center py-3 mt-8 rounded-full bg-green-400')}>
-            <Text 
-              style={tailwind('text-xl text-gray-100 tracking-wider')}
-            >SIGN IN</Text>
-          </TouchableOpacity>
-        </View>
-      <Text 
-        onPress={() => navigation.navigate('Confirm')}
-        style={tailwind('my-5 text-gray-400 text-lg')}
-      >Dont have an account?, Sign up</Text>
+      <View style={{ elevation: 5 }}>
+        <TouchableOpacity
+          onPress={() => handleSubmit()} 
+          style={tailwind('w-80 items-center py-3 mt-8 rounded-full bg-green-400')}>
+          <Text 
+            style={tailwind('text-xl text-gray-100 tracking-wider')}
+          >SIGN IN</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={tailwind('flex flex-row')}>
+        <Text style={tailwind('my-5 text-gray-400 text-lg')}>Dont have an account?, </Text>
+        <Text 
+          onPress={() => navigation.navigate('Confirm')}
+          style={tailwind('my-5 text-green-400 text-lg')}
+        >Sign up</Text>
+      </View>
     </SafeAreaView>
   )
 }
