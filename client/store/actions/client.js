@@ -1,4 +1,9 @@
 import axios from 'axios'
+import * as SecureStore from 'expo-secure-store';
+
+const setToken = (token) => {
+  return SecureStore.setItemAsync('access_token', token);
+};
 
 const getClients = () => {
   return async () => {
@@ -29,6 +34,21 @@ const clientRegister = (payload) => {
         data: payload
       })
       console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export const clientLogin = (payload) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios({
+        method: 'POST',
+        url: `http://192.168.43.213:3000/client/login`,
+        data: payload
+      })
+      setToken(res.data.access_token);
     } catch (error) {
       console.log(error);
     }

@@ -1,33 +1,42 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions } from 'react-native'
 import tailwind from 'tailwind-rn'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CheckBox } from '@ui-kitten/components';
+import { clientLogin } from '../store/actions/client'
+import * as SecureStore from 'expo-secure-store';
 
 export default function SigninForm({ navigation }) {
+  const widthWindow = useWindowDimensions().width
   const [checked, setChecked] = useState(false);
   const [value, setValue] = useState({
     email: '',
     password: ''
   })
   const [error, setError] = useState({})
-  const widthWindow = useWindowDimensions().width
+  const dispatch = useDispatch()
   const handleChange = (text, name) => {
     setError({})
     setValue({ ...value, [name]: text})
   }
-  const handleSubmit = () => {
-    console.log(value)
-    console.log(checked)
+  const handleSubmit = async () => {
     if (!value.email) setError({...error, email: 'Email must be filled'})
     else if (!value.password) setError({...error, password: 'Password must be filled'})
     else {
-      if (checked) navigation.navigate('TherapistPage')
-      else navigation.navigate('ClientPage')
-      setValue({})
+      // if (checked) navigation.navigate('TherapistPage')
+      // else navigation.navigate('ClientPage')
+      // if (checked) dispatch(clientLogin(value))
+      // else dispatch(clientLogin(value))
+    await dispatch(clientLogin(value))
+    const getToken = () => {
+      return SecureStore.getItemAsync('access_token');
+    }
+    getToken().then(token => console.log(token, 'di form login'))
+    setValue({})
     }
   }
+
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <Ionicons style={tailwind('mx-2 text-green-400 text-4xl')} name='leaf'/>
