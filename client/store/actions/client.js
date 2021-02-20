@@ -56,7 +56,7 @@ export const clientLogin = (payload) => {
         await SecureStore.setItemAsync('email', res.data.email)
       }
     } catch (error) {
-      console.log(error);
+      console.log(error, 'action');
     }
   }
 }
