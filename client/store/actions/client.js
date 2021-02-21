@@ -78,6 +78,23 @@ export const setTherapist = (payload) => {
   }
 }
 
+export const createOrder = (payload) => {
+  return async (dispatch) => {
+    try {
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const res = await axios({
+        method: 'POST',
+        url: `${baseUrl}/client/order`,
+        data: { TherapistId: payload },
+        headers: { access_token }
+      })
+      console.log(res.data, 'hasil order')
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
 export {
   getClients
 }
