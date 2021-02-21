@@ -12,13 +12,13 @@ export default function ChatRoom({ navigation, route }) {
 
   const roomId = client.email + "-" + therapist.email
 
-  const messagesRef = firestore.collection(roomId); // ambil collectionnya
+  const messagesRef = firestore.collection('ChatRoom').doc(roomId).collection(roomId); // ambil collectionnya
   const query = messagesRef.orderBy('createdAt', 'desc').limit(25); // sort isi collectionnya
   const [messages] = useCollectionData(query, { idField: '_id' });
 
 
   const sendMessage = async (user, message, roomId) => {
-    const messagesRef = firestore.collection(roomId); // ambil collectionnya
+    const messagesRef = firestore.collection('ChatRoom').doc(roomId).collection(roomId); // ambil collectionnya
     const { _id, text, createdAt } = message[0]
     await messagesRef.add({
       _id,
