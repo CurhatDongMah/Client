@@ -1,52 +1,37 @@
-import React, { useEffect } from 'react'
-import { SafeAreaView, Text, View, Image, FlatList, TouchableOpacity, useWindowDimensions } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react'
+import {
+  SafeAreaView,
+  Text,
+  View,
+  Image,
+  FlatList,
+  TouchableOpacity,
+  useWindowDimensions,
+  RefreshControl
+} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
-import * as SecureStore from 'expo-secure-store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTherapists } from '../../store/actions/therapist';
 import { setTherapist } from '../../store/actions/client';
 
+const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));
+}
 export default function Profile({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const { client } = useSelector(state => state.client)
-  console.log(client, 'profile');
-  const DATA = [
-    {
-      id: '1',
-      fullName: 'Therapist 1',
-      email: 'therapist1@mail.com',
-      price: 100000
-    },
-    {
-      id: '2',
-      fullName: 'Therapist 2',
-      email: 'therapist2@mail.com',
-      price: 100000
-    },
-    {
-      id: '3',
-      fullName: 'Therapist 3',
-      email: 'therapist3@mail.com',
-      price: 100000
-    },
-    {
-      id: '4',
-      fullName: 'Therapist 4',
-      email: 'therapist4@mail.com',
-      price: 100000
-    },
-    {
-      id: '5',
-      fullName: 'Therapist 5',
-      email: 'therapist5@mail.com',
-      price: 100000
-    },
-  ];
+  const [refreshing, setRefreshing] = useState(false);
+  
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+    dispatch(getTherapists())
+    wait(2000).then(() => setRefreshing(false))
+  }, []);
+  const ARR = [1,2,3,4,5]
   const dispatch = useDispatch()
   const { therapists, error, loading } = useSelector(state => state.therapist)
   const handleDetail = (therapist) => {
-    // console.log(therapist, 'di profil');
     dispatch(setTherapist(therapist))
     navigation.navigate('Detail')
   }
@@ -72,11 +57,17 @@ export default function Profile({ navigation }) {
             ellipsizeMode='clip'
             style={tailwind('w-36 text-base text-gray-500')}>{therapist.fullName}</Text>
           <View style={tailwind('flex flex-row items-center')}>
-            <Ionicons style={tailwind('mr-1 text-yellow-500 text-base')} name='star'/>
-            <Ionicons style={tailwind('mr-1 text-yellow-500 text-base')} name='star'/>
-            <Ionicons style={tailwind('mr-1 text-yellow-500 text-base')} name='star'/>
-            <Ionicons style={tailwind('mr-1 text-yellow-500 text-base')} name='star'/>
-            <Ionicons style={tailwind('mr-1 text-yellow-500 text-base')} name='star'/>
+            {
+              therapist.rating ? (
+                ARR.map(arr => {
+                  return therapist.rating >= arr ? (
+                    <Ionicons key={arr} style={tailwind('mr-1 text-yellow-400 text-base')} name='star'/>
+                  ) : (
+                    <Ionicons key={arr} style={tailwind('mr-1 text-gray-400 text-base')} name='star'/>
+                  ) 
+                })
+              ) : <Text>No Review</Text>
+            }
           </View>
           <Text style={tailwind('text-gray-400')}>Jakarta</Text>
           <Text style={tailwind('text-gray-500')}>IDR {therapist.price}/h</Text>
@@ -123,11 +114,17 @@ export default function Profile({ navigation }) {
       </View>
       <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>CHOOSE A THERAPIST</Text>
       <FlatList
-        style={tailwind('')}
+        style={tailwind('mb-5')}
         data={therapists}
         renderItem={renderItem}
         keyExtractor={item => item.id.toString()}
         showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            />
+          }
       />
     </SafeAreaView>
   )

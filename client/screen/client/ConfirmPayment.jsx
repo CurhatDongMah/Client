@@ -6,8 +6,9 @@ import tailwind from 'tailwind-rn';
 
 export default function ConfirmPayment({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { therapistDetail } = useSelector(state => state.client)
+  const { therapistDetail, order } = useSelector(state => state.client)
   console.log(therapistDetail, 'di detail');
+  console.log(order, 'ini order');
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <View style={tailwind('flex items-center')}>
@@ -34,7 +35,7 @@ export default function ConfirmPayment({ navigation }) {
           >Continue</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Payment')}
+          // onPress={() => navigation.navigate('Payment')} delete order
           style={tailwind('items-center my-3 py-1 px-10 rounded-full bg-red-400')}>
           <Text 
             style={tailwind('text-base text-gray-100')}

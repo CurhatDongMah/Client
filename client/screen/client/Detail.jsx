@@ -9,8 +9,8 @@ export default function Detail({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const { therapistDetail } = useSelector(state => state.client)
   const dispatch = useDispatch()
-  const handleOrder = () => {
-    dispatch(createOrder(therapistDetail.id))
+  const handleOrder = async () => {
+    await dispatch(createOrder(therapistDetail.id))
     navigation.navigate('ConfirmPayment')
   }
   return (

@@ -8,7 +8,6 @@ import Inbox from './Inbox'
 import Logout from './Logout'
 
 const Tab = createBottomTabNavigator()
-
 export default function ClientPage({ navigation }) {
   return (
       <Tab.Navigator

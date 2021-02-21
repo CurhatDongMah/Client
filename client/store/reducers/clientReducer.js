@@ -2,6 +2,7 @@ const initialState = {
   clients: [],
   client: {},
   therapistDetail: {},
+  order: {},
   loading: false,
   error: null,
   successRegister: false
@@ -43,6 +44,13 @@ const clientReducer = (state = initialState, action) => {
       return {
         ...state,
         therapistDetail: action.payload,
+        loading: false,
+      }
+
+    case 'CREATE_ORDER':
+      return {
+        ...state,
+        order: action.payload,
         loading: false,
       }
     default:
