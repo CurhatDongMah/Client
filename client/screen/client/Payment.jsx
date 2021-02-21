@@ -88,13 +88,15 @@ export default function App({ navigation }) {
             if (data.status_code == 200) {
               setComplete(true)
               navigation.navigate('Success')
-            }
+            } else {
+							alert('Your payment has not been complete')
+						}
           })
         }}
-        style={tailwind('absolute bottom-10 items-center py-3 px-10 bg-gray-700 bg-transparent')}>
+        style={tailwind('absolute p-5 h-20 w-20 bottom-16 right-5 flex justify-center items-center bg-gray-700 bg-green-400 rounded-full')}>
         <Text 
-          style={tailwind('text-xl text-gray-100')}
-        >Confirm</Text>
+          style={tailwind('text-base text-gray-100')}
+        >Done</Text>
       </TouchableOpacity>
     </>
 	);

@@ -11,6 +11,10 @@ export default function Success({ navigation }) {
       </View>
       <Text style={tailwind('my-5 text-2xl')}>Your booking is complete</Text>
       <Text style={tailwind('text-lg text-gray-400 text-center w-80')}>Your request sent to the psychologist you can contact with consultant according date and time</Text>
+      <Text 
+        onPress={() => navigation.navigate('Profile')}
+        style={tailwind('my-5 text-green-400 text-base')}
+      >Back to Home</Text>
     </SafeAreaView>
   )
 }
