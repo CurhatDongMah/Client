@@ -1,21 +1,23 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
-const baseUrl = 'http://192.168.43.213:3000' //arif
-// const baseUrl = 'http://192.168.0.10:3000' //obed
-
-
+// const baseUrl = 'http://192.168.43.213:3000' //arif
+const baseUrl = 'http://192.168.0.10:3000' //obed
 
 const getClients = () => {
   return async (dispatch) => {
     try {
+      const access_token = await SecureStore.getItemAsync('access_token')
       dispatch({
         type: 'LOADING_GET_CLIENTS'
       })
   
-      const res = await fetch(`https://localhost:3000/clients`)
-      const payload = await res.json()
+      const res = await axios({
+        method: 'GET',
+        url: `${baseUrl}/client/all`,
+        headers: {access_token}
+      })
       dispatch({
-        type: 'SAVE_CLIENTS', payload: payload
+        type: 'SAVE_CLIENTS', payload: res.data
       })    
     } catch (error) {
       dispatch({
