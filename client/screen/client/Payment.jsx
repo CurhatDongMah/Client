@@ -96,7 +96,7 @@ export default function App({ navigation }) {
 						}
           })
         }}
-        style={tailwind('absolute p-5 h-20 w-20 bottom-16 right-5 flex justify-center items-center bg-gray-700 bg-opacity-60 rounded-full')}>
+        style={tailwind('absolute p-5 h-20 w-20 bottom-16 right-5 flex justify-center items-center bg-gray-800 bg-opacity-80 rounded-full')}>
         <Text 
           style={tailwind('text-base text-gray-100')}
         >Done</Text>

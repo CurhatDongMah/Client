@@ -22,7 +22,6 @@ export default function Profile({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const { client } = useSelector(state => state.client)
   const [refreshing, setRefreshing] = useState(false);
-  
   const onRefresh = useCallback(() => {
     setRefreshing(true)
     dispatch(getTherapists())
@@ -107,7 +106,7 @@ export default function Profile({ navigation }) {
           />
         </View>
         <View style={tailwind('flex items-center justify-center px-10')}>
-          <Text style={tailwind('text-2xl text-gray-500')}>{ client.fullName }</Text>
+          <Text style={tailwind('text-2xl text-gray-600')}>{ client.fullName }</Text>
           <Text style={tailwind('text-lg text-gray-500')}>{ client.city }</Text>
           <Text style={tailwind('text-lg text-gray-500')}>{ client.gender }</Text>
         </View>
@@ -121,10 +120,10 @@ export default function Profile({ navigation }) {
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            />
-          }
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          />
+        }
       />
     </SafeAreaView>
   )
