@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'  
-import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions } from 'react-native'
+import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import tailwind from 'tailwind-rn'
 import { Datepicker } from '@ui-kitten/components'
@@ -17,6 +17,7 @@ export default function SignupForm({ navigation }) {
   const [value, setValue] = useState({})
   const [error, setError] = useState({})
   const widthWindow = useWindowDimensions().width
+  const now = new Date()
   const dispatch = useDispatch()
   useEffect(() => {
     console.log(successRegister);
@@ -51,7 +52,7 @@ export default function SignupForm({ navigation }) {
       <ScrollView 
         showsVerticalScrollIndicator={false}
         style={{ width: widthWindow * 8 / 10, marginTop: 40}}
-      >
+      > 
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>FULL NAME</Text>
           <TextInput
@@ -116,6 +117,8 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>BIRTH DATE</Text>
           <Datepicker
+            min={new Date(now.getFullYear(), now.getMonth(), now.getDate() - 36000)}
+            max={now}
             date={birthDate}
             onSelect={nextDate => setBirthDate(nextDate)}
           />

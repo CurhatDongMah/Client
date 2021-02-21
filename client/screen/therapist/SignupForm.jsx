@@ -10,7 +10,6 @@ import { validate } from 'validate.js';
 import constraints from '../../helpers/constraints';
 import { therapistRegister } from '../../store/actions/therapist'
 
-
 export default function SignupForm({ navigation }) {
   const { successRegister } = useSelector(state => state.therapist)
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -19,6 +18,7 @@ export default function SignupForm({ navigation }) {
   const [error, setError] = useState({})
   const widthWindow = useWindowDimensions().width
   const dispatch = useDispatch()
+  const now = new Date()
   useEffect(() => {
     setValue({...value, birthDate: birthDate})
   }, [birthDate])
@@ -119,6 +119,8 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>BIRTH DATE</Text>
           <Datepicker
+            min={new Date(now.getFullYear(), now.getMonth(), now.getDate() - 36000)}
+            max={now}
             date={birthDate}
             onSelect={nextDate => setBirthDate(nextDate)}
           />
