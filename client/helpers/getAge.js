@@ -4,11 +4,10 @@ function getAge(dateString)
     let birthDate = new Date(dateString);
     let age = today.getFullYear() - birthDate.getFullYear();
     let m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) 
-    {
-        age--;
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
     }
-    return age;
+    return age
 }
 
-console.log(getAge('1993-12-01T17:00:00.000Z'));
+export default getAge

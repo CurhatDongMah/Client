@@ -4,6 +4,7 @@ import { SafeAreaView, Text, View, Image, TouchableOpacity, ScrollView, useWindo
 import { createOrder } from '../../store/actions/client'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
+import getAge from '../../helpers/getAge'
 
 export default function Detail({ navigation }) {
   const widthWindow = useWindowDimensions().width
@@ -53,7 +54,7 @@ export default function Detail({ navigation }) {
               <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Age</Text>
               <Text 
                 style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
-              >45 year old</Text>
+              >{ getAge(therapistDetail.birthDate)} years old</Text>
             </View>
             <View style={tailwind('mt-5')}>
               <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Gender</Text>
