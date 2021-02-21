@@ -129,7 +129,10 @@ export default function SigninForm({ navigation }) {
         >Sign up</Text>
       </View>
       <TouchableOpacity
-          onPress={async () => await SecureStore.deleteItemAsync('access_token')} 
+          onPress={async () => {
+            await SecureStore.deleteItemAsync('access_token')
+            await SecureStore.deleteItemAsync('email')
+          }} 
           style={tailwind('w-80 items-center py-3 mt-8 rounded-full bg-green-400')}>
           <Text 
             style={tailwind('text-xl text-gray-100 tracking-wider')}
