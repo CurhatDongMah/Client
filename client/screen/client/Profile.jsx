@@ -2,6 +2,7 @@ import React from 'react'
 import { SafeAreaView, Text, View, Image, FlatList, TouchableOpacity, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
+import * as SecureStore from 'expo-secure-store';
 
 export default function Profile({ navigation }) {
   const widthWindow = useWindowDimensions().width
@@ -9,26 +10,31 @@ export default function Profile({ navigation }) {
     {
       id: '1',
       fullName: 'Therapist 1',
+      email: 'therapist1@mail.com',
       price: 100000
     },
     {
       id: '2',
       fullName: 'Therapist 2',
+      email: 'therapist2@mail.com',
       price: 100000
     },
     {
       id: '3',
       fullName: 'Therapist 3',
+      email: 'therapist3@mail.com',
       price: 100000
     },
     {
       id: '4',
       fullName: 'Therapist 4',
+      email: 'therapist4@mail.com',
       price: 100000
     },
     {
       id: '5',
       fullName: 'Therapist 5',
+      email: 'therapist5@mail.com',
       price: 100000
     },
   ];
@@ -68,7 +74,10 @@ export default function Profile({ navigation }) {
             >Detail</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => navigation.navigate('ChatRoom', { therapist })} 
+            onPress={async () => {
+              let currentUserEmail = await SecureStore.getItemAsync('email')
+              navigation.navigate('ChatRoom', { therapist, currentUserEmail })
+            }} 
             style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-green-500 border border-r border-green-400')}>
             <Text 
               style={tailwind('text-gray-100')}

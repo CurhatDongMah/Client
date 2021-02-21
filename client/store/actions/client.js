@@ -1,9 +1,12 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
-const baseUrl = 'http://192.168.43.213:3000'
+// const baseUrl = 'http://192.168.43.213:3000' //arif
+const baseUrl = 'http://192.168.0.10:3000' //obed
+
+
 
 const getClients = () => {
-  return async () => {
+  return async (dispatch) => {
     try {
       dispatch({
         type: 'LOADING_GET_CLIENTS'
@@ -50,10 +53,10 @@ export const clientLogin = (payload) => {
         data: payload
       })
       console.log(res.data.access_token, 'access_token')
-      console.log(res.data.email, 'email')
+      console.log(res.data.data.email, 'email')
       if (res.data) {
         await SecureStore.setItemAsync('access_token', res.data.access_token)
-        await SecureStore.setItemAsync('email', res.data.email)
+        await SecureStore.setItemAsync('email', res.data.data.email)
       }
     } catch (error) {
       console.log(error, 'action');
