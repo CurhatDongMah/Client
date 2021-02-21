@@ -31,7 +31,8 @@ export default function Detail({ navigation }) {
             </View>
             <Text 
               onPress={() => navigation.navigate('TherapistEdit')}
-              style={tailwind('text-green-400 text-base')}>Edit Profile</Text>
+              style={tailwind('text-green-400 text-base')}
+            >Edit Profile</Text>
             <Toggle 
               style={tailwind('absolute -right-24')}
               status='success'

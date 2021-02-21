@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { SafeAreaView, Text, View, Image, FlatList, TouchableOpacity, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
@@ -6,6 +7,8 @@ import * as SecureStore from 'expo-secure-store';
 
 export default function Profile({ navigation }) {
   const widthWindow = useWindowDimensions().width
+  const { client } = useSelector(state => state.client)
+  console.log(client, 'profile');
   const DATA = [
     {
       id: '1',
@@ -103,9 +106,9 @@ export default function Profile({ navigation }) {
           />
         </View>
         <View style={tailwind('flex items-center justify-center px-10')}>
-          <Text style={tailwind('text-2xl text-gray-500')}>John Doe</Text>
-          <Text style={tailwind('text-lg text-gray-500')}>Jakarta</Text>
-          <Text style={tailwind('text-lg text-gray-500')}>Male</Text>
+          <Text style={tailwind('text-2xl text-gray-500')}>{ client.fullName }</Text>
+          <Text style={tailwind('text-lg text-gray-500')}>{ client.city }</Text>
+          <Text style={tailwind('text-lg text-gray-500')}>{ client.gender }</Text>
         </View>
       </View>
       <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>CHOOSE A THERAPIST</Text>
