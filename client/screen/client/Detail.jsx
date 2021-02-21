@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { SafeAreaView, Text, View, Image, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
 
 export default function Detail({ navigation }) {
   const widthWindow = useWindowDimensions().width
+  const { therapistDetail } = useSelector(state => state.client)
+  console.log(therapistDetail, 'di detail');
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
         <View style={tailwind('mt-16')}>
