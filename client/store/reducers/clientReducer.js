@@ -1,6 +1,7 @@
 const initialState = {
   clients: [],
   client: {},
+  therapistDetail: {},
   loading: false,
   error: null,
   successRegister: false
@@ -36,6 +37,13 @@ const clientReducer = (state = initialState, action) => {
     case 'CLIENT_SUCCESS_REGISTER':
       return {
         ...state, successRegister: true
+      }
+
+    case 'SET_THERAPIST':
+      return {
+        ...state,
+        therapistDetail: action.payload,
+        loading: false,
       }
     default:
       return state

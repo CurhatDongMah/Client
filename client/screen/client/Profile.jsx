@@ -5,6 +5,7 @@ import tailwind from 'tailwind-rn';
 import * as SecureStore from 'expo-secure-store';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTherapists } from '../../store/actions/therapist';
+import { setTherapist } from '../../store/actions/client';
 
 export default function Profile({ navigation }) {
   const widthWindow = useWindowDimensions().width
@@ -44,6 +45,11 @@ export default function Profile({ navigation }) {
   ];
   const dispatch = useDispatch()
   const { therapists, error, loading } = useSelector(state => state.therapist)
+  const handleDetail = (therapist) => {
+    // console.log(therapist, 'di profil');
+    dispatch(setTherapist(therapist))
+    navigation.navigate('Detail')
+  }
 
   useEffect(() => {
     dispatch(getTherapists())
@@ -77,7 +83,7 @@ export default function Profile({ navigation }) {
         </View>
         <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Detail')}
+            onPress={() => handleDetail(therapist)}
             style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-gray-100 border border-r border-green-400')}>
             <Text 
               style={tailwind('text-green-400')}

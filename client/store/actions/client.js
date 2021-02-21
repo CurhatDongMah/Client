@@ -68,6 +68,16 @@ export const clientLogin = (payload) => {
   }
 }
 
+export const setTherapist = (payload) => {
+  return (dispatch) => {
+    console.log(payload);
+    dispatch({
+      type: 'SET_THERAPIST',
+      payload: payload
+    })
+  }
+}
+
 export {
   getClients
 }
