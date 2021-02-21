@@ -9,7 +9,6 @@ export default function Logout({ navigation }) {
       <TouchableOpacity
         onPress={async () => {
           await SecureStore.deleteItemAsync('access_token')
-          await SecureStore.deleteItemAsync('email')
           navigation.navigate('Signin')
         }} 
         style={tailwind('w-80 items-center py-3 mt-8 rounded-full bg-red-400')}>

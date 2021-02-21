@@ -57,7 +57,6 @@ export const clientLogin = (payload) => {
       console.log(res.data.data.email, 'email')
       if (res.data) {
         await SecureStore.setItemAsync('access_token', res.data.access_token)
-        await SecureStore.setItemAsync('email', res.data.data.email)
         dispatch({
           type: 'SAVE_CLIENT',
           payload: res.data.data

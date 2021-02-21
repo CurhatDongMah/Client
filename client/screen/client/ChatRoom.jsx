@@ -7,11 +7,13 @@ import { useState } from 'react';
 import 'firebase/firestore'
 import firestore from '../../helpers/FirebaseSVC';
 import firebase from 'firebase'
+import { useSelector } from 'react-redux';
 
 export default function ChatRoom({ navigation, route }) {
   const therapist = route.params.therapist
-  const currentUserEmail = route.params.currentUserEmail
-  const roomId = currentUserEmail + "-" + therapist.email
+  const { client } = useSelector(state => state.client)
+
+  const roomId = client.email + "-" + therapist.email
 
   const messagesRef = firestore.collection(roomId); // ambil collectionnya
   const query = messagesRef.orderBy('createdAt', 'desc').limit(25); // sort isi collectionnya
@@ -33,9 +35,9 @@ export default function ChatRoom({ navigation, route }) {
 
   function handleSendMessage (message) {
     const user = {
-      _id: 1,
-      name: "userclient 1",
-      avatar: 'https://placeimg.com/140/140/any',
+      _id: client.email,
+      name: client.fullName,
+      avatar: client.photoUrl,
     }
     sendMessage(user, message, roomId)
   }
@@ -47,6 +49,11 @@ export default function ChatRoom({ navigation, route }) {
     <GiftedChat
       messages={messages}
       onSend={message => handleSendMessage(message)}
+      user={{
+        _id: client.email,
+        name: client.fullName,
+        avatar: client.photoUrl
+      }}
       />
     </>
   )

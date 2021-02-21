@@ -3,25 +3,29 @@ import * as SecureStore from 'expo-secure-store';
 const baseUrl = 'http://192.168.43.213:3000' //arif
 // const baseUrl = 'http://192.168.0.10:3000' //obed
 
-// const getTherapists = () => {
-//   return async (dispatch) => {
-//     try {
-//       dispatch({
-//         type: 'LOADING_GET_THERAPISTS'
-//       })
+export const getTherapists = () => {
+  return async (dispatch) => {
+    try {
+      const access_token = await SecureStore.getItemAsync('access_token')
+      dispatch({
+        type: 'LOADING_GET_THERAPISTS'
+      })
   
-//       const res = await fetch(`https://localhost:3000/therapists`)
-//       const payload = await res.json()
-//       dispatch({
-//         type: 'SAVE_THERAPISTS', payload: payload
-//       })    
-//     } catch (error) {
-//       dispatch({
-//         type: 'ERROR_GET_THERAPISTS', payload: error
-//       })
-//     }
-//   }
-// }
+      const res = await axios({
+        method: 'GET',
+        url: `${baseUrl}/client/alltherapists`,
+        headers: {access_token}
+      })
+      dispatch({
+        type: 'SAVE_THERAPISTS', payload: res.data
+      }) 
+    } catch (error) {
+      dispatch({
+        type: 'ERROR_GET_THERAPISTS', payload: error
+      })
+    }
+  }
+}
 
 export const therapistRegister = (payload) => {
   return async (dispatch) => {
@@ -66,25 +70,3 @@ export const therapistLogin = (payload) => {
   }
 }
 
-export const getTherapists = () => {
-  return async (dispatch) => {
-    try {
-      const token = await SecureStore.getItemAsync('access_token')
-      const res = await axios({
-        method: 'GET',
-        url: `${baseUrl}/therapist`,
-        headers: { access_token: token}
-      })
-      console.log(res.data, 'all therapist')
-      // console.log(res.data.data.email, 'email')
-      if (res.data) {
-        dispatch({
-          type: 'SAVE_THERAPISTS',
-          payload: res.data
-        })
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-}
