@@ -10,7 +10,8 @@ import firebase from 'firebase'
 
 export default function ChatRoom({ navigation, route }) {
   const therapist = route.params.therapist
-  const roomId = therapist.fullName
+  const currentUserEmail = route.params.currentUserEmail
+  const roomId = currentUserEmail + "-" + therapist.email
 
   const messagesRef = firestore.collection(roomId); // ambil collectionnya
   const query = messagesRef.orderBy('createdAt', 'desc').limit(25); // sort isi collectionnya
