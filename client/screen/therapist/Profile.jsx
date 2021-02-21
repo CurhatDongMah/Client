@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { SafeAreaView, Text, View, Image, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
@@ -6,11 +7,13 @@ import { Toggle } from '@ui-kitten/components';
 
 export default function Detail({ navigation }) {
   const widthWindow = useWindowDimensions().width
+  const { therapist } = useSelector(state => state.therapist)
   const [checked, setChecked] = useState(false);
   const [client, setClient] = useState({ name: 'Client 1'})
   const onCheckedChange = (isChecked) => {
     setChecked(isChecked);
   };
+  console.log(therapist, 'di profile');
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
         <View style={tailwind('mt-16 relative mb-5')}>
@@ -21,7 +24,7 @@ export default function Detail({ navigation }) {
                 uri: 'https://picsum.photos/id/237/200/300'
               }}
             />
-            <Text style={tailwind('text-2xl my-2')}>John Doe</Text>
+            <Text style={tailwind('text-2xl my-2')}>{ therapist.fullName }</Text>
             <View style={tailwind('flex flex-row items-center')}>
               <Ionicons style={tailwind('mx-1 text-yellow-500 text-base')} name='star'/>
               <Ionicons style={tailwind('mx-1 text-yellow-500 text-base')} name='star'/>
