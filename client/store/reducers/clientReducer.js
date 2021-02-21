@@ -1,5 +1,6 @@
 const initialState = {
   clients: [],
+  client: {},
   loading: false,
   error: null,
   successRegister: false
@@ -7,11 +8,18 @@ const initialState = {
 
 const clientReducer = (state = initialState, action) => {
   switch (action.type) {
-
+    
     case 'SAVE_CLIENTS':
       return {
         ...state,
         clients: action.payload,
+        loading: false,
+      }
+
+    case 'SAVE_CLIENT':
+      return {
+        ...state,
+        client: action.payload,
         loading: false,
       }
 
