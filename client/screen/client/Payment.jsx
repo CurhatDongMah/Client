@@ -10,9 +10,8 @@ import tailwind from 'tailwind-rn';
 export default function App({ navigation }) {
 	const [mid, setMid] = useState(false)
   const [complete, setComplete] = useState(false)
-	const { therapistDetail, client } = useSelector(state => state.client)
+	const { therapistDetail, client, order } = useSelector(state => state.client)
   console.log(therapistDetail, 'di payment');
-	const orderId = therapistDetail.id
   useEffect(() => {
     console.log('change')
   }, [mid.redirect_url])
@@ -33,7 +32,7 @@ export default function App({ navigation }) {
 
 		const data = {
 			transaction_details: {
-				order_id: orderId,
+				order_id: order.id,
 				gross_amount: therapistDetail.price,
 			},
 			item_details: [
@@ -63,7 +62,7 @@ export default function App({ navigation }) {
 	}
 
   async function check() {
-		const url = `https://api.sandbox.midtrans.com/v2/${orderId}/status`;
+		const url = `https://api.sandbox.midtrans.com/v2/${order.id}/status`;
 		const serverKey = 'SB-Mid-server-Q9D7Se5Y3_wBnvNBq-4GEme5:';
 		const base64Key = base64.encode(serverKey);
 

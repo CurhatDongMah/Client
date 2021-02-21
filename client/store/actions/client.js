@@ -88,7 +88,11 @@ export const createOrder = (payload) => {
         data: { TherapistId: payload },
         headers: { access_token }
       })
-      console.log(res.data, 'hasil order')
+      console.log(res.data, 'order di action');
+      dispatch({
+        type: 'CREATE_ORDER',
+        payload: res.data
+      })
     } catch (error) {
       console.log(error);
     }
