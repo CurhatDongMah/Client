@@ -1,9 +1,10 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
 import { SafeAreaView, Text, View, Image, FlatList, TouchableOpacity, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
 import * as SecureStore from 'expo-secure-store';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTherapists } from '../../store/actions/therapist';
 
 export default function Profile({ navigation }) {
   const widthWindow = useWindowDimensions().width
@@ -41,6 +42,12 @@ export default function Profile({ navigation }) {
       price: 100000
     },
   ];
+  const dispatch = useDispatch()
+  const { therapists, error, loading } = useSelector(state => state.therapist)
+
+  useEffect(() => {
+    dispatch(getTherapists())
+  }, [])
 
   const Item = ({ therapist }) => (
     <View style={{ width: widthWindow * 9 / 10 }}>
@@ -49,7 +56,7 @@ export default function Profile({ navigation }) {
           <Image 
             style={tailwind('w-12 h-12 rounded-full')}
             source={{
-              uri: 'https://placeimg.com/140/140/any'
+              uri: therapist.photoUrl
             }}
           />
         </View>
@@ -78,8 +85,7 @@ export default function Profile({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={async () => {
-              let currentUserEmail = await SecureStore.getItemAsync('email')
-              navigation.navigate('ChatRoom', { therapist, currentUserEmail })
+              navigation.navigate('ChatRoom', { therapist })
             }} 
             style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-green-500 border border-r border-green-400')}>
             <Text 
@@ -101,7 +107,7 @@ export default function Profile({ navigation }) {
           <Image 
             style={tailwind('w-20 h-20 rounded-full')}
             source={{
-              uri: 'https://placeimg.com/140/140/people'
+              uri: client.photoUrl
             }}
           />
         </View>
@@ -114,9 +120,9 @@ export default function Profile({ navigation }) {
       <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>CHOOSE A THERAPIST</Text>
       <FlatList
         style={tailwind('')}
-        data={DATA}
+        data={therapists}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.id.toString()}
         showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>
