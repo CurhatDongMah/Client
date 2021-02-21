@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { SafeAreaView, Text, View, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -15,6 +15,7 @@ export default function Review({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>SHARE YOUR EXPERIENCE</Text>
           <TextInput
+            value={review}
             onChange={(text) => setReview(text)}
             multiline={true}
             numberOfLines={5}

@@ -1,5 +1,6 @@
 const initialState = {
   clients: [],
+  histories: [],
   client: {},
   therapistDetail: {},
   order: {},
@@ -51,6 +52,12 @@ const clientReducer = (state = initialState, action) => {
       return {
         ...state,
         order: action.payload,
+        loading: false,
+      }
+    case 'SAVE_HISTORIES':
+      return {
+        ...state,
+        histories: action.payload,
         loading: false,
       }
     default:

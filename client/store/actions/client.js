@@ -101,6 +101,27 @@ export const createOrder = (payload) => {
   }
 }
 
+export const getHistory = () => {
+  return async (dispatch) => {
+    try {
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const res = await axios({
+        method: 'GET',
+        url: `${baseUrl}/client/history`,
+        headers: {access_token}
+      })
+      dispatch({
+        type: 'SAVE_HISTORIES',
+        payload: res.data
+      })
+    } catch (error) {
+      dispatch({
+        type: 'ERROR_GET_CLIENTS', payload: error
+      })
+    }
+  }
+}
+
 export {
   getClients
 }
