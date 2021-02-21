@@ -1,5 +1,6 @@
 const initialState = {
   therapists: [],
+  therapist: {},
   loading: false,
   error: null,
   successRegister: false
@@ -8,11 +9,18 @@ const initialState = {
 const therapistReducer = (state = initialState, action) => {
   switch (action.type) {
 
+    case 'SAVE_THERAPIST':
+      return {
+        ...state,
+        therapist: action.payload,
+        loading: false
+      }
+
     case 'SAVE_THERAPISTS':
       return {
         ...state,
         therapists: action.payload,
-        loading: false,
+        loading: false
       }
 
     case 'LOADING_GET_THERAPISTS':

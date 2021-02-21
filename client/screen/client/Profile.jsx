@@ -1,14 +1,21 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { SafeAreaView, Text, View, Image, FlatList, TouchableOpacity, useWindowDimensions } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as SecureStore from 'expo-secure-store'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import tailwind from 'tailwind-rn';
-import * as SecureStore from 'expo-secure-store';
+import { getTherapists } from '../../store/actions/therapist'
 
 export default function Profile({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const { client } = useSelector(state => state.client)
+  const { therapists } = useSelector(state => state.therapist)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getTherapists())
+  }, [])
   console.log(client, 'profile');
+  console.log(therapists, 'therapists');
   const DATA = [
     {
       id: '1',
@@ -114,9 +121,9 @@ export default function Profile({ navigation }) {
       <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>CHOOSE A THERAPIST</Text>
       <FlatList
         style={tailwind('')}
-        data={DATA}
+        data={therapists}
         renderItem={renderItem}
-        keyExtractor={item => item.id}
+        keyExtractor={item => String(item.id)}
         showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>

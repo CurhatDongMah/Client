@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions } from 'react-native'
 import tailwind from 'tailwind-rn'
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { CheckBox } from '@ui-kitten/components';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { CheckBox } from '@ui-kitten/components'
 import { therapistLogin } from '../store/actions/therapist'
 import { clientLogin } from '../store/actions/client'
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from 'expo-secure-store'
 import { validate } from 'validate.js'
 import constraints from '../helpers/constraints'
 
