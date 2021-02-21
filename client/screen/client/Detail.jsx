@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { SafeAreaView, Text, View, Image, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
+import { createOrder } from '../../store/actions/client'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
 
 export default function Detail({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const { therapistDetail } = useSelector(state => state.client)
-  console.log(therapistDetail, 'di detail');
+  const dispatch = useDispatch()
+  const handleOrder = () => {
+    dispatch(createOrder(therapistDetail.id))
+    navigation.navigate('ConfirmPayment')
+  }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
         <View style={tailwind('mt-16')}>
@@ -27,7 +32,7 @@ export default function Detail({ navigation }) {
               <Ionicons style={tailwind('mx-1 text-yellow-500 text-base')} name='star'/>
             </View>
             <TouchableOpacity
-              onPress={() => navigation.navigate('Payment')}
+              onPress={handleOrder}
               style={tailwind('items-center my-3 py-1 px-10 rounded-full bg-green-400')}>
               <Text 
                 style={tailwind('text-base text-gray-100')}

@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux'
 import { TouchableOpacity, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import base64 from 'base-64';
 import tailwind from 'tailwind-rn';
 
-const orderId = 1234567891033
+// const orderId = new Date().getTime()
 
 export default function App({ navigation }) {
 	const [mid, setMid] = useState(false)
   const [complete, setComplete] = useState(false)
+	const { therapistDetail, client } = useSelector(state => state.client)
+  console.log(therapistDetail, 'di payment');
+	const orderId = therapistDetail.id
   useEffect(() => {
-    console.log('change');
+    console.log('change')
   }, [mid.redirect_url])
 	useEffect(() => {
     midtrans()
@@ -30,19 +34,19 @@ export default function App({ navigation }) {
 		const data = {
 			transaction_details: {
 				order_id: orderId,
-				gross_amount: 100000,
+				gross_amount: therapistDetail.price,
 			},
 			item_details: [
 				{
-					id: 456,
-					price: 100000,
+					id: therapistDetail.id,
+					price: therapistDetail.price,
 					quantity: 1,
-					name: 'test'
+					name: therapistDetail.fullName
 				}
 			],
 			customer_details: {
-				first_name: 'Arif',
-				email: 'arif@gmail.com'
+				fullName: client.fullName,
+				email: client.email
 			},
 		};
 
@@ -93,7 +97,7 @@ export default function App({ navigation }) {
 						}
           })
         }}
-        style={tailwind('absolute p-5 h-20 w-20 bottom-16 right-5 flex justify-center items-center bg-gray-700 bg-green-400 rounded-full')}>
+        style={tailwind('absolute p-5 h-20 w-20 bottom-16 right-5 flex justify-center items-center bg-gray-700 bg-opacity-60 rounded-full')}>
         <Text 
           style={tailwind('text-base text-gray-100')}
         >Done</Text>
