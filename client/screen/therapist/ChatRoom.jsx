@@ -1,17 +1,14 @@
 import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { GiftedChat } from "react-native-gifted-chat";
-import tailwind from 'tailwind-rn';
-import { useState } from 'react';
 import 'firebase/firestore'
 import firestore from '../../helpers/FirebaseSVC';
-import firebase from 'firebase'
 import { useSelector } from 'react-redux';
 
 export default function ChatRoom({ navigation, route }) {
-  const therapist = route.params.therapist
-  const { client } = useSelector(state => state.client)
+  const client = route.params.client
+  const { therapist } = useSelector(state => state.therapist)
 
   const roomId = client.email + "-" + therapist.email
 
@@ -29,15 +26,15 @@ export default function ChatRoom({ navigation, route }) {
       createdAt: Date.parse(createdAt),
       user
     })
-      .then(ref => console.log('message sent'))
-      .catch(err => console.log('message not sent'))
+      .then(ref => console.log(ref._id))
+      .catch(err => console.log(err))
   }
 
   function handleSendMessage (message) {
     const user = {
-      _id: client.email,
-      name: client.fullName,
-      avatar: client.photoUrl,
+      _id: therapist.email,
+      name: therapist.fullName,
+      avatar: therapist.photoUrl,
     }
     sendMessage(user, message, roomId)
   }
@@ -50,9 +47,9 @@ export default function ChatRoom({ navigation, route }) {
       messages={messages}
       onSend={message => handleSendMessage(message)}
       user={{
-        _id: client.email,
-        name: client.fullName,
-        avatar: client.photoUrl
+        _id: therapist.email,
+        name: therapist.fullName,
+        avatar: therapist.photoUrl
       }}
       />
     </>

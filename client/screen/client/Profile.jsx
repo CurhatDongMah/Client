@@ -90,9 +90,7 @@ export default function Profile({ navigation }) {
             >Detail</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={async () => {
-              navigation.navigate('ChatRoom', { therapist })
-            }} 
+            onPress={async () => navigation.navigate('ChatRoom', { therapist })} 
             style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-green-500 border border-r border-green-400')}>
             <Text 
               style={tailwind('text-gray-100')}
