@@ -224,6 +224,27 @@ export const createReview = (payload) => {
   }
 }
 
+export const getReview = (id) => {
+  return async (dispatch) => {
+    try {
+      console.log(id, 'id therapist');
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const res = await axios({
+        method: 'GET',
+        url: `${baseUrl}/client/review/${id}`,
+        headers: { access_token }
+      })
+      console.log(res.data, 'review di action');
+      dispatch({
+        type: 'SAVE_REVIEWS',
+        payload: res.data
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
 
 export {
   getClients
