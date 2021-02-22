@@ -21,7 +21,8 @@ export default function Detail({ navigation }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const widthWindow = useWindowDimensions().width
   const ARR = [1,2,3,4,5]
-  const { therapistDetail } = useSelector(state => state.client)
+  const { therapistDetail, reviews } = useSelector(state => state.client)
+  console.log(reviews, 'detail');
   const [order, setOrder] = useState({
     price: therapistDetail.price,
     TherapistId: therapistDetail.id,
@@ -93,12 +94,12 @@ export default function Detail({ navigation }) {
                       >{ curencyFormat(therapistDetail.price * Number(selectedIndex)) }</Text>
                     </View>
                     <TouchableOpacity
-                        onPress={handleOrder}
-                        style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-green-400')}>
-                        <Text 
-                          style={tailwind('text-base text-green-400')}
-                        >Book Now</Text>
-                      </TouchableOpacity>
+                      onPress={handleOrder}
+                      style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-green-400')}>
+                      <Text 
+                        style={tailwind('text-base text-green-400')}
+                      >Book Now</Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               ) : (
@@ -138,26 +139,33 @@ export default function Detail({ navigation }) {
                 </View>
                 {/* Review */}
                 <Text style={tailwind('pt-4 text-lg text-gray-600 tracking-wider')}>REVIEW</Text>
-                <View style={tailwind('mt-2')}>
-                  <Text style={tailwind('text-lg text-gray-500 tracking-wider')}>Papa Dedeh</Text>
-                  <View style={tailwind('flex flex-row items-center py-1')}>
-                    {
-                      therapistDetail.rating ? (
-                        ARR.map(arr => {
-                          return therapistDetail.rating >= arr ? (
-                            <Ionicons key={arr} style={tailwind('mr-1 text-yellow-400')} name='star'/>
-                          ) : (
-                            <Ionicons key={arr} style={tailwind('mr-1 text-gray-400')} name='star'/>
-                          ) 
-                        })
-                      ) : <Text>No Review</Text>
-                    }
-                  </View>
-                  <Text 
-                    style={tailwind('py-2 text-base text-gray-600 bg-gray-50 p-3 rounded-lg border-b border-gray-100')}
-                  >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</Text>
-                </View>
-                <View style={tailwind('mt-2')}>
+                {
+                  reviews.map(review => {
+                    return (
+                      <View key={review.id} style={tailwind('my-3')}>
+                        <Text style={tailwind('text-lg text-gray-500 tracking-wider')}>{review.Client.fullName}</Text>
+                        <View style={tailwind('flex flex-row items-center py-1')}>
+                          {
+                            review.rating ? (
+                              ARR.map(arr => {
+                                return review.rating >= arr ? (
+                                  <Ionicons key={arr} style={tailwind('mr-1 text-yellow-400')} name='star'/>
+                                ) : (
+                                  <Ionicons key={arr} style={tailwind('mr-1 text-gray-400')} name='star'/>
+                                ) 
+                              })
+                            ) : <Text>No Review</Text>
+                          }
+                        </View>
+                        <Text 
+                          style={tailwind('py-2 text-base text-gray-600 bg-gray-50 p-3 rounded-lg border-b border-gray-100')}
+                        >{ review.review }</Text>
+                      </View>
+                    )
+                  })
+                }
+                
+                {/* <View style={tailwind('mt-2')}>
                   <Text style={tailwind('text-lg text-gray-500 tracking-wider')}>Mama dedeh</Text>
                   <View style={tailwind('flex flex-row items-center py-1')}>
                     {
@@ -175,7 +183,7 @@ export default function Detail({ navigation }) {
                   <Text 
                     style={tailwind('py-2 text-base text-gray-600 bg-gray-50 p-3 rounded-lg border-b border-gray-100')}
                   >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</Text>
-                </View>
+                </View> */}
               </View>
           </View>
       </ScrollView>

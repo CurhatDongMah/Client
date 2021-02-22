@@ -7,7 +7,8 @@ const initialState = {
   therapistDetail: {},
   order: {},
   onGoingOrders: [],
-  successRegister: false
+  successRegister: false,
+  reviews: []
 }
 
 const clientReducer = (state = initialState, action) => {
@@ -65,6 +66,12 @@ const clientReducer = (state = initialState, action) => {
       return {
         ...state,
         onGoingOrders: action.payload,
+        loading: false,
+      }
+    case 'SAVE_REVIEWS':
+      return {
+        ...state,
+        reviews: action.payload,
         loading: false,
       }
     default:

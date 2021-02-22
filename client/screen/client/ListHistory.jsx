@@ -52,8 +52,9 @@ export default function ListHistory({ navigation }) {
             numberOfLines={1}
             ellipsizeMode='clip'
             style={tailwind('w-32 text-base text-gray-500')}>{ history.title.Therapist.fullName }</Text>
-          <Text style={tailwind('text-gray-500')}>{ history.title.Therapist.createdAt }</Text>
-          <Text style={tailwind('text-gray-500')}>{ history.title.Therapist.updatedAt }</Text>
+          <Text style={tailwind('text-gray-500')}>Date: { `${new Date(history.title.createdAt).getDate()}/${new Date(history.title.createdAt).getMonth()+1}/${new Date(history.title.createdAt).getFullYear()}`}</Text>  
+          <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(history.title.createdAt).getHours()} : ${new Date(history.title.createdAt).getMinutes()}`}</Text>
+          <Text style={tailwind('text-gray-500')}>Duration: { history.title.totalHour } Hour</Text>
           <Text style={tailwind('text-gray-400')}>{ history.title.Therapist.city }</Text>
         </View>
         <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>

@@ -4,18 +4,17 @@ import {
   Text,
   View,
   Image,
-  FlatList,
   TouchableOpacity,
   useWindowDimensions,
   RefreshControl,
   ScrollView
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTherapists } from '../../store/actions/therapist';
-import { setTherapist, getOnGoingOrder, setCompletedOrder } from '../../store/actions/client'
-import curencyFormat from '../../helpers/curencyFormat'
+import { setTherapist, getOnGoingOrder, setCompletedOrder, getReview } from '../../store/actions/client'
+import TherapistCard from '../../components/TherapistCard'
+
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
@@ -36,7 +35,12 @@ export default function Profile({ navigation }) {
   const { therapists, error, loading } = useSelector(state => state.therapist)
   const handleDetail = (therapist) => {
     dispatch(setTherapist(therapist))
+    dispatch(getReview(therapist.id))
     navigation.navigate('Detail')
+  }
+
+  const handleChat = (therapist) => {
+    navigation.navigate('ChatRoom', { therapist })
   }
 
   useEffect(() => {
@@ -44,145 +48,91 @@ export default function Profile({ navigation }) {
     dispatch(getOnGoingOrder())
   }, [])
 
-  const Item = ({ therapist }) => (
-    <View style={{ width: widthWindow * 9 / 10 }}>
-      <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-100 justify-start')}>
-        <View style={tailwind('px-5 flex items-center justify-center')}>
-          <Image 
-            style={tailwind('w-12 h-12 rounded-full')}
-            source={{
-              uri: therapist.photoUrl
-            }}
-          />
-        </View>
-        <View style={tailwind('flex items-start justify-center')}>
-          <Text 
-            numberOfLines={1}
-            ellipsizeMode='clip'
-            style={tailwind('w-36 text-base text-gray-500')}>{therapist.fullName}</Text>
-          <View style={tailwind('flex flex-row items-center')}>
-            {
-              therapist.rating ? (
-                ARR.map(arr => {
-                  return therapist.rating >= arr ? (
-                    <Ionicons key={arr} style={tailwind('mr-1 text-yellow-400 text-base')} name='star'/>
-                  ) : (
-                    <Ionicons key={arr} style={tailwind('mr-1 text-gray-400 text-base')} name='star'/>
-                  ) 
-                })
-              ) : <Text>No Review</Text>
-            }
-          </View>
-          <Text style={tailwind('text-gray-400')}>Jakarta</Text>
-          <Text style={tailwind('text-gray-500')}>{ curencyFormat(therapist.price) }/h</Text>
-        </View>
-        <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
-          <TouchableOpacity
-            onPress={() => handleDetail(therapist)}
-            style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-gray-100 border border-r border-green-400')}>
-            <Text 
-              style={tailwind('text-green-400')}
-            >Detail</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={async () => navigation.navigate('ChatRoom', { therapist })} 
-            style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-green-400 border border-r border-green-400')}>
-            <Text 
-              style={tailwind('text-gray-100')}
-            >Chat</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
-  );
-
-  const renderItem = ({ item }) => (
-    <Item therapist={item} />
-  );
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-      <View 
+      <ScrollView
+        showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl
           refreshing={refreshing}
           onRefresh={onRefresh}
           />
         }
-        style={tailwind('flex flex-row pt-16 pb-8 w-full justify-center border-b-4 border-green-400')}>
-        <View>
-          <Image 
-            style={tailwind('w-20 h-20 rounded-full')}
-            source={{
-              uri: client.photoUrl
-            }}
-          />
+      >
+        <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-center border-b-4 border-green-400')}>
+          <View>
+            <Image 
+              style={tailwind('w-20 h-20 rounded-full')}
+              source={{
+                uri: client.photoUrl
+              }}
+            />
+          </View>
+          <View style={tailwind('flex items-center justify-center px-10')}>
+            <Text style={tailwind('text-2xl text-gray-600')}>{ client.fullName }</Text>
+            <Text style={tailwind('text-lg text-gray-500')}>{ client.city }</Text>
+            <Text style={tailwind('text-lg text-gray-500')}>{ client.gender }</Text>
+          </View>
         </View>
-        <View style={tailwind('flex items-center justify-center px-10')}>
-          <Text style={tailwind('text-2xl text-gray-600')}>{ client.fullName }</Text>
-          <Text style={tailwind('text-lg text-gray-500')}>{ client.city }</Text>
-          <Text style={tailwind('text-lg text-gray-500')}>{ client.gender }</Text>
-        </View>
-      </View>
-      {
-        onGoingOrders.length ? (
-          <View style={{ width: widthWindow * 9 / 10 }}>
-            <View style={tailwind('border-b border-gray-300 pb-3')}>
-              <Text style={tailwind('py-2 text-lg text-center text-gray-400 font-bold tracking-wider')}>ON GOING ORDER</Text>
-              <View style={tailwind('flex flex-row mt-2 rounded-xl py-4 bg-green-100 justify-start')}>
-                <View style={tailwind('px-5 flex items-center justify-center')}>
-                  <Image 
-                    style={tailwind('w-12 h-12 rounded-full')}
-                    source={{
-                      uri: onGoingOrders[0].Therapist.photoUrl
-                    }}
-                  />
-                </View>
-                <View style={tailwind('flex items-start justify-center')}>
-                  <Text 
-                    numberOfLines={1}
-                    ellipsizeMode='clip'
-                    style={tailwind('w-32 text-base text-gray-500')}>{ onGoingOrders[0].Therapist.fullName }</Text>
-                  <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(onGoingOrders[0].createdAt).getHours()} : ${new Date(onGoingOrders[0].createdAt).getMinutes()}`}</Text>
-                  <Text style={tailwind('text-gray-500')}>Duration: { onGoingOrders[0].totalHour } Hour</Text>
-                  <Text style={tailwind('text-gray-400')}>{ onGoingOrders[0].Therapist.city }</Text>
-                </View>
-                <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
-                  <TouchableOpacity
-                    onPress={() => dispatch(setCompletedOrder(onGoingOrders[0].id))}
-                    style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-gray-100 border border-r border-green-400')}>
+        {
+          onGoingOrders.length ? (
+            <View style={{ width: widthWindow * 9 / 10 }}>
+              <View style={tailwind('border-b border-gray-300 pb-3')}>
+                <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>ON GOING ORDER</Text>
+                <View style={tailwind('flex flex-row mt-2 rounded-xl py-4 bg-green-100 justify-start')}>
+                  <View style={tailwind('px-5 flex items-center justify-center')}>
+                    <Image 
+                      style={tailwind('w-12 h-12 rounded-full')}
+                      source={{
+                        uri: onGoingOrders[0].Therapist.photoUrl
+                      }}
+                    />
+                  </View>
+                  <View style={tailwind('flex items-start justify-center')}>
                     <Text 
-                      style={tailwind('text-green-400')}
-                    >Completed</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={async () => navigation.navigate('ChatRoom', { therapist: onGoingOrders[0].Therapist })} 
-                    style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-green-400 border border-r border-green-400')}>
-                    <Text 
-                      style={tailwind('text-gray-100')}
-                    >Chat</Text>
-                  </TouchableOpacity>
+                      numberOfLines={1}
+                      ellipsizeMode='clip'
+                      style={tailwind('w-32 text-base text-gray-500')}>{ onGoingOrders[0].Therapist.fullName }</Text>
+                    <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(onGoingOrders[0].createdAt).getHours()} : ${new Date(onGoingOrders[0].createdAt).getMinutes()}`}</Text>
+                    <Text style={tailwind('text-gray-500')}>Duration: { onGoingOrders[0].totalHour } Hour</Text>
+                    <Text style={tailwind('text-gray-400')}>{ onGoingOrders[0].Therapist.city }</Text>
+                  </View>
+                  <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
+                    <TouchableOpacity
+                      onPress={() => dispatch(setCompletedOrder(onGoingOrders[0].id))}
+                      style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-gray-100 border border-r border-green-400')}>
+                      <Text 
+                        style={tailwind('text-green-400')}
+                      >Completed</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={async () => navigation.navigate('ChatRoom', { therapist: onGoingOrders[0].Therapist })} 
+                      style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-green-400 border border-r border-green-400')}>
+                      <Text 
+                        style={tailwind('text-gray-100')}
+                      >Chat</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-        ) : <></>
-      }
-          <>
-            <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>CHOOSE A THERAPIST</Text>
-            <FlatList
-              style={tailwind('mb-5')}
-              data={therapists}
-              renderItem={renderItem}
-              keyExtractor={item => item.id.toString()}
-              showsVerticalScrollIndicator={false}
-              refreshControl={
-                <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                />
-              }
-            />
-          </>
+          ) : <></>
+        }
+        <View style={tailwind('mb-4')}>
+          <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>CHOOSE A THERAPIST</Text>
+          {
+            therapists.map(therapist => {
+              return (
+                <TherapistCard 
+                  key={therapist.id} 
+                  therapist={therapist}
+                  handleDetail={handleDetail}
+                  handleChat={handleChat}/>
+              )
+            })
+          }
+        </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
