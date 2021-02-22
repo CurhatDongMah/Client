@@ -22,7 +22,7 @@ export default function Inbox({navigation}) {
   const { client } = useSelector(state => state.client)
 
   const messagesRef = firestore.collection('ChatRoom') // ambil collectionnya
-  const query = messagesRef.limit(25); // sort isi collectionnya
+  const query = messagesRef.limit(50); // sort isi collectionnya
   const [messages] = useCollectionData(query, { idField: '_id' })
   const dispatch = useDispatch()
   const { allTherapists, error, loading } = useSelector(state => state.therapist)
@@ -94,21 +94,33 @@ export default function Inbox({navigation}) {
       </View>
     )
   } else {
-    return (
-
-      <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-        <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-center border-b-4 border-green-400')}>
-          <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>Inbox</Text>
-        </View>
-        <FlatList
-            style={tailwind('mb-5')}
-            data={chatWith}
-            renderItem={renderItem}
-            keyExtractor={item => item.id.toString()}
-            showsVerticalScrollIndicator={false}
-          />
-      </SafeAreaView>
-    )
+    if (!chatWith.length) {
+      return (
+        <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
+          <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-center border-b-4 border-green-400')}>
+            <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>Inbox</Text>
+          </View>
+          <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-center')}>
+            <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>Empty :(</Text>
+          </View>
+        </SafeAreaView>
+      )
+    } else {
+      return (
+        <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
+          <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-center border-b-4 border-green-400')}>
+            <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>Inbox</Text>
+          </View>
+          <FlatList
+              style={tailwind('mb-5')}
+              data={chatWith}
+              renderItem={renderItem}
+              keyExtractor={item => item.id.toString()}
+              showsVerticalScrollIndicator={false}
+            />
+        </SafeAreaView>
+      ) 
+    }
   }
 
 }

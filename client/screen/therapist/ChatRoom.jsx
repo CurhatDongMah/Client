@@ -13,21 +13,27 @@ export default function ChatRoom({ navigation, route }) {
   const roomId = client.email + "-" + therapist.email
 
   const messagesRef = firestore.collection('ChatRoom').doc(roomId).collection(roomId); // ambil collectionnya
-  const query = messagesRef.orderBy('createdAt', 'desc').limit(25); // sort isi collectionnya
+  const query = messagesRef.orderBy('createdAt', 'desc').limit(100); // sort isi collectionnya
   const [messages] = useCollectionData(query, { idField: '_id' });
 
 
   const sendMessage = async (user, message, roomId) => {
-    const messagesRef = firestore.collection('ChatRoom').doc(roomId).collection(roomId); // ambil collectionnya
     const { _id, text, createdAt } = message[0]
+    const roomMessage = firestore.collection('ChatRoom').doc(roomId)
+    await roomMessage.set({
+      createdAt: Date.parse(createdAt)
+    })
+    .then(ref => console.log('message roo'))
+    .catch(err => console.log('message not sent'))
+    const messagesRef = firestore.collection('ChatRoom').doc(roomId).collection(roomId); // ambil collectionnya
     await messagesRef.add({
       _id,
       text,
       createdAt: Date.parse(createdAt),
       user
     })
-      .then(ref => console.log(ref._id))
-      .catch(err => console.log(err))
+      .then(ref => console.log('message sent'))
+      .catch(err => console.log('message not sent'))
   }
 
   function handleSendMessage (message) {
