@@ -24,7 +24,7 @@ export default function Profile({ navigation }) {
   const { client, onGoingOrders } = useSelector(state => state.client)
   const [refreshing, setRefreshing] = useState(false);
   console.log(onGoingOrders, 'di profile');
-  console.log(onGoingOrders.length, 'di profile');
+  console.log(onGoingOrders.length, 'on going di profile');
   const onRefresh = useCallback(() => {
     setRefreshing(true)
     dispatch(getTherapists())
@@ -142,8 +142,8 @@ export default function Profile({ navigation }) {
                     numberOfLines={1}
                     ellipsizeMode='clip'
                     style={tailwind('w-32 text-base text-gray-500')}>{ onGoingOrders[0].Therapist.fullName }</Text>
-                  <Text style={tailwind('text-gray-500')}>{ onGoingOrders[0].Therapist.createdAt }</Text>
-                  <Text style={tailwind('text-gray-500')}>{ onGoingOrders[0].Therapist.updatedAt }</Text>
+                  <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(onGoingOrders[0].createdAt).getHours()} : ${new Date(onGoingOrders[0].createdAt).getMinutes()}`}</Text>
+                  <Text style={tailwind('text-gray-500')}>Duration: { onGoingOrders[0].totalHour } Hour</Text>
                   <Text style={tailwind('text-gray-400')}>{ onGoingOrders[0].Therapist.city }</Text>
                 </View>
                 <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
