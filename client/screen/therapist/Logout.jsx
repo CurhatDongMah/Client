@@ -1,15 +1,19 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import { Text, View, TouchableOpacity } from 'react-native'
 import * as SecureStore from 'expo-secure-store';
 import tailwind from 'tailwind-rn'
+import { handleLogoutTherapist } from '../../store/actions/therapist'
 
 export default function Logout({ navigation }) {
+  const dispatch = useDispatch()
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <TouchableOpacity
         onPress={async () => {
-          await SecureStore.deleteItemAsync('access_token')
-          await SecureStore.deleteItemAsync('email')
+          // await SecureStore.deleteItemAsync('access_token')
+          // await SecureStore.deleteItemAsync('email')
+          dispatch(handleLogoutTherapist())
           navigation.navigate('Signin')
         }} 
         style={tailwind('w-80 items-center py-3 mt-8 rounded-full bg-red-400')}>

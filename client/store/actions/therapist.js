@@ -145,3 +145,56 @@ export const getHistoryTherapist = () => {
     }
   }
 }
+
+export const setCompletedOrderTherapist = (id) => {
+  return async (dispatch) => {
+    try {
+      console.log(id, 'id order');
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const status = 'completed'
+      const res = await axios({
+        method: 'PATCH',
+        url: `${baseUrl}/therapist/order/${id}`,
+        data: {status},
+        headers: {access_token}
+      })
+      console.log(res.data , 'change status complted')
+      const resOnGoing = await axios({
+        method: 'GET',
+        url: `${baseUrl}/therapist/ongoing`,
+        headers: {access_token}
+      })
+      console.log(resOnGoing.data , 'ongoing order');
+      dispatch({
+        type: 'SAVE_ON_GOING_THERAPIST',
+        payload: resOnGoing.data
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export const handleLogoutTherapist = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: 'SET_LOADING_THERAPIST'
+      })
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const res = await axios({
+        method: 'PATCH',
+        url: `${baseUrl}/therapist/status`,
+        data: {status: false},
+        headers: {access_token}
+      })
+      console.log(res.data , 'change status false')
+      if (res.data) {
+        await SecureStore.deleteItemAsync('access_token')
+        await SecureStore.deleteItemAsync('email')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
