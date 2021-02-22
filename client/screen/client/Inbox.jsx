@@ -22,7 +22,7 @@ export default function Inbox({navigation}) {
   const { client } = useSelector(state => state.client)
 
   const messagesRef = firestore.collection('ChatRoom') // ambil collectionnya
-  const query = messagesRef.limit(25); // sort isi collectionnya
+  const query = messagesRef.limit(50); // sort isi collectionnya
   const [messages] = useCollectionData(query, { idField: '_id' })
   const dispatch = useDispatch()
   const { allTherapists, error, loading } = useSelector(state => state.therapist)
