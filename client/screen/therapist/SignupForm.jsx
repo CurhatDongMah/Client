@@ -52,6 +52,41 @@ export default function SignupForm({ navigation }) {
     else if (!value.price) setError({...error, price: 'Required'})
     else if (!value.about) setError({...error, about: 'Required'})
     else {
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Client-ID 961c2d154fbb72a");
+
+      var formdata = new FormData();
+      formdata.append("image", image.base64);
+      var formdata2 = new FormData();
+      formdata.append("image", license.base64);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+      };
+      var requestOptions2 = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata2,
+        redirect: 'follow'
+      };
+      console.log('masuk siini')
+      fetch("https://api.imgur.com/3/image", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          console.log(result.data.link)
+          setValue({ ...value, photoUrl: result.data.link})
+        })
+        .catch(error => console.log('error', error));
+      fetch("https://api.imgur.com/3/image", requestOptions2)
+      .then(response => response.json())
+      .then(result => {
+        console.log(result.data.link)
+        setValue({ ...value, licenseUrl: result.data.link})
+      })
+      .catch(error => console.log('error', error));
       dispatch(therapistRegister(value))
     }
   }
@@ -72,12 +107,13 @@ export default function SignupForm({ navigation }) {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: true
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      setImage(result)
     }
   };
   const pickLicense = async () => {
@@ -86,12 +122,13 @@ export default function SignupForm({ navigation }) {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: true
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.cancelled) {
-      setLicense(result.uri);
+      setLicense(result)
     }
   };
   return (
@@ -149,7 +186,7 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PHOTO URL</Text>
           <Button title="Pick an image from gallery" onPress={pickImage} />
-          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+          {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
           {
             error.photoUrl ? (
               <View style={tailwind('flex flex-row items-center')}>
@@ -194,7 +231,7 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>LICENSE</Text>
           <Button title="Pick an image from gallery" onPress={pickLicense} />
-          {license && <Image source={{ uri: license }} style={{ width: 200, height: 200 }} />}
+          {license && <Image source={{ uri: license.uri }} style={{ width: 200, height: 200 }} />}
           {
             error.licenseUrl ? (
               <View style={tailwind('flex flex-row items-center')}>

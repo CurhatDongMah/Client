@@ -34,7 +34,7 @@ export default function SignupForm({ navigation }) {
   useEffect(() => {
     selectedIndex === 1 ? setValue({...value, gender: 'male'}) : setValue({...value, gender: 'female'})
   }, [selectedIndex])
-
+  
   const handleChange = (text, name) => {
     setError({})
     setValue({ ...value, [name]: text})
@@ -49,6 +49,26 @@ export default function SignupForm({ navigation }) {
     else if (!value.birthDate) setError({...error, birthDate: 'Required'})
     else if (!value.city) setError({...error, city: 'Required'})
     else {
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Client-ID 961c2d154fbb72a");
+
+      var formdata = new FormData();
+      formdata.append("image", image.base64);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+      };
+      console.log('masuk siini')
+      fetch("https://api.imgur.com/3/image", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          console.log(result.data.link)
+          setValue({ ...value, photoUrl: result.data.link})
+        })
+        .catch(error => console.log('error', error));
       dispatch(clientRegister(value))
     }
   }
@@ -75,27 +95,7 @@ export default function SignupForm({ navigation }) {
     // console.log(result);
 
     if (!result.cancelled) {
-      let imgFileName = result.uri.substring(result.uri.lastIndexOf('/') + 1)
-      // console.log(imgFileName)
-      var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Client-ID 961c2d154fbb72a");
-
-      var formdata = new FormData();
-      formdata.append("image", result.base64);
-
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: formdata,
-        redirect: 'follow'
-      };
-
-      fetch("https://api.imgur.com/3/image", requestOptions)
-        .then(response => response.json())
-        .then(result => {
-          setValue({ ...value, photoUrl: result.data.link})
-        })
-        .catch(error => console.log('error', error));
+      setImage(result)
     }
   };
   return (
@@ -153,7 +153,7 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PHOTO</Text>
           <Button title="Pick an image from gallery" onPress={pickImage} />
-          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+          {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
           {
             error.photoUrl ? (
               <View style={tailwind('flex flex-row items-center')}>
