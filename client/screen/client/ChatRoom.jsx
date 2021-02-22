@@ -2,11 +2,8 @@ import React from 'react'
 import { Text, TouchableOpacity, View } from 'react-native';
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { GiftedChat } from "react-native-gifted-chat";
-import tailwind from 'tailwind-rn';
-import { useState } from 'react';
 import 'firebase/firestore'
 import firestore from '../../helpers/FirebaseSVC';
-import firebase from 'firebase'
 import { useSelector } from 'react-redux';
 
 export default function ChatRoom({ navigation, route }) {
@@ -16,7 +13,7 @@ export default function ChatRoom({ navigation, route }) {
   const roomId = client.email + "-" + therapist.email
 
   const messagesRef = firestore.collection('ChatRoom').doc(roomId).collection(roomId); // ambil collectionnya
-  const query = messagesRef.orderBy('createdAt', 'desc').limit(25); // sort isi collectionnya
+  const query = messagesRef.orderBy('createdAt', 'desc').limit(100); // sort isi collectionnya
   const [messages] = useCollectionData(query, { idField: '_id' })
 
 
