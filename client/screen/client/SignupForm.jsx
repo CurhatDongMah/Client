@@ -9,6 +9,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import { clientRegister } from '../../store/actions/client'
 import { validate } from 'validate.js';
 import constraints from '../../helpers/constraints';
+import { Button, Image, Platform } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
 
 export default function SignupForm({ navigation }) {
   const { successRegister } = useSelector(state => state.client)
@@ -16,6 +19,8 @@ export default function SignupForm({ navigation }) {
   const [birthDate, setBirthDate] = useState(new Date())
   const [value, setValue] = useState({})
   const [error, setError] = useState({})
+  const [image, setImage] = useState(null);
+
   const widthWindow = useWindowDimensions().width
   const now = new Date()
   const dispatch = useDispatch()
@@ -47,6 +52,31 @@ export default function SignupForm({ navigation }) {
       dispatch(clientRegister(value))
     }
   }
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <ScrollView 
@@ -100,11 +130,9 @@ export default function SignupForm({ navigation }) {
           }
         </View>
         <View style={tailwind('mt-5')}>
-          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PHOTO URL</Text>
-          <TextInput
-            onChangeText={(text) => handleChange(text, 'photoUrl')}
-            style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
-          ></TextInput>
+          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PHOTO</Text>
+          <Button title="Pick an image from gallery" onPress={pickImage} />
+          {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
           {
             error.photoUrl ? (
               <View style={tailwind('flex flex-row items-center')}>
