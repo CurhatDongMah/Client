@@ -110,7 +110,7 @@ export default function SigninForm({ navigation }) {
         status='success'
         checked={checked}
         onChange={nextChecked => setChecked(nextChecked)}>
-        {`I am Therapist`}
+        {`I am a Therapist`}
       </CheckBox>
       <View style={{ elevation: 5 }}>
         <TouchableOpacity
@@ -122,7 +122,7 @@ export default function SigninForm({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={tailwind('flex flex-row')}>
-        <Text style={tailwind('my-5 text-gray-400 text-lg')}>Dont have an account?, </Text>
+        <Text style={tailwind('my-5 text-gray-400 text-lg')}>Don't have an account ?, </Text>
         <Text 
           onPress={() => navigation.navigate('Confirm')}
           style={tailwind('my-5 text-green-400 text-lg')}
