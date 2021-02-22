@@ -13,7 +13,11 @@ import {
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import tailwind from 'tailwind-rn'
 import { Toggle } from '@ui-kitten/components'
-import { updateStatusTherapist, getOnGoingOrderTherapist } from '../../store/actions/therapist'
+import {
+  updateStatusTherapist,
+  getOnGoingOrderTherapist,
+  setCompletedOrderTherapist
+} from '../../store/actions/therapist'
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
@@ -123,7 +127,7 @@ export default function Detail({ navigation }) {
                     </View>
                     <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
                       <TouchableOpacity
-                        onPress={() => dispatch(setCompletedOrder(onGoingOrdersTherapist[0].id))}
+                        onPress={() => dispatch(setCompletedOrderTherapist(onGoingOrdersTherapist[0].id))}
                         style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-gray-100 border border-r border-green-400')}>
                         <Text 
                           style={tailwind('text-green-400')}
