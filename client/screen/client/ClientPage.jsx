@@ -6,6 +6,7 @@ import Home from './Home'
 import History from './History'
 import Inbox from './Inbox'
 import Logout from './Logout'
+import tailwind from 'tailwind-rn';
 
 const Tab = createBottomTabNavigator()
 export default function ClientPage({ navigation }) {
@@ -27,9 +28,10 @@ export default function ClientPage({ navigation }) {
           },
         })}
         tabBarOptions={{
-          activeTintColor: '#00af91',
-          inactiveTintColor: '#e7e6e1',
-          showLabel: false
+          activeTintColor: '#34D399',
+          inactiveTintColor: '#A7F3D0',
+          showLabel: false,
+          style: { borderTopColor: '#34D399', borderTopWidth: 2 }
         }}
       >
         <Tab.Screen name="Home" component={Home} />

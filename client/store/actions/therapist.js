@@ -13,7 +13,7 @@ export const getAllTherapists = () => { // fetch all without any condition
   
       const res = await axios({
         method: 'GET',
-        url: `${baseUrl}/therapist/all`,
+        url: `${baseUrl}/therapist/clients`,
         headers: {access_token}
       })
       dispatch({

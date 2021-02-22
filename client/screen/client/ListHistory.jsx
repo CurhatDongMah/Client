@@ -38,7 +38,7 @@ export default function ListHistory({ navigation }) {
   
   const Item = ( history ) => (
     <View style={{ width: widthWindow * 9 / 10 }}>
-      <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-50 justify-start')}>
+      <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-100 justify-start')}>
         <View style={tailwind('px-5 flex items-center justify-center')}>
           <Image 
             style={tailwind('w-12 h-12 rounded-full')}
@@ -69,7 +69,7 @@ export default function ListHistory({ navigation }) {
             style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-gray-100 border border-r border-green-400')}>
             <Text 
               style={tailwind('text-green-400')}
-            >Give a Review</Text>
+            >Add Review</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -84,6 +84,7 @@ export default function ListHistory({ navigation }) {
       <View style={tailwind('pt-12')}>
         <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>LIST HISTORY</Text>
         <FlatList
+          style={tailwind('mb-5')}
           data={histories}
           renderItem={renderItem}
           keyExtractor={item => item.id.toString()}
