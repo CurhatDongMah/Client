@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { SafeAreaView, Text, View, Image, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import tailwind from 'tailwind-rn'
 import { Toggle } from '@ui-kitten/components'
+import { updateStatusTherapist } from '../../store/actions/therapist'
 
 export default function Detail({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { therapist } = useSelector(state => state.therapist)
+  const { therapist, status } = useSelector(state => state.therapist)
   const [checked, setChecked] = useState(false);
   const [client, setClient] = useState({ name: 'Client 1'})
+  const dispatch = useDispatch()
+  const ARR = [1,2,3,4,5]
   const onCheckedChange = (isChecked) => {
-    setChecked(isChecked);
+    dispatch(updateStatusTherapist(!checked))
+    setChecked(isChecked)
   }
   console.log(therapist, 'di profile')
+  console.log(status, 'di profile');
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
         <View style={tailwind('mt-16 relative mb-5')}>
@@ -21,16 +26,30 @@ export default function Detail({ navigation }) {
             <Image 
               style={tailwind('w-24 h-24 rounded-full')}
               source={{
-                uri: 'https://picsum.photos/id/237/200/300'
+                uri: therapist.photoUrl
               }}
             />
             <Text style={tailwind('text-2xl my-2')}>{ therapist.fullName }</Text>
             <View style={tailwind('flex flex-row items-center')}>
-              <Ionicons style={tailwind('mx-1 text-yellow-500 text-base')} name='star'/>
-              <Ionicons style={tailwind('mx-1 text-yellow-500 text-base')} name='star'/>
-              <Ionicons style={tailwind('mx-1 text-yellow-500 text-base')} name='star'/>
-              <Ionicons style={tailwind('mx-1 text-yellow-500 text-base')} name='star'/>
-              <Ionicons style={tailwind('mx-1 text-yellow-500 text-base')} name='star'/>
+            {
+              therapist.rating ? (
+                ARR.map(arr => {
+                  return therapist.rating >= arr ? (
+                    <Ionicons key={arr} style={tailwind('mr-1 text-yellow-400 text-base')} name='star'/>
+                  ) : (
+                    <Ionicons key={arr} style={tailwind('mr-1 text-gray-400 text-base')} name='star'/>
+                  ) 
+                })
+              ) : (
+                <>
+                  <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
+                  <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
+                  <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
+                  <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
+                  <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
+                </>
+              )
+            }
             </View>
             <Text 
               onPress={() => navigation.navigate('TherapistEdit')}
