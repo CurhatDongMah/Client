@@ -1,11 +1,12 @@
 const initialState = {
+  loading: false,
+  error: null,
   clients: [],
   histories: [],
   client: {},
   therapistDetail: {},
   order: {},
-  loading: false,
-  error: null,
+  onGoingOrders: [],
   successRegister: false
 }
 
@@ -58,6 +59,12 @@ const clientReducer = (state = initialState, action) => {
       return {
         ...state,
         histories: action.payload,
+        loading: false,
+      }
+    case 'SAVE_ON_GOING':
+      return {
+        ...state,
+        onGoingOrders: action.payload,
         loading: false,
       }
     default:

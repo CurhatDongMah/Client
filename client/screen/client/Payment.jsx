@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { TouchableOpacity, Text, View } from 'react-native';
 import { WebView } from 'react-native-webview';
 import base64 from 'base-64';
 import tailwind from 'tailwind-rn';
+import { setOnGoingOrder } from '../../store/actions/client'
 
 // const orderId = new Date().getTime()
 
@@ -12,6 +13,7 @@ export default function App({ navigation }) {
   const [complete, setComplete] = useState(false)
 	const { therapistDetail, client, order } = useSelector(state => state.client)
   console.log(therapistDetail, 'di payment');
+	const dispatch = useDispatch()
   useEffect(() => {
     console.log('change')
   }, [mid.redirect_url])
@@ -90,6 +92,8 @@ export default function App({ navigation }) {
             console.log(data.status_code)
             if (data.status_code == 200) {
               setComplete(true)
+							// change status order to on going
+							dispatch(setOnGoingOrder(order.id))
               navigation.navigate('Success')
             } else {
 							alert('Your payment has not been complete')

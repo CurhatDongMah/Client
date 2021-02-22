@@ -122,6 +122,84 @@ export const getHistory = () => {
   }
 }
 
+export const getOnGoingOrder = () => {
+  return async (dispatch) => {
+    try {
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const res = await axios({
+        method: 'GET',
+        url: `${baseUrl}/client/ongoing`,
+        headers: {access_token}
+      })
+      console.log(res.data , 'ongoing');
+      dispatch({
+        type: 'SAVE_ON_GOING',
+        payload: res.data
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export const setOnGoingOrder = (id) => {
+  return async (dispatch) => {
+    try {
+      console.log(id, 'id order');
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const status = 'ongoing'
+      const res = await axios({
+        method: 'PATCH',
+        url: `${baseUrl}/client/order/${id}`,
+        data: {status},
+        headers: {access_token}
+      })
+      console.log(res.data , 'change status ongoing')
+      const resOnGoing = await axios({
+        method: 'GET',
+        url: `${baseUrl}/client/ongoing`,
+        headers: {access_token}
+      })
+      dispatch({
+        type: 'SAVE_ON_GOING',
+        payload: resOnGoing.data
+      })
+      console.log(resOnGoing.data , 'ongoing');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export const setCompletedOrder = (id) => {
+  return async (dispatch) => {
+    try {
+      console.log(id, 'id order');
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const status = 'completed'
+      const res = await axios({
+        method: 'PATCH',
+        url: `${baseUrl}/client/order/${id}`,
+        data: {status},
+        headers: {access_token}
+      })
+      console.log(res.data , 'change status complted')
+      const resOnGoing = await axios({
+        method: 'GET',
+        url: `${baseUrl}/client/ongoing`,
+        headers: {access_token}
+      })
+      dispatch({
+        type: 'SAVE_ON_GOING',
+        payload: resOnGoing.data
+      })
+      console.log(resOnGoing.data , 'ongoing');
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
 export {
   getClients
 }

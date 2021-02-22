@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { SafeAreaView, Text, View, Image, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import tailwind from 'tailwind-rn';
-import { Toggle } from '@ui-kitten/components';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import tailwind from 'tailwind-rn'
+import { Toggle } from '@ui-kitten/components'
 
 export default function Detail({ navigation }) {
   const widthWindow = useWindowDimensions().width
@@ -12,8 +12,8 @@ export default function Detail({ navigation }) {
   const [client, setClient] = useState({ name: 'Client 1'})
   const onCheckedChange = (isChecked) => {
     setChecked(isChecked);
-  };
-  console.log(therapist, 'di profile');
+  }
+  console.log(therapist, 'di profile')
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
         <View style={tailwind('mt-16 relative mb-5')}>
