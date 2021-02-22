@@ -1,7 +1,7 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
-// const baseUrl = 'http://192.168.43.213:3000' //arif
-const baseUrl = 'http://192.168.0.10:3000' //obed
+const baseUrl = 'http://192.168.43.213:3000' //arif
+// const baseUrl = 'http://192.168.0.10:3000' //obed
 // const baseUrl = 'http://192.168.8.104:3000' //riva
 
 const getClients = () => {
@@ -84,11 +84,12 @@ export const setTherapist = (payload) => {
 export const createOrder = (payload) => {
   return async (dispatch) => {
     try {
+      console.log(payload, 'order');
       const access_token = await SecureStore.getItemAsync('access_token')
       const res = await axios({
         method: 'POST',
         url: `${baseUrl}/client/order`,
-        data: { TherapistId: payload },
+        data: payload,
         headers: { access_token }
       })
       console.log(res.data, 'order di action');

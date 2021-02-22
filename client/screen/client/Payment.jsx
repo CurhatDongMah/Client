@@ -13,6 +13,7 @@ export default function App({ navigation }) {
   const [complete, setComplete] = useState(false)
 	const { therapistDetail, client, order } = useSelector(state => state.client)
   console.log(therapistDetail, 'di payment');
+	console.log(order, 'di payment');
 	const dispatch = useDispatch()
   useEffect(() => {
     console.log('change')
@@ -35,13 +36,13 @@ export default function App({ navigation }) {
 		const data = {
 			transaction_details: {
 				order_id: order.id,
-				gross_amount: therapistDetail.price,
+				gross_amount: order.totalPrice,
 			},
 			item_details: [
 				{
 					id: therapistDetail.id,
 					price: therapistDetail.price,
-					quantity: 1,
+					quantity: order.totalHour,
 					name: therapistDetail.fullName
 				}
 			],

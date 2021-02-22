@@ -26,7 +26,8 @@ export default function ConfirmPayment({ navigation }) {
           <Ionicons style={tailwind('mx-1 text-yellow-500 text-base')} name='star'/>
           <Ionicons style={tailwind('mx-1 text-yellow-500 text-base')} name='star'/>
         </View>
-        <Text style={tailwind('text-2xl my-2')}>Total: IDR 100.000</Text>
+        <Text style={tailwind('text-2xl my-2')}>Total: IDR {order.totalPrice}</Text>
+        <Text style={tailwind('text-2xl my-2')}>Duration: {order.totalHour} Hour</Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('Payment')}
           style={tailwind('items-center my-3 py-1 px-10 rounded-full bg-green-400')}>
