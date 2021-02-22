@@ -70,30 +70,36 @@ export const therapistLogin = (payload) => {
   }
 }
 
-// export const getOnGoingOrderTherapist = () => {
-//   return async (dispatch) => {
-//     try {
-//       const access_token = await SecureStore.getItemAsync('access_token')
-//       const res = await axios({
-//         method: 'GET',
-//         url: `${baseUrl}/therapist/ongoing`,
-//         headers: {access_token}
-//       })
-//       console.log(res.data , 'ongoing');
-//       dispatch({
-//         type: 'SAVE_ON_GOING',
-//         payload: res.data
-//       })
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// }
+export const getOnGoingOrderTherapist = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: 'SET_LOADING_THERAPIST'
+      })
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const res = await axios({
+        method: 'GET',
+        url: `${baseUrl}/therapist/ongoing`,
+        headers: {access_token}
+      })
+      console.log(res.data , 'ongoing order');
+      dispatch({
+        type: 'SAVE_ON_GOING_THERAPIST',
+        payload: res.data
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
 
 export const updateStatusTherapist = (payload) => {
   return async (dispatch) => {
     try {
       console.log(payload);
+      dispatch({
+        type: 'SET_LOADING_THERAPIST'
+      })
       const access_token = await SecureStore.getItemAsync('access_token')
       const res = await axios({
         method: 'PATCH',
@@ -110,6 +116,32 @@ export const updateStatusTherapist = (payload) => {
       }
     } catch (error) {
       console.log(error);
+    }
+  }
+}
+
+export const getHistoryTherapist = () => {
+  return async (dispatch) => {
+    try {
+      dispatch({
+        type: 'SET_LOADING_THERAPIST'
+      })
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const res = await axios({
+        method: 'GET',
+        url: `${baseUrl}/therapist/history`,
+        headers: {access_token}
+      })
+      console.log(res.data, 'therapist history');
+      dispatch({
+        type: 'SAVE_HISTORIES_THERAPIST',
+        payload: res.data
+      })
+    } catch (error) {
+      console.log(error);
+      // dispatch({
+      //   type: 'ERROR_GET_CLIENTS', payload: error
+      // })
     }
   }
 }

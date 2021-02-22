@@ -1,14 +1,22 @@
 const initialState = {
+  loading: false,
+  error: null,
   therapists: [],
   therapist: {},
   status: false,
-  loading: false,
-  error: null,
-  successRegister: false
+  successRegister: false,
+  onGoingOrdersTherapist: [],
+  historiesTherapist: []
 }
 
 const therapistReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case 'SET_LOADING_THERAPIST':
+      return {
+        ...state,
+        loading: true
+      }
 
     case 'SAVE_THERAPIST':
       return {
@@ -39,7 +47,21 @@ const therapistReducer = (state = initialState, action) => {
       }
     case 'SAVE_STATUS':
       return {
-        ...state, status: action.payload
+        ...state, 
+        status: action.payload,
+        loading: false
+      }
+    case 'SAVE_ON_GOING_THERAPIST':
+      return {
+        ...state,
+        onGoingOrdersTherapist: action.payload,
+        loading: false
+      }
+    case 'SAVE_HISTORIES_THERAPIST':
+      return {
+        ...state,
+        historiesTherapist: action.payload,
+        loading: false
       }
     default:
       return state
