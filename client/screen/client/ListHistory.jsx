@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
-import { getHistory } from '../../store/actions/client'
+import { getHistory, setTherapist } from '../../store/actions/client'
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -31,10 +31,14 @@ export default function ListHistory({ navigation }) {
     dispatch(getHistory())
     wait(2000).then(() => setRefreshing(false))
   }, []);
+  const handleDetail = (therapist) => {
+    dispatch(setTherapist(therapist))
+    navigation.navigate('Detail')
+  }
   
   const Item = ( history ) => (
     <View style={{ width: widthWindow * 9 / 10 }}>
-      <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-50 justify-start')}>
+      <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-100 justify-start')}>
         <View style={tailwind('px-5 flex items-center justify-center')}>
           <Image 
             style={tailwind('w-12 h-12 rounded-full')}
@@ -54,7 +58,7 @@ export default function ListHistory({ navigation }) {
         </View>
         <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Detail')}
+            onPress={() => handleDetail(history.title.Therapist)}
             style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-green-400')}>
             <Text 
               style={tailwind('text-gray-100')}
@@ -65,7 +69,7 @@ export default function ListHistory({ navigation }) {
             style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-gray-100 border border-r border-green-400')}>
             <Text 
               style={tailwind('text-green-400')}
-            >Give a Review</Text>
+            >Add Review</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -80,6 +84,7 @@ export default function ListHistory({ navigation }) {
       <View style={tailwind('pt-12')}>
         <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>LIST HISTORY</Text>
         <FlatList
+          style={tailwind('mb-5')}
           data={histories}
           renderItem={renderItem}
           keyExtractor={item => item.id.toString()}

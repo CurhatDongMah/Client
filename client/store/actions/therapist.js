@@ -1,8 +1,8 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
-// const baseUrl = 'http://192.168.43.213:3000' //arif
+const baseUrl = 'http://192.168.43.213:3000' //arif
 // const baseUrl = 'http://192.168.0.10:3000' //obed
-const baseUrl = 'http://192.168.8.104:3000' //riva
+// const baseUrl = 'http://192.168.8.104:3000' //riva
 
 
 export const getAllTherapists = () => { // fetch all without any condition
@@ -15,7 +15,7 @@ export const getAllTherapists = () => { // fetch all without any condition
   
       const res = await axios({
         method: 'GET',
-        url: `${baseUrl}/therapist/all`,
+        url: `${baseUrl}/therapist/clients`,
         headers: {access_token}
       })
       dispatch({

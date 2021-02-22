@@ -46,7 +46,7 @@ export default function SignupForm({ navigation }) {
     else if (!value.email) setError({...error, email: 'Required'})
     else if (validateEmail) setError({...error, email: validateEmail.emailAddress[0]})
     else if (!value.password) setError({...error, password: 'Required'})
-    else if (!value.photoUrl) setError({...error, photoUrl: 'Required'})
+    // else if (!value.photoUrl) setError({...error, photoUrl: 'Required'})
     else if (!value.birthDate) setError({...error, birthDate: 'Required'})
     else if (!value.city) setError({...error, city: 'Required'})
     else {
@@ -94,8 +94,7 @@ export default function SignupForm({ navigation }) {
       fetch("https://api.imgur.com/3/image", requestOptions)
         .then(response => response.json())
         .then(result => {
-          console.log(result)
-          setImage(result.data.link);
+          setValue({ ...value, photoUrl: result.data.link})
         })
         .catch(error => console.log('error', error));
     }
