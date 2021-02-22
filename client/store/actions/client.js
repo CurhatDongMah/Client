@@ -200,6 +200,29 @@ export const setCompletedOrder = (id) => {
   }
 }
 
+export const createReview = (payload) => {
+  return async (dispatch) => {
+    try {
+      console.log(payload);
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const res = await axios({
+        method: 'POST',
+        url: `${baseUrl}/client/review`,
+        data: payload,
+        headers: { access_token }
+      })
+      console.log(res.data, 'review di action');
+      // dispatch({
+      //   type: 'CREATE_REVIEW',
+      //   payload: res.data
+      // })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+
 export {
   getClients
 }
