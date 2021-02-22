@@ -3,12 +3,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { SafeAreaView, Text, View, TextInput, TouchableOpacity, useWindowDimensions } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
+import { createReview } from '../../store/actions/client'
 
 export default function Review({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState('')
   const { therapistDetail } = useSelector(state => state.client)
+  const dispatch = useDispatch()
   const ARR = [1,2,3,4,5]
   const handleChange = (text) => {
     setReview(text)
@@ -16,7 +18,13 @@ export default function Review({ navigation }) {
   const handleSubmit = () => {
     console.log(review, 'review');
     console.log(rating, 'rating');
-    // navigation.navigate('Home')
+    console.log(therapistDetail);
+    dispatch(createReview({
+      rating,
+      review,
+      TherapistId: therapistDetail.id
+    }))
+    navigation.navigate('ListHistory')
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
