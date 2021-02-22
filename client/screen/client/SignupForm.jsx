@@ -12,6 +12,7 @@ import constraints from '../../helpers/constraints';
 import { Button, Image, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
+import axios from 'axios'
 
 export default function SignupForm({ navigation }) {
   const { successRegister } = useSelector(state => state.client)
@@ -69,12 +70,34 @@ export default function SignupForm({ navigation }) {
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
+      base64: true
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.cancelled) {
-      setImage(result.uri);
+      let imgFileName = result.uri.substring(result.uri.lastIndexOf('/') + 1)
+      // console.log(imgFileName)
+      var myHeaders = new Headers();
+      myHeaders.append("Authorization", "Client-ID 961c2d154fbb72a");
+
+      var formdata = new FormData();
+      formdata.append("image", result.base64);
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+      };
+
+      fetch("https://api.imgur.com/3/image", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+          console.log(result)
+          setImage(result.data.link);
+        })
+        .catch(error => console.log('error', error));
     }
   };
   return (
