@@ -32,7 +32,8 @@ export default function Inbox({navigation}) {
     dispatch(getAllTherapists())
   }, [])
 
-console.log(messages);
+
+  if (messages && allTherapists) {
     for (let i = 0; i < messages.length; i++) {
       const roomIdEmailFromFirebase = messages[i]._id.split('-');
       if(roomIdEmailFromFirebase[0] === client.email) {
@@ -42,7 +43,7 @@ console.log(messages);
       }
     }
     console.log(chatWith);
-  
+  }
 
   const Item = ({ therapist }) => (
     <View style={{ width: widthWindow * 9 / 10 }}>
