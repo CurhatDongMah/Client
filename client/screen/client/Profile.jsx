@@ -14,7 +14,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTherapists } from '../../store/actions/therapist';
-import { setTherapist, getOnGoingOrder, setCompletedOrder } from '../../store/actions/client';
+import { setTherapist, getOnGoingOrder, setCompletedOrder } from '../../store/actions/client'
+import curencyFormat from '../../helpers/curencyFormat'
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
@@ -73,7 +74,7 @@ export default function Profile({ navigation }) {
             }
           </View>
           <Text style={tailwind('text-gray-400')}>Jakarta</Text>
-          <Text style={tailwind('text-gray-500')}>IDR {therapist.price}/h</Text>
+          <Text style={tailwind('text-gray-500')}>{ curencyFormat(therapist.price) }/h</Text>
         </View>
         <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
           <TouchableOpacity

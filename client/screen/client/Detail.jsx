@@ -14,16 +14,29 @@ import { createOrder } from '../../store/actions/client'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
 import getAge from '../../helpers/getAge'
-import { Layout, Select, SelectItem } from '@ui-kitten/components';
+import curencyFormat from '../../helpers/curencyFormat'
+import { Select, SelectItem } from '@ui-kitten/components';
 
 export default function Detail({ navigation }) {
-  const [selectedIndex, setSelectedIndex] = useState()
+  const [selectedIndex, setSelectedIndex] = useState(0)
   const widthWindow = useWindowDimensions().width
   const ARR = [1,2,3,4,5]
   const { therapistDetail } = useSelector(state => state.client)
+  const [order, setOrder] = useState({
+    price: therapistDetail.price,
+    TherapistId: therapistDetail.id,
+    totalHour: 1
+  })
   const dispatch = useDispatch()
+  const handleSelect = (index) => {
+    setSelectedIndex(index)
+    setOrder({
+      ...order, totalHour: Number(index)
+    })
+  }
   const handleOrder = async () => {
-    await dispatch(createOrder(therapistDetail.id))
+    
+    await dispatch(createOrder(order))
     navigation.navigate('ConfirmPayment')
   }
   return (
@@ -57,12 +70,17 @@ export default function Detail({ navigation }) {
                   <Text style={tailwind('pt-2 text-lg text-gray-600 tracking-wider')}>CREATE ORDER</Text>
                   <View style={tailwind('border border-gray-300 rounded py-2 px-4')}>
                     <View style={tailwind('mt-2 flex flex-row justify-between items-center')}>
-                      <Text style={tailwind('mx-2 mr-4 text-lg text-yellow-500 font-bold tracking-wider')}>IDR 100.000</Text>
+                      <View style={tailwind('flex flex-row items-center mx-2 mr-4 ')}>
+                        <Text 
+                          style={tailwind('text-lg text-yellow-500 font-bold tracking-wider')}
+                        >{ curencyFormat(therapistDetail.price) }</Text>
+                        <Text style={tailwind('text-gray-400 text-base font-bold')}>/h</Text>
+                      </View>
                       <Select
                         style={tailwind('mx-2 ml-4 flex-1')}
                         placeholder='Duration'
                         selectedIndex={selectedIndex}
-                        onSelect={index => setSelectedIndex(index)}>
+                        onSelect={index => handleSelect(index) }>
                         <SelectItem title='1 hour'/>
                         <SelectItem title='2 hour'/>
                         <SelectItem title='3 hour'/>
@@ -70,7 +88,9 @@ export default function Detail({ navigation }) {
                     </View>
                     <View style={tailwind('mt-2 flex flex-row justify-between items-center')}>
                       <Text style={tailwind('mx-2 text-lg text-gray-500 tracking-wider font-bold')}>Total</Text>
-                      <Text style={tailwind('mx-2 text-lg text-gray-500 tracking-wider font-bold')}>300.000</Text>
+                      <Text 
+                        style={tailwind('mx-2 text-lg text-gray-500 tracking-wider font-bold')}
+                      >{ curencyFormat(therapistDetail.price * Number(selectedIndex)) }</Text>
                     </View>
                     <TouchableOpacity
                         onPress={handleOrder}
@@ -114,12 +134,12 @@ export default function Detail({ navigation }) {
                   <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>About</Text>
                   <Text 
                     style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
-                  >Lorem Ipsum is simply dummy text of the printing and typesetting industry. </Text>
+                  >{ therapistDetail.about } </Text>
                 </View>
                 {/* Review */}
                 <Text style={tailwind('pt-4 text-lg text-gray-600 tracking-wider')}>REVIEW</Text>
                 <View style={tailwind('mt-2')}>
-                  <Text style={tailwind('text-lg text-gray-500 tracking-wider')}>Agus</Text>
+                  <Text style={tailwind('text-lg text-gray-500 tracking-wider')}>Papa Dedeh</Text>
                   <View style={tailwind('flex flex-row items-center py-1')}>
                     {
                       therapistDetail.rating ? (
@@ -138,7 +158,7 @@ export default function Detail({ navigation }) {
                   >Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</Text>
                 </View>
                 <View style={tailwind('mt-2')}>
-                  <Text style={tailwind('text-lg text-gray-500 tracking-wider')}>Agus</Text>
+                  <Text style={tailwind('text-lg text-gray-500 tracking-wider')}>Mama dedeh</Text>
                   <View style={tailwind('flex flex-row items-center py-1')}>
                     {
                       therapistDetail.rating ? (
