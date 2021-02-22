@@ -6,7 +6,8 @@ const initialState = {
   status: false,
   successRegister: false,
   onGoingOrdersTherapist: [],
-  historiesTherapist: []
+  historiesTherapist: [],
+  allTherapists: [] // fetch all without any condition
 }
 
 const therapistReducer = (state = initialState, action) => {
@@ -29,6 +30,13 @@ const therapistReducer = (state = initialState, action) => {
       return {
         ...state,
         therapists: action.payload,
+        loading: false
+      }
+    
+      case 'SAVE_THERAPISTS_ALL': // fetch all without any condition
+      return {
+        ...state,
+        allTherapists: action.payload,
         loading: false
       }
 
