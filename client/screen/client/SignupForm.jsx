@@ -26,8 +26,7 @@ export default function SignupForm({ navigation }) {
   const now = new Date()
   const dispatch = useDispatch()
   useEffect(() => {
-    console.log(successRegister);
-    if (successRegister) navigation.navigate('Signin')
+    // if (successRegister) navigation.navigate('Signin')
   }, [successRegister])
   useEffect(() => {
     setValue({...value, birthDate: birthDate})

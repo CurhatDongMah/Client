@@ -29,7 +29,7 @@ export default function ClientPage({ navigation }) {
         })}
         tabBarOptions={{
           activeTintColor: '#34D399',
-          inactiveTintColor: '#A7F3D0',
+          inactiveTintColor: '#9CA3AF',
           showLabel: false,
           style: { borderTopColor: '#34D399', borderTopWidth: 2 }
         }}
