@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
-import { getHistory } from '../../store/actions/client'
+import { getHistory, setTherapist } from '../../store/actions/client'
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -31,6 +31,10 @@ export default function ListHistory({ navigation }) {
     dispatch(getHistory())
     wait(2000).then(() => setRefreshing(false))
   }, []);
+  const handleDetail = (therapist) => {
+    dispatch(setTherapist(therapist))
+    navigation.navigate('Detail')
+  }
   
   const Item = ( history ) => (
     <View style={{ width: widthWindow * 9 / 10 }}>
@@ -54,7 +58,7 @@ export default function ListHistory({ navigation }) {
         </View>
         <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('Detail')}
+            onPress={() => handleDetail(history.title.Therapist)}
             style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-green-400')}>
             <Text 
               style={tailwind('text-gray-100')}

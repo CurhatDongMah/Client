@@ -39,13 +39,24 @@ export default function Detail({ navigation }) {
                 ) : <Text>No Review</Text>
               }
             </View>
-            <TouchableOpacity
-              onPress={handleOrder}
-              style={tailwind('items-center my-3 py-1 px-10 rounded-full bg-green-400')}>
-              <Text 
-                style={tailwind('text-base text-gray-100')}
-              >Book Now</Text>
-            </TouchableOpacity>
+            {
+              therapistDetail.status ? (
+                <TouchableOpacity
+                  onPress={handleOrder}
+                  style={tailwind('items-center my-3 py-1 px-10 rounded-full bg-green-400')}>
+                  <Text 
+                    style={tailwind('text-base text-gray-100')}
+                  >Book Now</Text>
+                </TouchableOpacity>
+              ) : (
+                <Text 
+                  style={tailwind('text-base text-gray-400')}
+                >Not Available</Text>
+                // <TouchableOpacity
+                //   style={tailwind('items-center my-3 py-1 px-10 rounded-full bg-green-400')}>
+                // </TouchableOpacity>
+              )
+            }
           </View>
         </View>
           <ScrollView showsVerticalScrollIndicator={false}>

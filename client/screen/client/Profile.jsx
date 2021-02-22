@@ -7,7 +7,8 @@ import {
   FlatList,
   TouchableOpacity,
   useWindowDimensions,
-  RefreshControl
+  RefreshControl,
+  ScrollView
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
@@ -44,7 +45,7 @@ export default function Profile({ navigation }) {
 
   const Item = ({ therapist }) => (
     <View style={{ width: widthWindow * 9 / 10 }}>
-      <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-50 justify-start')}>
+      <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-100 justify-start')}>
         <View style={tailwind('px-5 flex items-center justify-center')}>
           <Image 
             style={tailwind('w-12 h-12 rounded-full')}
@@ -99,7 +100,14 @@ export default function Profile({ navigation }) {
   );
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-      <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-center border-b-4 border-green-400')}>
+      <View 
+        refreshControl={
+          <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          />
+        }
+        style={tailwind('flex flex-row pt-16 pb-8 w-full justify-center border-b-4 border-green-400')}>
         <View>
           <Image 
             style={tailwind('w-20 h-20 rounded-full')}
