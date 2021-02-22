@@ -70,3 +70,46 @@ export const therapistLogin = (payload) => {
   }
 }
 
+// export const getOnGoingOrderTherapist = () => {
+//   return async (dispatch) => {
+//     try {
+//       const access_token = await SecureStore.getItemAsync('access_token')
+//       const res = await axios({
+//         method: 'GET',
+//         url: `${baseUrl}/therapist/ongoing`,
+//         headers: {access_token}
+//       })
+//       console.log(res.data , 'ongoing');
+//       dispatch({
+//         type: 'SAVE_ON_GOING',
+//         payload: res.data
+//       })
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+// }
+
+export const updateStatusTherapist = (payload) => {
+  return async (dispatch) => {
+    try {
+      console.log(payload);
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const res = await axios({
+        method: 'PATCH',
+        url: `${baseUrl}/therapist/status`,
+        data: {status: payload},
+        headers: {access_token}
+      })
+      console.log(res.data , 'change status available')
+      if (res.data) {
+        dispatch({
+          type: 'SAVE_STATUS',
+          payload: payload
+        })
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
