@@ -12,7 +12,8 @@ import constraints from '../helpers/constraints'
 
 export default function SigninForm({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { errorClient, loading } = useSelector(state => state.client)
+  const { errorClient } = useSelector(state => state.client)
+  const { errorTherapist } = useSelector(state => state.therapist)
   const [checked, setChecked] = useState(false);
   const [value, setValue] = useState({
     email: '',
@@ -39,6 +40,7 @@ export default function SigninForm({ navigation }) {
           setValue({})
         } else {
           console.log(errorClient, 'from sign in');
+          console.log(errorTherapist, 'from sign in');
         }
       } else {
         await dispatch(clientLogin(value))
@@ -55,6 +57,11 @@ export default function SigninForm({ navigation }) {
     if (errorClient) {
       setError({...error, email: errorClient})
       setError({...error, password: errorClient})
+    }
+    if (errorTherapist) {
+      console.log('error login');
+      setError({...error, email: errorTherapist})
+      setError({...error, password: errorTherapist})
     }
   }, [errorClient])
 

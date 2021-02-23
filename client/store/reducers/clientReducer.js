@@ -34,6 +34,7 @@ const clientReducer = (state = initialState, action) => {
         ...state,
         clients: action.payload,
         loading: false,
+        error: null
       }
 
     case 'SAVE_CLIENT':
@@ -43,6 +44,7 @@ const clientReducer = (state = initialState, action) => {
         client: action.payload,
         temporaryClient: temporary,
         loading: false,
+        error: null
       }
 
     case 'LOADING_GET_CLIENTS':
@@ -57,7 +59,9 @@ const clientReducer = (state = initialState, action) => {
   
     case 'CLIENT_SUCCESS_REGISTER':
       return {
-        ...state, successRegister: true
+        ...state, successRegister: true,
+        loading: false,
+        error: null
       }
 
     case 'SET_THERAPIST':
@@ -65,6 +69,7 @@ const clientReducer = (state = initialState, action) => {
         ...state,
         therapistDetail: action.payload,
         loading: false,
+        error: null
       }
 
     case 'CREATE_ORDER':
@@ -72,24 +77,28 @@ const clientReducer = (state = initialState, action) => {
         ...state,
         order: action.payload,
         loading: false,
+        error: null
       }
     case 'SAVE_HISTORIES':
       return {
         ...state,
         histories: action.payload,
         loading: false,
+        error: null
       }
     case 'SAVE_ON_GOING':
       return {
         ...state,
         onGoingOrders: action.payload,
         loading: false,
+        error: null
       }
     case 'SAVE_REVIEWS':
       return {
         ...state,
         reviews: action.payload,
         loading: false,
+        error: null
       }
     default:
       return state

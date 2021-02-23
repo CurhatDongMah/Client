@@ -16,9 +16,6 @@ export default function Review({ navigation }) {
     setReview(text)
   }
   const handleSubmit = () => {
-    console.log(review, 'review');
-    console.log(rating, 'rating');
-    console.log(therapistDetail);
     dispatch(createReview({
       rating,
       review,

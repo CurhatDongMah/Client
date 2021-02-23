@@ -7,13 +7,20 @@ import { deleteOrder } from '../../store/actions/client'
 
 export default function ConfirmPayment({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { therapistDetail, order } = useSelector(state => state.client)
+  const { therapistDetail, order, loadingClient } = useSelector(state => state.client)
   const dispatch = useDispatch()
   console.log(therapistDetail, 'di detail');
   console.log(order, 'ini order');
   const handleDelete = async () => {
     await dispatch(deleteOrder(order.id))
     navigation.navigate('Profile')
+  }
+  if (loadingClient) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center')}>
+        <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
