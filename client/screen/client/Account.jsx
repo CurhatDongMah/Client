@@ -15,11 +15,22 @@ import getAge from '../../helpers/getAge'
 
 export default function Account({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { client, loading: loadingClient } = useSelector(state => state.client)
+  const { client, loading: loadingClient, error: errorClient } = useSelector(state => state.client)
   if (loadingClient) {
     return (
       <View style={tailwind('flex-1 justify-center items-center')}>
         <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  }
+  if (errorClient) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center bg-white')}>
+        <Image 
+          style={tailwind('w-full h-80')}
+          source={require('../../assets/error.png')}
+        />
+        <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>Oppss, something error...</Text>
       </View>
     )
   }
@@ -78,7 +89,6 @@ export default function Account({ navigation }) {
             style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
           >{client.city}</Text>
         </View>
-
       </View>
     </ScrollView>
   </SafeAreaView>

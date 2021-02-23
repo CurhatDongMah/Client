@@ -1,8 +1,8 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
-// const baseUrl = 'http://192.168.43.213:3000' //arif
+const baseUrl = 'http://192.168.43.213:3000' //arif
 // const baseUrl = 'http://192.168.0.10:3000' //obed
-const baseUrl = 'http://192.168.8.104:3000' //riva
+// const baseUrl = 'http://192.168.8.104:3000' //riva
 
 const getClients = () => {
   return async (dispatch) => {
@@ -315,11 +315,9 @@ export const createReview = (payload) => {
         data: payload,
         headers: { access_token }
       })
-      console.log(res.data, 'review di action');
-      // dispatch({
-      //   type: 'CREATE_REVIEW',
-      //   payload: res.data
-      // })
+      dispatch({
+        type: 'RESET_LOADING_CLIENT'
+      })
     } catch (error) {
       dispatch({
         type: 'SET_ERROR_CLIENT',

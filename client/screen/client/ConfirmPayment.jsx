@@ -14,10 +14,8 @@ import { deleteOrder } from '../../store/actions/client'
 
 export default function ConfirmPayment({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { therapistDetail, order, loading: loadingClient } = useSelector(state => state.client)
+  const { therapistDetail, order, loading: loadingClient, error: errorClient } = useSelector(state => state.client)
   const dispatch = useDispatch()
-  console.log(therapistDetail, 'di detail');
-  console.log(order, 'ini order');
   const handleDelete = async () => {
     await dispatch(deleteOrder(order.id))
     navigation.navigate('Profile')
@@ -26,6 +24,17 @@ export default function ConfirmPayment({ navigation }) {
     return (
       <View style={tailwind('flex-1 justify-center items-center')}>
         <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  }
+  if (errorClient) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center bg-white')}>
+        <Image 
+          style={tailwind('w-full h-80')}
+          source={require('../../assets/error.png')}
+        />
+        <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>Oppss, something error...</Text>
       </View>
     )
   }

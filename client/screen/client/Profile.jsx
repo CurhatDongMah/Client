@@ -15,15 +15,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTherapists } from '../../store/actions/therapist';
 import { setTherapist, getOnGoingOrder, setCompletedOrder, getReview } from '../../store/actions/client'
 import TherapistCard from '../../components/TherapistCard'
-import Spinner from '../../components/Spinner'
+import ErrorImage from '../../assets/error.png'
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
 export default function Profile({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { client, onGoingOrders, loading: loadingClient, errorClient } = useSelector(state => state.client)
-  const { therapists, errorTherapist, loading: loadingTherapist } = useSelector(state => state.therapist)
+  const { client, onGoingOrders, loading: loadingClient, error: errorClient } = useSelector(state => state.client)
+  const { therapists, error: errorTherapist, loading: loadingTherapist } = useSelector(state => state.therapist)
   const dispatch = useDispatch()
   // pull refresh
   const [refreshing, setRefreshing] = useState(false)
@@ -53,6 +53,17 @@ export default function Profile({ navigation }) {
     return (
       <View style={tailwind('flex-1 justify-center items-center')}>
         <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  }
+  if (errorClient || errorTherapist) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center bg-white')}>
+        <Image 
+          style={tailwind('w-full h-80')}
+          source={require('../../assets/error.png')}
+        />
+        <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>Oppss, something error...</Text>
       </View>
     )
   }

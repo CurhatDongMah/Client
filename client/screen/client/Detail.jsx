@@ -11,17 +11,17 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { createOrder } from '../../store/actions/client'
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import tailwind from 'tailwind-rn';
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import tailwind from 'tailwind-rn'
 import getAge from '../../helpers/getAge'
 import curencyFormat from '../../helpers/curencyFormat'
-import { Select, SelectItem } from '@ui-kitten/components';
+import { Select, SelectItem } from '@ui-kitten/components'
 
 export default function Detail({ navigation }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const widthWindow = useWindowDimensions().width
   const ARR = [1,2,3,4,5]
-  const { therapistDetail, reviews, loading: loadingClient } = useSelector(state => state.client)
+  const { therapistDetail, reviews, loading: loadingClient, onGoingOrders, error: errorClient } = useSelector(state => state.client)
   const [secreen, setSecreen] = useState('profile')
   const [error, setError] = useState('')
   const [order, setOrder] = useState({
@@ -43,10 +43,22 @@ export default function Detail({ navigation }) {
       navigation.navigate('ConfirmPayment')
     }
   }
+  console.log(therapistDetail, 'detail');
   if (loadingClient) {
     return (
       <View style={tailwind('flex-1 justify-center items-center')}>
         <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  }
+  if (errorClient) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center bg-white')}>
+        <Image 
+          style={tailwind('w-full h-80')}
+          source={require('../../assets/error.png')}
+        />
+        <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>Oppss, something error...</Text>
       </View>
     )
   }
@@ -136,43 +148,47 @@ export default function Detail({ navigation }) {
           }
           {
             secreen === 'order' ? (
-              <View style={tailwind('border border-gray-300 rounded py-2 px-4 mt-5')}>
-                <View style={tailwind('mt-2 flex flex-row justify-between items-center')}>
-                  <View style={tailwind('flex flex-row items-center mx-2 mr-4 ')}>
-                    <Text 
-                      style={tailwind('text-lg text-yellow-500 font-bold tracking-wider')}
-                    >{ curencyFormat(therapistDetail.price) }</Text>
-                    <Text style={tailwind('text-gray-400 text-base font-bold')}>/h</Text>
+              therapistDetail.status ? ( 
+                !onGoingOrders.length ? (
+                  <View style={tailwind('border border-gray-300 rounded py-2 px-4 mt-5')}>
+                    <View style={tailwind('mt-2 flex flex-row justify-between items-center')}>
+                      <View style={tailwind('flex flex-row items-center mx-2 mr-4 ')}>
+                        <Text 
+                          style={tailwind('text-lg text-yellow-500 font-bold tracking-wider')}
+                        >{ curencyFormat(therapistDetail.price) }</Text>
+                        <Text style={tailwind('text-gray-400 text-base font-bold')}>/h</Text>
+                      </View>
+                      <Select
+                        style={tailwind('mx-2 ml-4 flex-1')}
+                        placeholder='Duration'
+                        selectedIndex={selectedIndex}
+                        onSelect={index => handleSelect(index) }>
+                        <SelectItem title='1 hour'/>
+                        <SelectItem title='2 hour'/>
+                        <SelectItem title='3 hour'/>
+                      </Select>
+                    </View>
+                    <View style={tailwind('mt-2 flex flex-row justify-between items-center')}>
+                      <Text style={tailwind('mx-2 text-lg text-gray-500 tracking-wider font-bold')}>Total</Text>
+                      <Text 
+                        style={tailwind('mx-2 text-lg text-gray-500 tracking-wider font-bold')}
+                      >{ curencyFormat(therapistDetail.price * Number(selectedIndex)) }</Text>
+                    </View>
+                    <TouchableOpacity
+                      onPress={handleOrder}
+                      style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-green-400')}>
+                      <Text 
+                        style={tailwind('text-base text-green-400')}
+                      >Book Now</Text>
+                    </TouchableOpacity>
+                    {
+                      error ? (
+                        <Text style={tailwind('text-sm text-center text-red-400')}>{error}</Text> 
+                      ): <Text></Text>
+                    }
                   </View>
-                  <Select
-                    style={tailwind('mx-2 ml-4 flex-1')}
-                    placeholder='Duration'
-                    selectedIndex={selectedIndex}
-                    onSelect={index => handleSelect(index) }>
-                    <SelectItem title='1 hour'/>
-                    <SelectItem title='2 hour'/>
-                    <SelectItem title='3 hour'/>
-                  </Select>
-                </View>
-                <View style={tailwind('mt-2 flex flex-row justify-between items-center')}>
-                  <Text style={tailwind('mx-2 text-lg text-gray-500 tracking-wider font-bold')}>Total</Text>
-                  <Text 
-                    style={tailwind('mx-2 text-lg text-gray-500 tracking-wider font-bold')}
-                  >{ curencyFormat(therapistDetail.price * Number(selectedIndex)) }</Text>
-                </View>
-                <TouchableOpacity
-                  onPress={handleOrder}
-                  style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-green-400')}>
-                  <Text 
-                    style={tailwind('text-base text-green-400')}
-                  >Book Now</Text>
-                </TouchableOpacity>
-                {
-                  error ? (
-                    <Text style={tailwind('text-sm text-center text-red-400')}>{error}</Text> 
-                  ): <Text></Text>
-                }
-              </View>
+                ) : <Text style={tailwind('pt-2 text-center text-lg text-gray-400 tracking-wider')}>You still have ongoing orders</Text>
+              ) : <Text style={tailwind('pt-2 text-center text-lg text-gray-400 tracking-wider')}>Therapist Not Available</Text>
             ) : <></>
           }
           {

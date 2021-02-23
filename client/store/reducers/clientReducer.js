@@ -1,6 +1,5 @@
 const initialState = {
   loading: false,
-  errorClient: null,
   error: null,
   clients: [],
   histories: [],
@@ -36,7 +35,7 @@ const clientReducer = (state = initialState, action) => {
     case 'SET_ERROR_CLIENT':
       return {
         ...state,
-        errorClient: action.payload,
+        error: action.payload,
         loading: false,
       }
 
