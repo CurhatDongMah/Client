@@ -27,6 +27,7 @@ export default function Inbox({navigation}) {
   const dispatch = useDispatch()
   const { allTherapists, error, loading } = useSelector(state => state.therapist)
   let chatWith = []
+  console.log(messages);
 
   useEffect(() => {
     dispatch(getAllTherapists())
@@ -46,33 +47,26 @@ export default function Inbox({navigation}) {
   }
 
   const Item = ({ therapist }) => (
-    <View style={{ width: widthWindow * 9 / 10 }}>
-      <View style={tailwind('flex flex-row mt-4 rounded-xl py-2 bg-gray-50 justify-start')}>
-        <View style={tailwind('px-5 flex items-center justify-center')}>
-          <Image 
-            style={tailwind('w-12 h-12 rounded-full')}
-            source={{
-              uri: therapist.photoUrl
-            }}
-          />
-        </View>
-        <View style={tailwind('flex items-start justify-center')}>
-          <Text 
-            numberOfLines={1}
-            ellipsizeMode='clip'
-            style={tailwind('w-36 text-base text-gray-500')}>{therapist.fullName}</Text>
-        </View>
-        <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
-          <TouchableOpacity
-            onPress={async () => navigation.navigate('ChatRoom', { therapist })} 
-            style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-green-400 border border-r border-green-400')}>
+    <TouchableOpacity onPress={async () => navigation.navigate('ChatRoom', { therapist })}>
+      <View style={{ width: widthWindow * 9 / 10 }}>
+        <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-50 justify-start')}>
+          <View style={tailwind('px-5 flex items-center justify-center')}>
+            <Image 
+              style={tailwind('w-12 h-12 rounded-full')}
+              source={{
+                uri: therapist.photoUrl
+              }}
+            />
+          </View>
+          <View style={tailwind('flex items-start justify-center')}>
             <Text 
-              style={tailwind('text-gray-100')}
-            >Chat</Text>
-          </TouchableOpacity>
+              numberOfLines={1}
+              ellipsizeMode='clip'
+              style={tailwind('w-36 text-base text-gray-500')}>{therapist.fullName}</Text>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   const renderItem = ({ item }) => (
