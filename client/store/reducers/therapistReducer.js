@@ -29,8 +29,13 @@ const therapistReducer = (state = initialState, action) => {
     case 'SET_ERROR_THERAPIST':
       return {
         ...state,
-        errorTherapist: action.payload,
+        error: action.payload,
         loading: false,
+      }
+    case 'RESET_ERROR_THERAPIST':
+      return {
+        ...state,
+        error: '',
       }
     case 'SAVE_THERAPIST':
       return {
@@ -67,7 +72,10 @@ const therapistReducer = (state = initialState, action) => {
       }
     case 'THERAPIST_SUCCESS_REGISTER':
       return {
-        ...state, successRegister: true, error: null
+        ...state, 
+        successRegisterTherapist: true, 
+        loading: false,
+        error: null
       }
     case 'SAVE_STATUS':
       return {

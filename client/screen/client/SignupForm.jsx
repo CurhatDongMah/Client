@@ -14,9 +14,14 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import axios from 'axios'
 import { resetRegister } from '../../store/actions/client'
+import { FancyAlert } from 'react-native-expo-fancy-alerts';
 
 export default function SignupForm({ navigation }) {
-  const { successRegister } = useSelector(state => state.client)
+  const [visible, setVisible] = useState(false);
+  const toggleAlert = React.useCallback(() => {
+    setVisible(!visible);
+  }, [visible]);
+  const { successRegister, error: errorClient } = useSelector(state => state.client)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date())
   const [value, setValue] = useState({})
@@ -27,11 +32,15 @@ export default function SignupForm({ navigation }) {
   const now = new Date()
   const dispatch = useDispatch()
   useEffect(() => {
-    if (successRegister) {
-      navigation.navigate('Signin')
-      dispatch(resetRegister())
+    if (value.fullName) {
+      if (successRegister && !errorClient) {
+        navigation.navigate('Signin')
+        dispatch(resetRegister())
+      } else if (errorClient){
+        toggleAlert()
+      }
     }
-  }, [successRegister])
+  }, [errorClient, successRegister])
   useEffect(() => {
     setValue({...value, birthDate: birthDate})
   }, [birthDate])
@@ -43,18 +52,17 @@ export default function SignupForm({ navigation }) {
     setError({})
     setValue({ ...value, [name]: text})
   }
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     console.log(value.photoUrl)
     const validateEmail = validate({ emailAddress: value.email }, constraints)
     if (!value.fullName) setError({...error, fullName: 'Required'})
     else if (!value.email) setError({...error, email: 'Required'})
     else if (validateEmail) setError({...error, email: validateEmail.emailAddress[0]})
     else if (!value.password) setError({...error, password: 'Required'})
-    // else if (!value.photoUrl) setError({...error, photoUrl: 'Required'})
+    else if (!value.photoUrl) setError({...error, photoUrl: 'Required'})
     else if (!value.birthDate) setError({...error, birthDate: 'Required'})
     else if (!value.city) setError({...error, city: 'Required'})
     else {
-      
       dispatch(clientRegister(value))
     }
   }
@@ -108,8 +116,6 @@ export default function SignupForm({ navigation }) {
       method: 'POST',
       data: data
     })
-    // console.log(result.data.url, "ini dari axios")
-    // setValue({ ...value, photoUrl: result.data.url})
     return result.data.url
 
   } 
@@ -238,6 +244,22 @@ export default function SignupForm({ navigation }) {
             style={tailwind('text-green-400 text-lg')}
           >Sign in</Text>
         </View>
+        <FancyAlert
+					visible={visible}
+					icon={<View 
+						style={tailwind('flex flex-1 justify-center items-center w-full rounded-full bg-red-500')}
+					><Text style={tailwind('text-white text-2xl')}>X</Text></View>}
+					style={{ backgroundColor: 'white' }}
+				>
+					<Text style={tailwind('mb-2')}>{ errorClient }</Text>
+					<TouchableOpacity
+						onPress={toggleAlert}
+						style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-red-400')}>
+						<Text 
+							style={tailwind('text-base text-red-400')}
+						>Oke</Text>
+					</TouchableOpacity>
+        </FancyAlert>
       </ScrollView>
     </SafeAreaView>
   )

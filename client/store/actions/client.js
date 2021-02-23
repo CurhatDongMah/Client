@@ -1,7 +1,7 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
-// const baseUrl = 'http://192.168.43.213:3000' //arif
-const baseUrl = 'http://192.168.0.10:3000' //obed
+const baseUrl = 'http://192.168.43.213:3000' //arif
+// const baseUrl = 'http://192.168.0.10:3000' //obed
 // const baseUrl = 'http://192.168.8.104:3000' //riva
 
 const getClients = () => {
@@ -33,6 +33,12 @@ export const clientRegister = (payload) => {
       dispatch({
         type: 'SET_LOADING_CLIENT'
       })
+      dispatch({
+        type: 'RESET_ERROR_CLIENT'
+      })
+      dispatch({
+        type: 'RESET_REGISTER_CLIENT'
+      })
       const resRegister = await axios({
         method: 'POST',
         url: `${baseUrl}/client/register`,
@@ -44,9 +50,10 @@ export const clientRegister = (payload) => {
         })
       }
     } catch (error) {
+      console.log(error.response);
       dispatch({
         type: 'SET_ERROR_CLIENT',
-        payload: error.response.data.message
+        payload: error.response.data.message[0]
       })
     }
   }

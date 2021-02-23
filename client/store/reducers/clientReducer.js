@@ -1,6 +1,6 @@
 const initialState = {
   loading: false,
-  error: null,
+  error: '',
   clients: [],
   histories: [],
   client: {},
@@ -24,6 +24,11 @@ const clientReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+      }
+    case 'RESET_ERROR_CLIENT':
+      return {
+        ...state,
+        error: '',
       }
 
     case 'RESET_REGISTER':
@@ -69,9 +74,10 @@ const clientReducer = (state = initialState, action) => {
   
     case 'CLIENT_SUCCESS_REGISTER':
       return {
-        ...state, successRegister: true,
+        ...state, 
+        successRegister: true,
         loading: false,
-        error: null
+        error: ''
       }
 
     case 'SET_THERAPIST':
