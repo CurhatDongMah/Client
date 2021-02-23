@@ -78,7 +78,6 @@ export default function Account({ navigation }) {
             style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
           >{client.city}</Text>
         </View>
-
       </View>
     </ScrollView>
   </SafeAreaView>

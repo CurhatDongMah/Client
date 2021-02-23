@@ -5,7 +5,6 @@ import Profile from './Profile'
 import Detail from './Detail'
 import Payment from './Payment'
 import Success from './Success'
-// import ChatRoom from './ChatRoom';
 import ConfirmPayment from './ConfirmPayment'
 import FormEdit from './FormEdit'
 
@@ -19,7 +18,6 @@ export default function Home() {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="ClientEdit" component={FormEdit} />
         <Stack.Screen name="Detail" component={Detail} />
-        {/* <Stack.Screen name="ChatRoom" component={ChatRoom} /> */}
         <Stack.Screen name="ConfirmPayment" component={ConfirmPayment} />
         <Stack.Screen name="Payment" component={Payment} />
         <Stack.Screen name="Success" component={Success} />

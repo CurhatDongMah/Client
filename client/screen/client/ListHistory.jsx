@@ -12,7 +12,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import tailwind from 'tailwind-rn';
-import { getHistory, setTherapist } from '../../store/actions/client'
+import { getHistory, setTherapist, getReview } from '../../store/actions/client'
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -33,9 +33,10 @@ export default function ListHistory({ navigation }) {
   }, []);
   const handleDetail = (therapist) => {
     dispatch(setTherapist(therapist))
+    dispatch(getReview(therapist.id))
     navigation.navigate('Detail')
   }
-  
+
   const Item = ( history ) => (
     <View style={{ width: widthWindow * 9 / 10 }}>
       <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-100 justify-start')}>

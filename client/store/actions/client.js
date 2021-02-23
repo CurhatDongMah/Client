@@ -315,11 +315,9 @@ export const createReview = (payload) => {
         data: payload,
         headers: { access_token }
       })
-      console.log(res.data, 'review di action');
-      // dispatch({
-      //   type: 'CREATE_REVIEW',
-      //   payload: res.data
-      // })
+      dispatch({
+        type: 'RESET_LOADING_CLIENT'
+      })
     } catch (error) {
       dispatch({
         type: 'SET_ERROR_CLIENT',
