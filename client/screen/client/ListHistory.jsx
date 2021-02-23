@@ -39,7 +39,7 @@ export default function ListHistory({ navigation }) {
 
   const Item = ( history ) => (
     <View style={{ width: widthWindow * 9 / 10 }}>
-      <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-100 justify-start')}>
+      <View style={tailwind('flex flex-row my-2 rounded-xl py-4 bg-gray-100 justify-start')}>
         <View style={tailwind('px-5 flex items-center justify-center')}>
           <Image 
             style={tailwind('w-12 h-12 rounded-full')}
@@ -103,10 +103,11 @@ export default function ListHistory({ navigation }) {
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-      <View style={tailwind('pt-12')}>
-        <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>LIST HISTORY</Text>
+      <View style={tailwind('flex flex-row pt-12 pb-6 w-full justify-center border-b-2 border-green-400')}>
+        <Text style={tailwind('py-2 text-lg text-gray-500 tracking-wider')}>HISTORY ORDER</Text>
+      </View>
         <FlatList
-          style={tailwind('mb-5')}
+          style={tailwind('')}
           data={histories}
           renderItem={renderItem}
           keyExtractor={item => item.id.toString()}
@@ -118,7 +119,6 @@ export default function ListHistory({ navigation }) {
             />
           }
         />
-      </View>
     </SafeAreaView>
   )
 }

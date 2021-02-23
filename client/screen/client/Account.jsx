@@ -38,9 +38,9 @@ export default function Account({ navigation }) {
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
     <ScrollView 
       showsVerticalScrollIndicator={false}
-      style={{ width: widthWindow * 8 / 10, marginTop: 40}}
+      style={{ width: widthWindow * 9 / 10}}
     >
-      <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-start border-b-4 border-green-400')}>
+      <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-start border-b-2 border-green-400')}>
         <View>
           <Image 
             style={tailwind('w-20 h-20 rounded-full')}

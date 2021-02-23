@@ -101,22 +101,22 @@ export default function Inbox({navigation}) {
     if (!chatWith.length) {
       return (
         <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-          <View style={tailwind('flex flex-row pt-14 pb-8 w-full justify-center border-b-4 border-green-400')}>
+          <View style={tailwind('flex flex-row pt-12 pb-6 w-full justify-center border-b-2 border-green-400')}>
             <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>INBOX</Text>
           </View>
           <View style={tailwind('flex-1 justify-center items-center bg-white')}>
             <Image 
               style={tailwind('w-full h-80')}
-              source={require('../../assets/sad.png')}
+              source={require('../../assets/empty.png')}
             />
-            <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>Empty . . .</Text>
-          </View>
+            <Text style={tailwind('py-2 text-lg text-green-400 font-bold tracking-wider')}>No order yet ...</Text>
+          </View> 
         </SafeAreaView>
       )
     } else {
       return (
         <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-          <View style={tailwind('flex flex-row pt-14 pb-8 w-full justify-center border-b-4 border-green-400')}>
+          <View style={tailwind('flex flex-row pt-12 pb-6 w-full justify-center border-b-2 border-green-400')}>
             <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>INBOX</Text>
           </View>
           <FlatList

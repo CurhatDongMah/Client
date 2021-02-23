@@ -33,9 +33,9 @@ export default function Logout({ navigation }) {
       <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <ScrollView 
         showsVerticalScrollIndicator={false}
-        style={{ width: widthWindow * 8 / 10, marginTop: 40}}
+        style={{ width: widthWindow * 9 / 10}}
       >
-        <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-start border-b-4 border-green-400')}>
+        <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-start border-b-2 border-green-400')}>
           <View>
             <Image 
               style={tailwind('w-20 h-20 rounded-full')}
@@ -91,16 +91,19 @@ export default function Logout({ navigation }) {
             >{curencyFormat(therapist.price)}</Text>
           </View>
           <View style={tailwind('mt-5')}>
-            <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>License</Text>
-            <Text 
-              style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
-            >{therapist.licenseUrl}</Text>
-          </View>
-          <View style={tailwind('mt-5')}>
             <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>About</Text>
             <Text 
               style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
             >{therapist.about}</Text>
+          </View>
+          <View style={tailwind('mt-5')}>
+            <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>License</Text>
+            <Image 
+              style={tailwind('w-full h-80')}
+              source={{
+                uri: therapist.licenseUrl
+              }}
+            />
           </View>
         </View>
       </ScrollView>

@@ -53,10 +53,9 @@ export default function ListHistory({ navigation }) {
             numberOfLines={1}
             ellipsizeMode='clip'
             style={tailwind('w-24 text-base text-gray-500')}>{history.title.Client.fullName}</Text>
-
           <Text style={tailwind('text-gray-400')}>{history.title.Client.city}</Text>
           <TouchableOpacity
-            onPress={async () => navigation.navigate('ChatRoom', { client: history.title.Client })} 
+            onPress={async () => navigation.navigate('Messages', { screen: 'ChatRoom', params: {client: history.title.Client }})} 
             style={tailwind('items-center my-1 px-6 rounded border border-r border-green-400')}>
             <Text 
               style={tailwind('text-green-400')}
@@ -95,7 +94,7 @@ export default function ListHistory({ navigation }) {
   } else {
     return (
       <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-          <View style={tailwind('flex flex-row pt-14 pb-8 w-full justify-center border-b-4 border-green-400 mb-2')}>
+          <View style={tailwind('flex flex-row pt-12 pb-6 w-full justify-center border-b-2 border-green-400 mb-2')}>
             <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>HISTORY</Text>
           </View>
           {

@@ -19,6 +19,8 @@ import {
   getOnGoingOrderTherapist,
   setCompletedOrderTherapist
 } from '../../store/actions/therapist'
+import curencyFormat from '../../helpers/curencyFormat'
+
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
@@ -75,38 +77,41 @@ export default function Detail({ navigation }) {
             />
           }
           >
-        <View style={tailwind('mt-16 mb-5 border-b-4 border-green-400 pb-4')}>
-          <View style={tailwind('flex items-center relative')}>
+        <View style={tailwind('mt-16 mb-2 border-b-2 border-green-400 pb-4 relative px-2')}>
+          <View style={tailwind('flex flex-row items-center')}>
             <Image 
-              style={tailwind('w-24 h-24 rounded-full')}
+              style={tailwind('w-20 h-20 rounded-full')}
               source={{
                 uri: therapist.photoUrl
               }}
             />
-            <Text style={tailwind('text-2xl my-2')}>{ therapist.fullName }</Text>
-            <View style={tailwind('flex flex-row items-center')}>
-            {
-              therapist.rating ? (
-                ARR.map(arr => {
-                  return therapist.rating >= arr ? (
-                    <Ionicons key={arr} style={tailwind('mr-1 text-yellow-400 text-base')} name='star'/>
-                  ) : (
-                    <Ionicons key={arr} style={tailwind('mr-1 text-gray-400 text-base')} name='star'/>
-                  ) 
-                })
-              ) : (
-                <>
-                  <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
-                  <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
-                  <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
-                  <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
-                  <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
-                </>
-              )
-            }
+            <View style={tailwind('px-6')}>
+              <Text style={tailwind('text-2xl my-2 text-gray-600')}>{ therapist.fullName }</Text>
+              <View style={tailwind('flex flex-row items-center')}>
+              {
+                therapist.rating ? (
+                  ARR.map(arr => {
+                    return therapist.rating >= arr ? (
+                      <Ionicons key={arr} style={tailwind('mr-1 text-yellow-400 text-base')} name='star'/>
+                    ) : (
+                      <Ionicons key={arr} style={tailwind('mr-1 text-gray-400 text-base')} name='star'/>
+                    ) 
+                  })
+                ) : (
+                  <>
+                    <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
+                    <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
+                    <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
+                    <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
+                    <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
+                  </>
+                )
+              }
+              </View>
+              <Text style={tailwind('text-lg my-2 text-gray-400')}>{ therapist.city }</Text>
             </View>
             <Toggle 
-              style={tailwind('absolute right-6')}
+              style={tailwind('absolute right-6 top-2')}
               status='success'
               checked={checked} 
               onChange={onCheckedChange}>
@@ -119,7 +124,67 @@ export default function Detail({ navigation }) {
                 onGoingOrdersTherapist.length ? (
                   <View style={{ width: widthWindow * 9 / 10 }}>
                     <Text style={tailwind('text-lg text-gray-400 text-center tracking-wider')}>ON GOING</Text>
-                    <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-50 justify-start')}>
+                    <View style={tailwind('border border-green-400 px-5 py-2 rounded-lg my-2')}>
+                      <View style={tailwind('flex flex-row items-center justify-start')}>
+                        <Image 
+                          style={tailwind('w-12 h-12 rounded-full')}
+                          source={{
+                            uri: onGoingOrdersTherapist[0].Client.photoUrl
+                          }}
+                        />
+                        <View style={tailwind('flex items-start justify-center px-6')}>
+                          <Text 
+                            numberOfLines={1}
+                            ellipsizeMode='clip'
+                            style={tailwind('w-36 text-base text-gray-500 text-xl')}>{ onGoingOrdersTherapist[0].Client.fullName }</Text>
+                          <Text style={tailwind('text-gray-400 text-lg')}>{ onGoingOrdersTherapist[0].Client.gender }</Text>
+                          <Text style={tailwind('text-gray-400 text-lg')}>{ onGoingOrdersTherapist[0].Client.city }</Text>
+                        </View>
+                      </View>
+                      <View style={tailwind('')}>
+                        <View style={tailwind('mt-2')}>
+                          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Date</Text>
+                          <Text 
+                            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+                          >{ `${new Date(onGoingOrdersTherapist[0].createdAt).getDate()}/${new Date(onGoingOrdersTherapist[0].createdAt).getMonth()+1}/${new Date(onGoingOrdersTherapist[0].createdAt).getFullYear()}`}</Text>
+                        </View>
+                        <View style={tailwind('mt-2')}>
+                          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Start at</Text>
+                          <Text 
+                            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+                          >{ `${new Date(onGoingOrdersTherapist[0].createdAt).getHours()}:${new Date(onGoingOrdersTherapist[0].createdAt).getMinutes()}`}</Text>
+                        </View>
+                        <View style={tailwind('mt-2')}>
+                          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Duration</Text>
+                          <Text 
+                            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+                          >{ onGoingOrdersTherapist[0].totalHour } Hour</Text>
+                        </View>
+                        <View style={tailwind('mt-2')}>
+                          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Total</Text>
+                          <Text 
+                            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+                          >{ curencyFormat(onGoingOrdersTherapist[0].totalPrice) }</Text>
+                        </View>
+                      </View>
+                      <View style={tailwind('flex flex-row justify-between mt-4')}>
+                        <TouchableOpacity
+                          onPress={() => dispatch(setCompletedOrderTherapist(onGoingOrdersTherapist[0].id))}
+                          style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-green-400')}>
+                          <Text 
+                            style={tailwind('text-base text-green-400')}
+                          >Complete</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={async () => navigation.navigate('Messages', { screen: 'ChatRoom', params: {client: onGoingOrdersTherapist[0].Client },})} 
+                          style={tailwind('items-center my-3 py-1 px-10 rounded-lg bg-green-400')}>
+                          <Text 
+                            style={tailwind('text-base text-gray-100')}
+                          >Chat</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                    {/* <View style={tailwind('flex flex-row my-2 rounded-xl py-4 bg-gray-50 justify-start')}>
                       <View style={tailwind('px-5 flex items-center justify-center')}>
                         <Image 
                           style={tailwind('w-12 h-12 rounded-full')}
@@ -153,15 +218,15 @@ export default function Detail({ navigation }) {
                           >Chat</Text>
                         </TouchableOpacity>
                       </View>
-                    </View>
+                    </View> */}
                   </View>
                 ) 
-                : <View style={tailwind('flex-1 justify-center items-center bg-white')}>
+                : <View style={tailwind('mt-8 flex-1 justify-center items-center bg-white')}>
                     <Image 
                       style={tailwind('w-full h-80')}
                       source={require('../../assets/sad-green.png')}
                     />
-                    <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>No order yet ...</Text>
+                    <Text style={tailwind('py-2 text-lg text-green-400 font-bold tracking-wider')}>No order yet ...</Text>
                   </View> 
               }
             </View>
