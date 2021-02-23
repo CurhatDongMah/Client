@@ -117,31 +117,27 @@ export default function App({ navigation }) {
 							}
 						})
 					}}
-					style={tailwind('absolute p-5 h-20 w-20 bottom-16 right-5 flex justify-center items-center bg-gray-800 bg-opacity-80 rounded-full')}>
+					style={tailwind('absolute p-5 h-20 w-20 bottom-16 right-5 flex justify-center items-center border-4 border-gray-600 rounded-full')}>
 					<Text 
-						style={tailwind('text-base text-gray-100')}
+						style={tailwind('text-base font-bold text-gray-600')}
 					>Done</Text>
 				</TouchableOpacity>
 
 				<FancyAlert
         visible={visible}
-        icon={<View style={{
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: 'red',
-          borderRadius: 50,
-          width: '100%'
-        }}><Text>X</Text></View>}
+        icon={<View 
+					style={tailwind('flex flex-1 justify-center items-center w-full rounded-full bg-red-500')}
+        ><Text style={tailwind('text-white text-2xl')}>X</Text></View>}
         style={{ backgroundColor: 'white' }}
       >
-        <Text style={{ marginTop: -16, marginBottom: 32 }}>Your payment has not been complete</Text>
-				<Text onPress={toggleAlert} >OK</Text>
-				<Button 
-					title="OK"
+        <Text style={tailwind('mb-2')}>Your payment has not been complete</Text>
+				<TouchableOpacity
 					onPress={toggleAlert}
-				/>
+					style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-red-400')}>
+					<Text 
+						style={tailwind('text-base text-red-400')}
+					>Continue Payment</Text>
+				</TouchableOpacity>
       </FancyAlert>
 			</>
 		)

@@ -20,7 +20,7 @@ const wait = (timeout) => {
 export default function ListHistory({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const [refreshing, setRefreshing] = useState(false);
-  const { histories, loading: loadingClient } = useSelector(state => state.client)
+  const { histories, loading: loadingClient, error: errorClient } = useSelector(state => state.client)
   console.log(histories, 'list');
   const dispatch = useDispatch()
   useEffect(() => {
@@ -87,6 +87,17 @@ export default function ListHistory({ navigation }) {
     return (
       <View style={tailwind('flex-1 justify-center items-center')}>
         <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  }
+  if (errorClient) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center bg-white')}>
+        <Image 
+          style={tailwind('w-full h-80')}
+          source={require('../../assets/error.png')}
+        />
+        <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>Oppss, something error...</Text>
       </View>
     )
   }

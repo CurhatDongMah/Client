@@ -21,7 +21,7 @@ import handleUpload from '../../helpers/handleUpload'
 import * as ImagePicker from 'expo-image-picker';
 
 export default function EditForm({ navigation }) {
-  const { temporaryClient, loadingClient } = useSelector(state => state.client)
+  const { temporaryClient, loading: loadingClient, error: errorClient } = useSelector(state => state.client)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date(temporaryClient.birthDate))
   const [value, setValue] = useState({
@@ -97,6 +97,17 @@ export default function EditForm({ navigation }) {
     return (
       <View style={tailwind('flex-1 justify-center items-center')}>
         <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  }
+  if (errorClient) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center bg-white')}>
+        <Image 
+          style={tailwind('w-full h-80')}
+          source={require('../../assets/error.png')}
+        />
+        <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>Oppss, something error...</Text>
       </View>
     )
   }

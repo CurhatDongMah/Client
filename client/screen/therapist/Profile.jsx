@@ -64,8 +64,8 @@ export default function Detail({ navigation }) {
           />
         }
         >
-      <View style={tailwind('mt-16 relative mb-5 border-b-4 border-green-400 pb-4')}>
-        <View style={tailwind('flex items-center')}>
+      <View style={tailwind('mt-16 mb-5 border-b-4 border-green-400 pb-4')}>
+        <View style={tailwind('flex items-center relative')}>
           <Image 
             style={tailwind('w-24 h-24 rounded-full')}
             source={{
@@ -95,7 +95,7 @@ export default function Detail({ navigation }) {
           }
           </View>
           <Toggle 
-            style={tailwind('absolute -right-24')}
+            style={tailwind('absolute right-6')}
             status='success'
             checked={checked} 
             onChange={onCheckedChange}>
