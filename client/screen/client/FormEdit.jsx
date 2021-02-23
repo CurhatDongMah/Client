@@ -8,7 +8,7 @@ import { Radio, RadioGroup} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { editClient } from '../../store/actions/client'
 
-export default function SignupForm({ navigation }) {
+export default function EditForm({ navigation }) {
   const { temporaryClient } = useSelector(state => state.client)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date(temporaryClient.birthDate))

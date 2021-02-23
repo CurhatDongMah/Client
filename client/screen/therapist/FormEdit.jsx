@@ -5,9 +5,10 @@ import tailwind from 'tailwind-rn'
 import { Datepicker } from '@ui-kitten/components'
 import { Radio, RadioGroup} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { editTherapist } from '../../store/actions/therapist'
 
 
-export default function SignupForm({ navigation }) {
+export default function EditForm({ navigation }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date())
   const [value, setValue] = useState({})
