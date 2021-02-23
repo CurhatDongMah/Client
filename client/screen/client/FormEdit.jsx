@@ -7,13 +7,18 @@ import {
   View,
   SafeAreaView,
   useWindowDimensions,
-  ActivityIndicator
+  ActivityIndicator,
+  Button,
+  Image,
+  Platform
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import tailwind from 'tailwind-rn'
 import { Radio, RadioGroup, Datepicker} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { editClient } from '../../store/actions/client'
+import handleUpload from '../../helpers/handleUpload'
+import * as ImagePicker from 'expo-image-picker';
 
 export default function EditForm({ navigation }) {
   const { temporaryClient, loadingClient } = useSelector(state => state.client)
@@ -25,6 +30,7 @@ export default function EditForm({ navigation }) {
     city: temporaryClient.city,
     birthDate
   })
+  const [image, setImage] = useState({});
   const [error, setError] = useState({})
   const dispatch = useDispatch()
   const widthWindow = useWindowDimensions().width
@@ -32,6 +38,7 @@ export default function EditForm({ navigation }) {
   useEffect(() => {
     if (temporaryClient.gender === 'female') setSelectedIndex(0)
     else setSelectedIndex(1)
+    setImage({uri: temporaryClient.photoUrl})
   }, [])
   useEffect(() => {
     setValue({...value, birthDate: birthDate})
@@ -54,6 +61,37 @@ export default function EditForm({ navigation }) {
       navigation.navigate('Profile')
     }
   }
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5
+    });
+
+    // console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result)
+      setValue({ ...value, photoUrl: ''})
+      const newUrl = await handleUpload(result)
+      console.log(newUrl, "url dari axios")
+      setValue({ ...value, photoUrl: newUrl})
+      console.log(value.photoUrl, 'ini value new url')
+    }
+  };
     
   if (loadingClient) {
     return (
@@ -86,11 +124,8 @@ export default function EditForm({ navigation }) {
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PHOTO URL</Text>
-          <TextInput
-            value={value.photoUrl}
-            onChangeText={(text) => handleChange(text, 'photoUrl')}
-            style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
-          ></TextInput>
+          <Button title="Pick an image from gallery" onPress={pickImage} />
+          {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
           {
             error.photoUrl ? (
               <View style={tailwind('flex flex-row items-center')}>
