@@ -41,7 +41,7 @@ export default function Detail({ navigation }) {
   const onRefresh = useCallback(() => {
     setRefreshing(true)
     dispatch(getOnGoingOrderTherapist())
-    wait(2000).then(() => setRefreshing(false))
+    wait(1000).then(() => setRefreshing(false))
   }, []);
   console.log(therapist, 'di profile')
   console.log(status, 'di profile');
