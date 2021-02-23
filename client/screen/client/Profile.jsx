@@ -59,7 +59,7 @@ export default function Profile({ navigation }) {
           />
         }
       >
-        <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-center border-b-4 border-green-400')}>
+        <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-start border-b-4 border-green-400')}>
           <View>
             <Image 
               style={tailwind('w-20 h-20 rounded-full')}
@@ -68,7 +68,7 @@ export default function Profile({ navigation }) {
               }}
             />
           </View>
-          <View style={tailwind('flex items-center justify-center px-10')}>
+          <View style={tailwind('flex items-start justify-center px-6')}>
             <Text style={tailwind('text-2xl text-gray-600')}>{ client.fullName }</Text>
             <Text style={tailwind('text-lg text-gray-500')}>{ client.city }</Text>
             <Text style={tailwind('text-lg text-gray-500')}>{ client.gender }</Text>
@@ -92,10 +92,23 @@ export default function Profile({ navigation }) {
                     <Text 
                       numberOfLines={1}
                       ellipsizeMode='clip'
-                      style={tailwind('w-32 text-base text-gray-500')}>{ onGoingOrders[0].Therapist.fullName }</Text>
-                    <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(onGoingOrders[0].createdAt).getHours()} : ${new Date(onGoingOrders[0].createdAt).getMinutes()}`}</Text>
-                    <Text style={tailwind('text-gray-500')}>Duration: { onGoingOrders[0].totalHour } Hour</Text>
-                    <Text style={tailwind('text-gray-400')}>{ onGoingOrders[0].Therapist.city }</Text>
+                      style={tailwind('w-32 text-base text-gray-600')}>{ onGoingOrders[0].Therapist.fullName }</Text>
+                    <View style={tailwind('flex flex-row')}>
+                      <Text style={tailwind('text-gray-400')}>Date: </Text>
+                      <Text 
+                        style={tailwind('text-gray-500')}
+                      >{ `${new Date(onGoingOrders[0].createdAt).getDate()}/${new Date(onGoingOrders[0].createdAt).getMonth()+1}/${new Date(onGoingOrders[0].createdAt).getFullYear()}`}</Text>
+                    </View>
+                    <View style={tailwind('flex flex-row')}>
+                      <Text style={tailwind('text-gray-400')}>Start at: </Text>
+                      <Text 
+                        style={tailwind('text-gray-500')}
+                      >{ `${new Date(onGoingOrders[0].createdAt).getHours()}:${new Date(onGoingOrders[0].createdAt).getMinutes()}`}</Text>
+                    </View>
+                    <View style={tailwind('flex flex-row')}>
+                      <Text style={tailwind('text-gray-400')}>Duration: </Text>
+                      <Text style={tailwind('text-gray-500')}>{ onGoingOrders[0].totalHour } Hour</Text>
+                    </View>
                   </View>
                   <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
                     <TouchableOpacity

@@ -103,6 +103,27 @@ export const createOrder = (payload) => {
   }
 }
 
+export const deleteOrder = (id) => {
+  return async (dispatch) => {
+    try {
+      console.log(payload, 'order');
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const res = await axios({
+        method: 'DELETE',
+        url: `${baseUrl}/client/order/${id}`,
+        headers: { access_token }
+      })
+      console.log(res.data, 'order di action');
+      // dispatch({
+      //   type: 'CREATE_ORDER',
+      //   payload: res.data
+      // })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
 export const getHistory = () => {
   return async (dispatch) => {
     try {
