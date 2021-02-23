@@ -12,6 +12,7 @@ import constraints from '../helpers/constraints'
 
 export default function SigninForm({ navigation }) {
   const widthWindow = useWindowDimensions().width
+  const { errorClient, loading } = useSelector(state => state.client)
   const [checked, setChecked] = useState(false);
   const [value, setValue] = useState({
     email: '',
@@ -30,33 +31,32 @@ export default function SigninForm({ navigation }) {
     else if (!value.password) setError({...error, password: 'Password must be filled'})
     else {
       if (checked) {
-        try {
-          console.log('therapist')
-          await dispatch(therapistLogin(value))
-          const token = await SecureStore.getItemAsync('access_token')
-          if (token) {
-            console.log(token, 'login token')
-            navigation.navigate('TherapistPage')
-            setValue({})
-          }
-        } catch (error) {
-          console.log(error)
+        await dispatch(therapistLogin(value))
+        const token = await SecureStore.getItemAsync('access_token')
+        if (token) {
+          console.log(token, 'login token')
+          navigation.navigate('TherapistPage')
+          setValue({})
+        } else {
+          console.log(errorClient, 'from sign in');
         }
       } else {
-        try {
-          await dispatch(clientLogin(value))
-          const token = await SecureStore.getItemAsync('access_token')
-          if (token) {
-            console.log(token, 'login token')
-            navigation.navigate('ClientPage')
-            setValue({})
-          }
-        } catch (error) {
-          console.log(error)
+        await dispatch(clientLogin(value))
+        const token = await SecureStore.getItemAsync('access_token')
+        if (token) {
+          console.log(token, 'login token')
+          navigation.navigate('ClientPage')
+          setValue({})
         }
       }
     }
   }
+  useEffect(() => {
+    if (errorClient) {
+      setError({...error, email: errorClient})
+      setError({...error, password: errorClient})
+    }
+  }, [errorClient])
 
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
