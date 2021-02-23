@@ -21,7 +21,9 @@ export default function ChatRoom({ navigation, route }) {
     const { _id, text, createdAt } = message[0]
     const roomMessage = firestore.collection('ChatRoom').doc(roomId)
     await roomMessage.set({
-      createdAt: Date.parse(createdAt)
+      createdAt: Date.parse(createdAt),
+      therapistEmail: therapist.email,
+      clientEmail: client.email
     })
     .then(ref => console.log('message roo'))
     .catch(err => console.log('message not sent'))
