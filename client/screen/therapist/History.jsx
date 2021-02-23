@@ -53,12 +53,8 @@ export default function ListHistory({ navigation }) {
             numberOfLines={1}
             ellipsizeMode='clip'
             style={tailwind('text-base text-gray-500')}>{history.title.Client.fullName}</Text>
-          <Text style={tailwind('text-gray-500')}>Date: { `${new Date(history.title.createdAt).getDate()}/${new Date(history.title.createdAt).getMonth()+1}/${new Date(history.title.createdAt).getFullYear()}`}</Text>
-          <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(history.title.createdAt).getHours()} : ${new Date(history.title.createdAt).getMinutes()}`}</Text>
-          <Text style={tailwind('text-gray-500')}>Duration: { history.title.totalHour } Hour</Text>
+
           <Text style={tailwind('text-gray-400')}>{history.title.Client.city}</Text>
-        </View>
-        <View style={tailwind('mx-2 border-l border-gray-200 px-3 flex items-center justify-center')}>
           <TouchableOpacity
             onPress={async () => navigation.navigate('ChatRoom', { client: history.title.Client })} 
             style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-green-500 border border-r border-green-400')}>
@@ -66,6 +62,11 @@ export default function ListHistory({ navigation }) {
               style={tailwind('text-gray-100')}
             >Chat</Text>
           </TouchableOpacity>
+        </View>
+        <View style={tailwind('mx-2 border-l border-gray-200 px-3 flex items-center justify-left')}>
+          <Text style={tailwind('text-gray-500')}>Date: { `${new Date(history.title.createdAt).getDate()}/${new Date(history.title.createdAt).getMonth()+1}/${new Date(history.title.createdAt).getFullYear()}`}</Text>
+          <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(history.title.createdAt).getHours()} : ${new Date(history.title.createdAt).getMinutes()}`}</Text>
+          <Text style={tailwind('text-gray-500')}>Duration: { history.title.totalHour } Hour</Text>
         </View>
       </View>
     </View>
@@ -94,25 +95,27 @@ export default function ListHistory({ navigation }) {
   } else {
     return (
       <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-        <View style={tailwind('pt-12')}>
-          <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>LIST HISTORY</Text>
+          <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-center border-b-4 border-green-400')}>
+            <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>List History</Text>
+          </View>
           {
-            historiesTherapist.length ? (
-              <FlatList
-                data={historiesTherapist}
-                renderItem={renderItem}
-                keyExtractor={item => item.id.toString()}
-                showsVerticalScrollIndicator={false}
-                refreshControl={
-                  <RefreshControl
-                  refreshing={refreshing}
-                  onRefresh={onRefresh}
-                  />
-                }
-              />
-            ) : <Text>No History</Text>
+            historiesTherapist.length 
+              ? (
+                <FlatList
+                  data={historiesTherapist}
+                  renderItem={renderItem}
+                  keyExtractor={item => item.id.toString()}
+                  showsVerticalScrollIndicator={false}
+                  refreshControl={
+                    <RefreshControl
+                    refreshing={refreshing}
+                    onRefresh={onRefresh}
+                    />
+                  }
+                />
+              ) 
+              : <Text>No History</Text>
           }
-        </View>
       </SafeAreaView>
     )
   }
