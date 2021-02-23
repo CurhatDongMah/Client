@@ -132,11 +132,12 @@ export default function App({ navigation }) {
           alignItems: 'center',
           backgroundColor: 'red',
           borderRadius: 50,
-          width: '100%',
-        }}><Text>🤓</Text></View>}
+          width: '100%'
+        }}><Text>X</Text></View>}
         style={{ backgroundColor: 'white' }}
       >
-        <Text style={{ marginTop: -16, marginBottom: 32 }}>Hello there</Text>
+        <Text style={{ marginTop: -16, marginBottom: 32 }}>Your payment has not been complete</Text>
+				<Text onPress={toggleAlert} >OK</Text>
 				<Button 
 					title="OK"
 					onPress={toggleAlert}
