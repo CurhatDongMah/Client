@@ -21,7 +21,7 @@ const wait = (timeout) => {
 export default function ListHistory({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const [refreshing, setRefreshing] = useState(false);
-  const { historiesTherapist, loading } = useSelector(state => state.therapist)
+  const { historiesTherapist, loading, error } = useSelector(state => state.therapist)
   console.log(historiesTherapist, 'list history');
   const dispatch = useDispatch()
   useEffect(() => {
@@ -73,30 +73,46 @@ export default function ListHistory({ navigation }) {
   const renderItem = ({ item }) => (
     <Item title={item} />
   );
-  if (loading) {
-    return <Text style={tailwind('text-gray-400 mt-20')}>Loading ...</Text>
-  }
-  return (
-    <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-      <View style={tailwind('pt-12')}>
-        <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>LIST HISTORY</Text>
-        {
-          historiesTherapist.length ? (
-            <FlatList
-              data={historiesTherapist}
-              renderItem={renderItem}
-              keyExtractor={item => item.id.toString()}
-              showsVerticalScrollIndicator={false}
-              refreshControl={
-                <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-                />
-              }
-            />
-          ) : <Text>No History</Text>
-        }
+
+  if (error) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center bg-white')}>
+        <Image 
+          style={tailwind('w-full h-80')}
+          source={require('../../assets/error.png')}
+        />
+        <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>Oppss, something error...</Text>
       </View>
-    </SafeAreaView>
-  )
+    )
+  } else if (loading) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center')}>
+        <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  } else {
+    return (
+      <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
+        <View style={tailwind('pt-12')}>
+          <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>LIST HISTORY</Text>
+          {
+            historiesTherapist.length ? (
+              <FlatList
+                data={historiesTherapist}
+                renderItem={renderItem}
+                keyExtractor={item => item.id.toString()}
+                showsVerticalScrollIndicator={false}
+                refreshControl={
+                  <RefreshControl
+                  refreshing={refreshing}
+                  onRefresh={onRefresh}
+                  />
+                }
+              />
+            ) : <Text>No History</Text>
+          }
+        </View>
+      </SafeAreaView>
+    )
+  }
 }

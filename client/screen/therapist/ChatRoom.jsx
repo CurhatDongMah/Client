@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 export default function ChatRoom({ navigation, route }) {
   const client = route.params.client
-  const { therapist } = useSelector(state => state.therapist)
+  const { therapist, loading } = useSelector(state => state.therapist)
 
   const roomId = client.email + "-" + therapist.email
 
@@ -48,19 +48,27 @@ export default function ChatRoom({ navigation, route }) {
     sendMessage(user, message, roomId)
   }
 
-  return (<>
-    <View style={{marginTop: 70, marginLeft: 30}}>
-      <Text style={{fontWeight: 'bold', fontSize: 20}}>{therapist.fullName}</Text>
-    </View>
-    <GiftedChat
-      messages={messages}
-      onSend={message => handleSendMessage(message)}
-      user={{
-        _id: therapist.email,
-        name: therapist.fullName,
-        avatar: therapist.photoUrl
-      }}
-      />
-    </>
-  )
+  if (loading) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center')}>
+        <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  } else {
+    return (<>
+      <View style={{marginTop: 70, marginLeft: 30}}>
+        <Text style={{fontWeight: 'bold', fontSize: 20}}>{therapist.fullName}</Text>
+      </View>
+      <GiftedChat
+        messages={messages}
+        onSend={message => handleSendMessage(message)}
+        user={{
+          _id: therapist.email,
+          name: therapist.fullName,
+          avatar: therapist.photoUrl
+        }}
+        />
+      </>
+    )
+  }
 }
