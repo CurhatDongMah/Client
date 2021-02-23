@@ -13,9 +13,10 @@ import { Button, Image, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import handleUpload from '../../helpers/handleUpload'
+import { resetRegisterTherapist } from '../../store/actions/therapist'
 
 export default function SignupForm({ navigation }) {
-  const { successRegister } = useSelector(state => state.therapist)
+  const { successRegisterTherapist } = useSelector(state => state.therapist)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date())
   const [value, setValue] = useState({})
@@ -33,9 +34,11 @@ export default function SignupForm({ navigation }) {
     selectedIndex === 1 ? setValue({...value, gender: 'male'}) : setValue({...value, gender: 'female'})
   }, [selectedIndex])
   useEffect(() => {
-    console.log(successRegister);
-    if (successRegister) navigation.navigate('Signin')
-  }, [successRegister])
+    if (successRegisterTherapist) {
+      navigation.navigate('Signin')
+      dispatch(resetRegisterTherapist())
+    }
+  }, [successRegisterTherapist])
   const handleChange = (text, name) => {
     setError({})
     setValue({ ...value, [name]: text})
@@ -161,7 +164,14 @@ export default function SignupForm({ navigation }) {
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PHOTO URL</Text>
-          <Button title="Pick an image from gallery" onPress={pickImage} />
+          <TouchableOpacity
+            onPress={pickImage}
+            style={tailwind('items-center my-3 py-2 px-10 rounded-lg border border-green-400')}>
+            <Text 
+              style={tailwind('text-base text-green-400')}
+            >Pick an image from gallery</Text>
+          </TouchableOpacity>
+          {/* <Button title="Pick an image from gallery" onPress={pickImage} /> */}
           {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
           {
             error.photoUrl ? (
@@ -206,7 +216,14 @@ export default function SignupForm({ navigation }) {
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>LICENSE</Text>
-          <Button title="Pick an image from gallery" onPress={pickLicense} />
+          <TouchableOpacity
+            onPress={pickLicense}
+            style={tailwind('items-center my-3 py-2 px-10 rounded-lg border border-green-400')}>
+            <Text 
+              style={tailwind('text-base text-green-400')}
+            >Pick an image from gallery</Text>
+          </TouchableOpacity>
+          {/* <Button title="Pick an image from gallery" onPress={pickLicense} /> */}
           {license && <Image source={{ uri: license.uri }} style={{ width: 200, height: 200 }} />}
           {
             error.licenseUrl ? (

@@ -22,8 +22,8 @@ const wait = (timeout) => {
 }
 export default function Profile({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { client, onGoingOrders, loadingClient, errorClient } = useSelector(state => state.client)
-  const { therapists, errorTherapist, loadingTherapist } = useSelector(state => state.therapist)
+  const { client, onGoingOrders, loading: loadingClient, errorClient } = useSelector(state => state.client)
+  const { therapists, errorTherapist, loading: loadingTherapist } = useSelector(state => state.therapist)
   const dispatch = useDispatch()
   // pull refresh
   const [refreshing, setRefreshing] = useState(false)
@@ -31,7 +31,7 @@ export default function Profile({ navigation }) {
     setRefreshing(true)
     dispatch(getTherapists())
     dispatch(getOnGoingOrder())
-    wait(2000).then(() => setRefreshing(false))
+    wait(1000).then(() => setRefreshing(false))
   }, []);
   const ARR = [1,2,3,4,5]
   const handleDetail = (therapist) => {

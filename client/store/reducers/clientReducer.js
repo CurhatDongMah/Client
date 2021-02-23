@@ -21,6 +21,17 @@ const clientReducer = (state = initialState, action) => {
         ...state,
         loading: true,
       }
+    case 'RESET_LOADING_CLIENT':
+      return {
+        ...state,
+        loading: false,
+      }
+
+    case 'RESET_REGISTER':
+      return {
+        ...state,
+        successRegister: false,
+      }
     
     case 'SET_ERROR_CLIENT':
       return {
