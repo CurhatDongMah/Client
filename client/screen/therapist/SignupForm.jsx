@@ -12,6 +12,7 @@ import { therapistRegister } from '../../store/actions/therapist'
 import { Button, Image, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
+import handleUpload from '../../helpers/handleUpload'
 
 export default function SignupForm({ navigation }) {
   const { successRegister } = useSelector(state => state.therapist)
@@ -40,6 +41,8 @@ export default function SignupForm({ navigation }) {
     setValue({ ...value, [name]: text})
   }
   const handleSubmit = () => {
+    console.log(value.photoUrl)
+    console.log(value.licenseUrl)
     const validateEmail = validate({ emailAddress: value.email }, constraints)
     if (!value.fullName) setError({...error, fullName: 'Required'})
     else if (!value.email) setError({...error, email: 'Required'})
@@ -52,41 +55,6 @@ export default function SignupForm({ navigation }) {
     else if (!value.price) setError({...error, price: 'Required'})
     else if (!value.about) setError({...error, about: 'Required'})
     else {
-      var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Client-ID 961c2d154fbb72a");
-
-      var formdata = new FormData();
-      formdata.append("image", image.base64);
-      var formdata2 = new FormData();
-      formdata.append("image", license.base64);
-
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: formdata,
-        redirect: 'follow'
-      };
-      var requestOptions2 = {
-        method: 'POST',
-        headers: myHeaders,
-        body: formdata2,
-        redirect: 'follow'
-      };
-      console.log('masuk siini')
-      fetch("https://api.imgur.com/3/image", requestOptions)
-        .then(response => response.json())
-        .then(result => {
-          console.log(result.data.link)
-          setValue({ ...value, photoUrl: result.data.link})
-        })
-        .catch(error => console.log('error', error));
-      fetch("https://api.imgur.com/3/image", requestOptions2)
-      .then(response => response.json())
-      .then(result => {
-        console.log(result.data.link)
-        setValue({ ...value, licenseUrl: result.data.link})
-      })
-      .catch(error => console.log('error', error));
       dispatch(therapistRegister(value))
     }
   }
@@ -105,30 +73,38 @@ export default function SignupForm({ navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      base64: true
+      aspect: [1, 1],
+      quality: 0.5
     });
 
     // console.log(result);
 
     if (!result.cancelled) {
       setImage(result)
+      setValue({ ...value, photoUrl: ''})
+      const newUrl = await handleUpload(result)
+      console.log(newUrl, "url dari axios")
+      setValue({ ...value, photoUrl: newUrl})
+      console.log(value.photoUrl, 'ini value new url')
     }
   };
   const pickLicense = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      base64: true
+      aspect: [1, 1],
+      quality: 0.5
     });
 
     // console.log(result);
 
     if (!result.cancelled) {
       setLicense(result)
+      setValue({ ...value, licenseUrl: ''})
+      const newUrl = await handleUpload(result)
+      console.log(newUrl, "url dari axios")
+      setValue({ ...value, licenseUrl: newUrl})
+      console.log(value.licenseUrl, 'ini value new url')
     }
   };
   return (

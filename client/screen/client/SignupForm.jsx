@@ -21,7 +21,6 @@ export default function SignupForm({ navigation }) {
   const [value, setValue] = useState({})
   const [error, setError] = useState({})
   const [image, setImage] = useState({});
-  // const [imgUrl, setImgUrl] = useState({})
 
   const widthWindow = useWindowDimensions().width
   const now = new Date()
@@ -35,19 +34,12 @@ export default function SignupForm({ navigation }) {
   useEffect(() => {
     selectedIndex === 1 ? setValue({...value, gender: 'male'}) : setValue({...value, gender: 'female'})
   }, [selectedIndex])
-  // useEffect(() => {
-  //   setValue({ ...value, photoUrl: ''})
-  //   setValue({ ...value, photoUrl: imgUrl})
-  // }, [imgUrl])
   
   const handleChange = (text, name) => {
     setError({})
     setValue({ ...value, [name]: text})
   }
   const handleSubmit = async () => {
-    // setValue({ ...value, photoUrl: ''})
-    // const newUrl = await handleUpload(image)
-    // setValue({ ...value, photoUrl: newUrl})
     console.log(value.photoUrl)
     const validateEmail = validate({ emailAddress: value.email }, constraints)
     if (!value.fullName) setError({...error, fullName: 'Required'})
