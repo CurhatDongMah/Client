@@ -72,6 +72,10 @@ export default function Profile({ navigation }) {
             <Text style={tailwind('text-2xl text-gray-600')}>{ client.fullName }</Text>
             <Text style={tailwind('text-lg text-gray-500')}>{ client.city }</Text>
             <Text style={tailwind('text-lg text-gray-500')}>{ client.gender }</Text>
+            <Text 
+              onPress={() => navigation.navigate('ClientEdit')}
+              style={tailwind('text-green-400 text-base')}
+            >Edit Profile</Text>
           </View>
         </View>
         {

@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import tailwind from 'tailwind-rn'
 import { Datepicker } from '@ui-kitten/components'
 import { Radio, RadioGroup} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { editClient } from '../../store/actions/client'
 
 export default function SignupForm({ navigation }) {
+  const { temporaryClient } = useSelector(state => state.client)
   const [selectedIndex, setSelectedIndex] = useState(0)
-  const [birthDate, setBirthDate] = useState(new Date())
-  const [value, setValue] = useState({})
+  const [birthDate, setBirthDate] = useState(new Date(temporaryClient.birthDate))
+  const [value, setValue] = useState({
+    fullName: temporaryClient.fullName,
+    photoUrl: temporaryClient.photoUrl,
+    city: temporaryClient.city,
+    birthDate
+  })
   const [error, setError] = useState({})
+  const dispatch = useDispatch()
   const widthWindow = useWindowDimensions().width
+  const now = new Date()
+  useEffect(() => {
+    if (temporaryClient.gender === 'female') setSelectedIndex(0)
+    else setSelectedIndex(1)
+  }, [])
   useEffect(() => {
     setValue({...value, birthDate: birthDate})
   }, [birthDate])
@@ -28,9 +42,13 @@ export default function SignupForm({ navigation }) {
     else if (!value.photoUrl) setError({...error, photoUrl: 'Required'})
     else if (!value.birthDate) setError({...error, birthDate: 'Required'})
     else if (!value.city) setError({...error, city: 'Required'})
-    else navigation.navigate('ClientPage')
-    // else console.log(value);
+    // else console.log(value, 'edit profile');
+    else {
+      dispatch(editClient(value, temporaryClient.id))
+      navigation.navigate('Profile')
+    }
   }
+  console.log(temporaryClient, 'di form edit');
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <ScrollView 
@@ -40,6 +58,7 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>FULL NAME</Text>
           <TextInput
+            value={value.fullName}
             onChangeText={(text) => handleChange(text, 'fullName')}
             style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>
@@ -55,6 +74,7 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PHOTO URL</Text>
           <TextInput
+            value={value.photoUrl}
             onChangeText={(text) => handleChange(text, 'photoUrl')}
             style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>
@@ -70,6 +90,8 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>BIRTH DATE</Text>
           <Datepicker
+            min={new Date(now.getFullYear(), now.getMonth(), now.getDate() - 36000)}
+            max={now}
             date={birthDate}
             onSelect={nextDate => setBirthDate(nextDate)}
           />
@@ -85,6 +107,7 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>CITY</Text>
           <TextInput
+            value={value.city}
             onChangeText={(text) => handleChange(text, 'city')}
             style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>
@@ -108,15 +131,8 @@ export default function SignupForm({ navigation }) {
           style={tailwind('items-center py-3 mt-8 rounded-full bg-green-400')}>
           <Text 
             style={tailwind('text-xl text-gray-100')}
-          >SIGN UP</Text>
+          >EDIT</Text>
         </TouchableOpacity>
-        <View style={tailwind('flex flex-row my-5 justify-center items-center')}>
-          <Text style={tailwind('text-gray-400 text-lg')}>Already have an account?, </Text>
-          <Text 
-            onPress={() => navigation.navigate('Signin')}
-            style={tailwind('text-green-400 text-lg')}
-          >Sign in</Text>
-        </View>
       </ScrollView>
     </SafeAreaView>
   )
