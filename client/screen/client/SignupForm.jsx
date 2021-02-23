@@ -7,7 +7,7 @@ import { Datepicker } from '@ui-kitten/components'
 import { Radio, RadioGroup} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { clientRegister } from '../../store/actions/client'
-import { validate } from 'validate.js';
+import { async, validate } from 'validate.js';
 import constraints from '../../helpers/constraints';
 import { Button, Image, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -20,7 +20,8 @@ export default function SignupForm({ navigation }) {
   const [birthDate, setBirthDate] = useState(new Date())
   const [value, setValue] = useState({})
   const [error, setError] = useState({})
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState({});
+  // const [imgUrl, setImgUrl] = useState({})
 
   const widthWindow = useWindowDimensions().width
   const now = new Date()
@@ -34,12 +35,19 @@ export default function SignupForm({ navigation }) {
   useEffect(() => {
     selectedIndex === 1 ? setValue({...value, gender: 'male'}) : setValue({...value, gender: 'female'})
   }, [selectedIndex])
+  // useEffect(() => {
+  //   setValue({ ...value, photoUrl: ''})
+  //   setValue({ ...value, photoUrl: imgUrl})
+  // }, [imgUrl])
   
   const handleChange = (text, name) => {
     setError({})
     setValue({ ...value, [name]: text})
   }
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setValue({ ...value, photoUrl: ''})
+    await handleUpload(image)
+    // setValue({ ...value, photoUrl: newUrl})
     const validateEmail = validate({ emailAddress: value.email }, constraints)
     if (!value.fullName) setError({...error, fullName: 'Required'})
     else if (!value.email) setError({...error, email: 'Required'})
@@ -49,26 +57,7 @@ export default function SignupForm({ navigation }) {
     else if (!value.birthDate) setError({...error, birthDate: 'Required'})
     else if (!value.city) setError({...error, city: 'Required'})
     else {
-      var myHeaders = new Headers();
-      myHeaders.append("Authorization", "Client-ID 961c2d154fbb72a");
-
-      var formdata = new FormData();
-      formdata.append("image", image.base64);
-
-      var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: formdata,
-        redirect: 'follow'
-      };
-      console.log('masuk siini')
-      fetch("https://api.imgur.com/3/image", requestOptions)
-        .then(response => response.json())
-        .then(result => {
-          console.log(result.data.link)
-          setValue({ ...value, photoUrl: result.data.link})
-        })
-        .catch(error => console.log('error', error));
+      
       dispatch(clientRegister(value))
     }
   }
@@ -87,9 +76,8 @@ export default function SignupForm({ navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-      base64: true
+      aspect: [1, 1],
+      quality: 0.5
     });
 
     // console.log(result);
@@ -98,6 +86,38 @@ export default function SignupForm({ navigation }) {
       setImage(result)
     }
   };
+
+  const handleUpload = (image) => {
+    console.log('masuk upload')
+    console.log(image)
+    let newFile = {
+      uri: image.uri,
+      type: `img/${image.uri.split(".")[1]}`,
+      name: `img.${image.uri.split(".")[1]}`
+    }
+    const data = new FormData()
+    data.append('file', newFile)
+    data.append('upload_preset', 'curhatDongMah')
+    data.append('cloud_name', 'kanzf')
+    console.log(data)
+
+    axios({
+      url: 'https://api.cloudinary.com/v1_1/kanzf/image/upload',
+      method: 'POST',
+      data: data
+    })
+      .then(({data}) => {
+        console.log(data.url, 'ini result url nya')
+        // setImgUrl(data.url)
+        setValue({ ...value, photoUrl: data.url})
+        // return data.url
+      })
+      .catch(err => {
+        console.log(err)
+      })
+
+  } 
+
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <ScrollView 
