@@ -1,7 +1,7 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
-const baseUrl = 'http://192.168.43.213:3000' //arif
-// const baseUrl = 'http://192.168.0.10:3000' //obed
+// const baseUrl = 'http://192.168.43.213:3000' //arif
+const baseUrl = 'http://192.168.0.10:3000' //obed
 // const baseUrl = 'http://192.168.8.104:3000' //riva
 
 
@@ -219,6 +219,28 @@ export const handleLogoutTherapist = () => {
         await SecureStore.deleteItemAsync('access_token')
         await SecureStore.deleteItemAsync('email')
       }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
+export const editTherapist = (payload, id)=> {
+  return async (dispatch) => {
+    try {
+      // console.log(payload);
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const res = await axios({
+        method: 'PUT',
+        url: `${baseUrl}/therapist/${id}`,
+        headers: {access_token},
+        data: payload
+      })
+      console.log(res.data , 'success edit');
+      dispatch({
+        type: 'SAVE_THERAPIST',
+        payload: res.data
+      })
     } catch (error) {
       console.log(error);
     }

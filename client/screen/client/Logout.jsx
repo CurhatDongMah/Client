@@ -8,6 +8,7 @@ import { Radio, RadioGroup} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { editClient } from '../../store/actions/client'
 import * as SecureStore from 'expo-secure-store';
+import getAge from '../../helpers/getAge'
 
 export default function Logout({ navigation }) {
   const widthWindow = useWindowDimensions().width
@@ -47,32 +48,27 @@ export default function Logout({ navigation }) {
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Email</Text>
           <Text 
             style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
-          >arif@mail.com</Text>
+          >{client.email}</Text>
         </View>
         <View style={tailwind('mt-2')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Age</Text>
           <Text 
             style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
-          >17 years old</Text>
+          >{getAge(client.birthDate)}</Text>
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Gender</Text>
           <Text 
             style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
-          >male</Text>
+          >{client.gender}</Text>
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>City</Text>
           <Text 
             style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
-          >London</Text>
+          >{client.city}</Text>
         </View>
-        <View style={tailwind('mt-5')}>
-          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>About</Text>
-          <Text 
-            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
-          >Lalala</Text>
-        </View>
+
       </View>
     </ScrollView>
   </SafeAreaView>
