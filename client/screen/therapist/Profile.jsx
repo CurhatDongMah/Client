@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   ScrollView,
   useWindowDimensions,
-  RefreshControl
+  RefreshControl,
+  ActivityIndicator
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import tailwind from 'tailwind-rn'
@@ -46,11 +47,24 @@ export default function Detail({ navigation }) {
   console.log(status, 'di profile');
   console.log(onGoingOrdersTherapist, 'on going di profile');
   if (loading) {
-    return <Text style={tailwind('text-gray-400 mt-20')}>Loading ...</Text>
+    return (
+      <View style={tailwind('flex-1 justify-center items-center')}>
+        <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-      <View style={tailwind('mt-16 relative mb-5')}>
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          />
+        }
+        >
+      <View style={tailwind('mt-16 relative mb-5 border-b-4 border-green-400 pb-4')}>
         <View style={tailwind('flex items-center')}>
           <Image 
             style={tailwind('w-24 h-24 rounded-full')}
@@ -80,10 +94,6 @@ export default function Detail({ navigation }) {
             )
           }
           </View>
-          <Text 
-            onPress={() => navigation.navigate('TherapistEdit')}
-            style={tailwind('text-green-400 text-base')}
-          >Edit Profile</Text>
           <Toggle 
             style={tailwind('absolute -right-24')}
             status='success'
@@ -92,17 +102,8 @@ export default function Detail({ navigation }) {
           </Toggle>
         </View>
       </View>
-      <ScrollView 
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl
-          refreshing={refreshing}
-          onRefresh={onRefresh}
-          />
-        }
-        >
         <View style={{ width: widthWindow * 9 /10}}>
-          <View style={tailwind('mt-5')}>
+          <View style={tailwind('mt-2')}>
             {
               onGoingOrdersTherapist.length ? (
                 <View style={{ width: widthWindow * 9 / 10 }}>

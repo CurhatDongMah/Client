@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, ActivityIndicator, View } from 'react-native';
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { GiftedChat } from "react-native-gifted-chat";
 import 'firebase/firestore'
@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 export default function ChatRoom({ navigation, route }) {
   const therapist = route.params.therapist
-  const { client } = useSelector(state => state.client)
+  const { client, loadingClient } = useSelector(state => state.client)
 
   const roomId = client.email + "-" + therapist.email
 
@@ -47,7 +47,13 @@ export default function ChatRoom({ navigation, route }) {
     }
     sendMessage(user, message, roomId)
   }
-
+  if (loadingClient) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center')}>
+        <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  }
   return (<>
     <View style={{marginTop: 70, marginLeft: 30}}>
       <Text style={{fontWeight: 'bold', fontSize: 20}}>{therapist.fullName}</Text>

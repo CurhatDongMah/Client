@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { TouchableOpacity, Text, View, ActivityIndicator, StyleSheet, Button } from 'react-native';
+import { TouchableOpacity, Text, View, ActivityIndicator, Button } from 'react-native';
 import { WebView } from 'react-native-webview';
 import base64 from 'base-64';
 import tailwind from 'tailwind-rn';

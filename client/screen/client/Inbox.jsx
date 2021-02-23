@@ -6,7 +6,8 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
-  useWindowDimensions
+  useWindowDimensions,
+  ActivityIndicator
  } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firestore from '../../helpers/FirebaseSVC'
@@ -88,8 +89,8 @@ export default function Inbox({navigation}) {
     )
   } else if (loading || loadingCollection) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Loading</Text>
+      <View style={tailwind('flex-1 justify-center items-center')}>
+        <ActivityIndicator color="34D399" size="large" />
       </View>
     )
   } else {

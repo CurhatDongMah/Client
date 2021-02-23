@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   ScrollView,
   useWindowDimensions,
-  TextInput
+  ActivityIndicator
 } from 'react-native';
 import { createOrder } from '../../store/actions/client'
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -21,12 +21,13 @@ export default function Detail({ navigation }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const widthWindow = useWindowDimensions().width
   const ARR = [1,2,3,4,5]
-  const { therapistDetail, reviews } = useSelector(state => state.client)
+  const { therapistDetail, reviews, loadingClient } = useSelector(state => state.client)
   const [secreen, setSecreen] = useState('profile')
+  const [error, setError] = useState('')
   const [order, setOrder] = useState({
     price: therapistDetail.price,
     TherapistId: therapistDetail.id,
-    totalHour: 1
+    totalHour: 0
   })
   const dispatch = useDispatch()
   const handleSelect = (index) => {
@@ -36,10 +37,19 @@ export default function Detail({ navigation }) {
     })
   }
   const handleOrder = async () => {
-    await dispatch(createOrder(order))
-    navigation.navigate('ConfirmPayment')
+    if (!order.totalHour) setError('Please select duration')
+    else {
+      await dispatch(createOrder(order))
+      navigation.navigate('ConfirmPayment')
+    }
   }
-  console.log(reviews, 'detail');
+  if (loadingClient) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center')}>
+        <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -157,6 +167,11 @@ export default function Detail({ navigation }) {
                     style={tailwind('text-base text-green-400')}
                   >Book Now</Text>
                 </TouchableOpacity>
+                {
+                  error ? (
+                    <Text style={tailwind('text-sm text-center text-red-400')}>{error}</Text> 
+                  ): <Text></Text>
+                }
               </View>
             ) : <></>
           }

@@ -7,7 +7,8 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   RefreshControl,
-  ScrollView
+  ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import tailwind from 'tailwind-rn';
 import { useDispatch, useSelector } from 'react-redux';
@@ -49,7 +50,11 @@ export default function Profile({ navigation }) {
   }, [])
   
   if (loadingClient || loadingTherapist) {
-    return <Spinner/>
+    return (
+      <View style={tailwind('flex-1 justify-center items-center')}>
+        <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
