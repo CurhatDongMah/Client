@@ -104,8 +104,12 @@ export default function Inbox({navigation}) {
           <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-center border-b-4 border-green-400')}>
             <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>Inbox</Text>
           </View>
-          <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-center')}>
-            <Text style={tailwind('py-2 text-lg text-gray-400 tracking-wider')}>Empty :(</Text>
+          <View style={tailwind('flex-1 justify-center items-center bg-white')}>
+            <Image 
+              style={tailwind('w-full h-80')}
+              source={require('../../assets/sad.png')}
+            />
+            <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>Empty . . .</Text>
           </View>
         </SafeAreaView>
       )

@@ -155,7 +155,14 @@ export default function Detail({ navigation }) {
                       </View>
                     </View>
                   </View>
-                ) : <Text style={tailwind('text-lg text-gray-400 text-center tracking-wider')}>NO ORDER</Text>
+                ) 
+                : <View style={tailwind('flex-1 justify-center items-center bg-white')}>
+                    <Image 
+                      style={tailwind('w-full h-80')}
+                      source={require('../../assets/sad-green.png')}
+                    />
+                    <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>No order yet ...</Text>
+                  </View> 
               }
             </View>
           </View>

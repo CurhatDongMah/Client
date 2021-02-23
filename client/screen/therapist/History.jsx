@@ -63,7 +63,7 @@ export default function ListHistory({ navigation }) {
             >Chat</Text>
           </TouchableOpacity>
         </View>
-        <View style={tailwind('mx-2 border-l border-gray-200 px-3 flex items-center justify-left')}>
+        <View style={tailwind('mx-2 border-l border-gray-200 px-3 flex items-center justify-center')}>
           <Text style={tailwind('text-gray-500')}>Date: { `${new Date(history.title.createdAt).getDate()}/${new Date(history.title.createdAt).getMonth()+1}/${new Date(history.title.createdAt).getFullYear()}`}</Text>
           <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(history.title.createdAt).getHours()} : ${new Date(history.title.createdAt).getMinutes()}`}</Text>
           <Text style={tailwind('text-gray-500')}>Duration: { history.title.totalHour } Hour</Text>
