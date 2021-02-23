@@ -13,7 +13,7 @@ import handleUpload from '../../helpers/handleUpload'
 
 export default function EditForm({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { therapist, loading, error} = useSelector(state => state.therapist)
+  const { therapist, loading, error: errorTherapist} = useSelector(state => state.therapist)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date(therapist.birthDate))
   const [error, setError] = useState({})
@@ -114,7 +114,7 @@ export default function EditForm({ navigation }) {
   };
 
 
-  if (error) {
+  if (errorTherapist) {
     return (
       <View style={tailwind('flex-1 justify-center items-center bg-white')}>
         <Image 

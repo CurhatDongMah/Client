@@ -12,8 +12,8 @@ import constraints from '../helpers/constraints'
 
 export default function SigninForm({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { errorClient } = useSelector(state => state.client)
-  const { errorTherapist } = useSelector(state => state.therapist)
+  const { error: errorClient } = useSelector(state => state.client)
+  const { error: errorTherapist } = useSelector(state => state.therapist)
   const [checked, setChecked] = useState(false);
   const [value, setValue] = useState({
     email: '',

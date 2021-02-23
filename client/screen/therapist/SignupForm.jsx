@@ -14,9 +14,14 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import handleUpload from '../../helpers/handleUpload'
 import { resetRegisterTherapist } from '../../store/actions/therapist'
+import { FancyAlert } from 'react-native-expo-fancy-alerts';
 
 export default function SignupForm({ navigation }) {
-  const { successRegisterTherapist } = useSelector(state => state.therapist)
+  const [visible, setVisible] = useState(false);
+  const toggleAlert = React.useCallback(() => {
+    setVisible(!visible);
+  }, [visible]);
+  const { successRegisterTherapist, error: errorTherapist } = useSelector(state => state.therapist)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date())
   const [value, setValue] = useState({})
@@ -34,11 +39,15 @@ export default function SignupForm({ navigation }) {
     selectedIndex === 1 ? setValue({...value, gender: 'male'}) : setValue({...value, gender: 'female'})
   }, [selectedIndex])
   useEffect(() => {
-    if (successRegisterTherapist) {
-      navigation.navigate('Signin')
-      dispatch(resetRegisterTherapist())
+    if (value.fullName) {
+      if (successRegisterTherapist && !errorTherapist) {
+        navigation.navigate('Signin')
+        dispatch(resetRegisterTherapist())
+      } else if (errorTherapist){
+        toggleAlert()
+      }
     }
-  }, [successRegisterTherapist])
+  }, [errorTherapist, successRegisterTherapist])
   const handleChange = (text, name) => {
     setError({})
     setValue({ ...value, [name]: text})
@@ -58,6 +67,7 @@ export default function SignupForm({ navigation }) {
     else if (!value.price) setError({...error, price: 'Required'})
     else if (!value.about) setError({...error, about: 'Required'})
     else {
+      console.log('noerror');
       dispatch(therapistRegister(value))
     }
   }
@@ -284,6 +294,22 @@ export default function SignupForm({ navigation }) {
             style={tailwind('text-green-400 text-lg')}
           >Sign in</Text>
         </View>
+        <FancyAlert
+					visible={visible}
+					icon={<View 
+						style={tailwind('flex flex-1 justify-center items-center w-full rounded-full bg-red-500')}
+					><Text style={tailwind('text-white text-2xl')}>X</Text></View>}
+					style={{ backgroundColor: 'white' }}
+				>
+					<Text style={tailwind('mb-2')}>{ errorTherapist }</Text>
+					<TouchableOpacity
+						onPress={toggleAlert}
+						style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-red-400')}>
+						<Text 
+							style={tailwind('text-base text-red-400')}
+						>Oke</Text>
+					</TouchableOpacity>
+        </FancyAlert>
       </ScrollView>
     </SafeAreaView>
   )

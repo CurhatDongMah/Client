@@ -7,15 +7,11 @@ import tailwind from 'tailwind-rn';
 import { setOnGoingOrder } from '../../store/actions/client'
 import { FancyAlert } from 'react-native-expo-fancy-alerts';
 
-// const orderId = new Date().getTime()
-
 export default function App({ navigation }) {
 	const [visible, setVisible] = useState(false);
   const toggleAlert = React.useCallback(() => {
     setVisible(!visible);
   }, [visible]);
-
-
 
 	const [mid, setMid] = useState(false)
   const [complete, setComplete] = useState(false)
@@ -124,20 +120,20 @@ export default function App({ navigation }) {
 				</TouchableOpacity>
 
 				<FancyAlert
-        visible={visible}
-        icon={<View 
-					style={tailwind('flex flex-1 justify-center items-center w-full rounded-full bg-red-500')}
-        ><Text style={tailwind('text-white text-2xl')}>X</Text></View>}
-        style={{ backgroundColor: 'white' }}
-      >
-        <Text style={tailwind('mb-2')}>Your payment has not been complete</Text>
-				<TouchableOpacity
-					onPress={toggleAlert}
-					style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-red-400')}>
-					<Text 
-						style={tailwind('text-base text-red-400')}
-					>Continue Payment</Text>
-				</TouchableOpacity>
+					visible={visible}
+					icon={<View 
+						style={tailwind('flex flex-1 justify-center items-center w-full rounded-full bg-red-500')}
+					><Text style={tailwind('text-white text-2xl')}>X</Text></View>}
+					style={{ backgroundColor: 'white' }}
+				>
+					<Text style={tailwind('mb-2')}>Your payment has not been complete</Text>
+					<TouchableOpacity
+						onPress={toggleAlert}
+						style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-red-400')}>
+						<Text 
+							style={tailwind('text-base text-red-400')}
+						>Continue Payment</Text>
+					</TouchableOpacity>
       </FancyAlert>
 			</>
 		)

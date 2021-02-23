@@ -19,13 +19,13 @@ import { getClients } from '../../store/actions/client';
 
 export default function Inbox({navigation}) {
   const widthWindow = useWindowDimensions().width
-  const { therapist, loading, error } = useSelector(state => state.therapist)
+  const { therapist, loading: loadingTherapist, error: errorTherapist } = useSelector(state => state.therapist)
 
   const messagesRef = firestore.collection('ChatRoom') // ambil collectionnya
   const query = messagesRef.limit(50); // sort isi collectionnya
   const [messages, loadingCollection] = useCollectionData(query, { idField: '_id' })
   const dispatch = useDispatch()
-  const { clients, error, loading } = useSelector(state => state.client)
+  const { clients, error: errorClient, loading: loadingClient } = useSelector(state => state.client)
   let chatWith = []
   console.log(messages);
 
@@ -80,7 +80,7 @@ export default function Inbox({navigation}) {
 
 
 
-  if (error) {
+  if (errorClient || errorTherapist) {
     return (
       <View style={tailwind('flex-1 justify-center items-center bg-white')}>
         <Image 
@@ -90,7 +90,7 @@ export default function Inbox({navigation}) {
         <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>Oppss, something error...</Text>
       </View>
     )
-  } else if (loading || loadingCollection) {
+  } else if (loadingClient || loadingTherapist || loadingCollection) {
     return (
       <View style={tailwind('flex-1 justify-center items-center')}>
         <ActivityIndicator color="34D399" size="large" />
