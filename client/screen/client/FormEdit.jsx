@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions } from 'react-native'
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  SafeAreaView,
+  useWindowDimensions,
+  ActivityIndicator
+} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import tailwind from 'tailwind-rn'
-import { Datepicker } from '@ui-kitten/components'
-import { Radio, RadioGroup} from '@ui-kitten/components'
+import { Radio, RadioGroup, Datepicker} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { editClient } from '../../store/actions/client'
 
 export default function EditForm({ navigation }) {
-  const { temporaryClient } = useSelector(state => state.client)
+  const { temporaryClient, loadingClient } = useSelector(state => state.client)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date(temporaryClient.birthDate))
   const [value, setValue] = useState({
@@ -42,13 +49,19 @@ export default function EditForm({ navigation }) {
     else if (!value.photoUrl) setError({...error, photoUrl: 'Required'})
     else if (!value.birthDate) setError({...error, birthDate: 'Required'})
     else if (!value.city) setError({...error, city: 'Required'})
-    // else console.log(value, 'edit profile');
     else {
       dispatch(editClient(value, temporaryClient.id))
       navigation.navigate('Profile')
     }
   }
-  console.log(temporaryClient, 'di form edit');
+    
+  if (loadingClient) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center')}>
+        <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <ScrollView 

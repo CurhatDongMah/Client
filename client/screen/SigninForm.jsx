@@ -59,6 +59,7 @@ export default function SigninForm({ navigation }) {
       setError({...error, password: errorClient})
     }
     if (errorTherapist) {
+      console.log('error login');
       setError({...error, email: errorTherapist})
       setError({...error, password: errorTherapist})
     }

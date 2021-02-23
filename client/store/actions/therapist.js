@@ -1,7 +1,7 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
-// const baseUrl = 'http://192.168.43.213:3000' //arif
-const baseUrl = 'http://192.168.0.10:3000' //obed
+const baseUrl = 'http://192.168.43.213:3000' //arif
+// const baseUrl = 'http://192.168.0.10:3000' //obed
 // const baseUrl = 'http://192.168.8.104:3000' //riva
 
 
@@ -68,6 +68,10 @@ export const therapistRegister = (payload) => {
       }
     } catch (error) {
       console.log(error);
+      dispatch({
+        type: 'SET_ERROR_THERAPIST',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -126,6 +130,10 @@ export const getOnGoingOrderTherapist = () => {
       })
     } catch (error) {
       console.log(error);
+      dispatch({
+        type: 'SET_ERROR_THERAPIST',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -153,6 +161,10 @@ export const updateStatusTherapist = (payload) => {
       }
     } catch (error) {
       console.log(error);
+      dispatch({
+        type: 'SET_ERROR_THERAPIST',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -176,9 +188,10 @@ export const getHistoryTherapist = () => {
       })
     } catch (error) {
       console.log(error);
-      // dispatch({
-      //   type: 'ERROR_GET_CLIENTS', payload: error
-      // })
+      dispatch({
+        type: 'SET_ERROR_THERAPIST',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -186,7 +199,9 @@ export const getHistoryTherapist = () => {
 export const setCompletedOrderTherapist = (id) => {
   return async (dispatch) => {
     try {
-      console.log(id, 'id order');
+      dispatch({
+        type: 'SET_LOADING_THERAPIST'
+      })
       const access_token = await SecureStore.getItemAsync('access_token')
       const status = 'completed'
       const res = await axios({
@@ -207,7 +222,10 @@ export const setCompletedOrderTherapist = (id) => {
         payload: resOnGoing.data
       })
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: 'SET_ERROR_THERAPIST',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -231,7 +249,10 @@ export const handleLogoutTherapist = () => {
         await SecureStore.deleteItemAsync('email')
       }
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: 'SET_ERROR_THERAPIST',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -240,6 +261,9 @@ export const editTherapist = (payload, id)=> {
   return async (dispatch) => {
     try {
       // console.log(payload);
+      dispatch({
+        type: 'SET_LOADING_THERAPIST'
+      })
       const access_token = await SecureStore.getItemAsync('access_token')
       const res = await axios({
         method: 'PUT',
@@ -253,7 +277,10 @@ export const editTherapist = (payload, id)=> {
         payload: res.data
       })
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: 'SET_ERROR_THERAPIST',
+        payload: error.response.data.message
+      })
     }
   }
 }

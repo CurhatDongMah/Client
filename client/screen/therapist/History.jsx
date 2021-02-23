@@ -37,8 +37,8 @@ export default function ListHistory({ navigation }) {
   }, [])
 
   const Item = ( history ) => (
-    <View style={{ width: widthWindow * 9 / 10 }}>
-      <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-50 justify-start')}>
+    <View style={{ width: widthWindow * 8 / 10 }}>
+      <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-50 justify-start mb-5')}>
         <View style={tailwind('px-5 flex items-center justify-center')}>
           <Image 
             style={tailwind('w-12 h-12 rounded-full')}
@@ -47,14 +47,17 @@ export default function ListHistory({ navigation }) {
             }}
           />
         </View>
-        <View style={tailwind('flex items-start justify-center')}>
+        <View style={tailwind('flex items-start justify-center px-3')}>
           <Text 
             numberOfLines={1}
             ellipsizeMode='clip'
             style={tailwind('text-base text-gray-500')}>{history.title.Client.fullName}</Text>
-          <Text style={tailwind('text-gray-500')}>27/02/2021</Text>
-          <Text style={tailwind('text-gray-500')}>09.00 : 10.00 pm</Text>
+          <Text style={tailwind('text-gray-500')}>Date: { `${new Date(history.title.createdAt).getDate()}/${new Date(history.title.createdAt).getMonth()+1}/${new Date(history.title.createdAt).getFullYear()}`}</Text>
+          <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(history.title.createdAt).getHours()} : ${new Date(history.title.createdAt).getMinutes()}`}</Text>
+          <Text style={tailwind('text-gray-500')}>Duration: { history.title.totalHour } Hour</Text>
           <Text style={tailwind('text-gray-400')}>{history.title.Client.city}</Text>
+        </View>
+        <View style={tailwind('mx-2 border-l border-gray-200 px-3 flex items-center justify-center')}>
           <TouchableOpacity
             onPress={async () => navigation.navigate('ChatRoom', { client: history.title.Client })} 
             style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-green-500 border border-r border-green-400')}>

@@ -8,9 +8,9 @@ import {
   FlatList,
   TouchableOpacity,
   useWindowDimensions,
-  RefreshControl
+  RefreshControl,
+  ActivityIndicator
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import tailwind from 'tailwind-rn';
 import { getHistory, setTherapist } from '../../store/actions/client'
 
@@ -20,7 +20,7 @@ const wait = (timeout) => {
 export default function ListHistory({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const [refreshing, setRefreshing] = useState(false);
-  const { histories } = useSelector(state => state.client)
+  const { histories, loadingClient } = useSelector(state => state.client)
   console.log(histories, 'list');
   const dispatch = useDispatch()
   useEffect(() => {
@@ -80,6 +80,15 @@ export default function ListHistory({ navigation }) {
   const renderItem = ({ item }) => (
     <Item title={item} />
   );
+
+    
+  if (loadingClient) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center')}>
+        <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
       <View style={tailwind('pt-12')}>
