@@ -41,7 +41,7 @@ export default function Profile({ navigation }) {
   }
 
   const handleChat = (therapist) => {
-    navigation.navigate('ChatRoom', { therapist })
+    navigation.navigate('Messages', {screen: 'ChatRoom', params: { therapist }})
   }
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export default function Profile({ navigation }) {
           />
         }
       >
-        <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-start border-b-4 border-green-400')}>
+        <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-start border-b-2 border-green-400')}>
           <View>
             <Image 
               style={tailwind('w-20 h-20 rounded-full')}
@@ -138,7 +138,7 @@ export default function Profile({ navigation }) {
                       >Completed</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                      onPress={async () => navigation.navigate('ChatRoom', { therapist: onGoingOrders[0].Therapist })} 
+                      onPress={async () => navigation.navigate('Messages', {screen: 'ChatRoom', params: {therapist: onGoingOrders[0].Therapist }})} 
                       style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-green-400 border border-r border-green-400')}>
                       <Text 
                         style={tailwind('text-gray-100')}

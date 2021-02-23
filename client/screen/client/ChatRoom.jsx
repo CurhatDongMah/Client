@@ -5,6 +5,8 @@ import { GiftedChat } from "react-native-gifted-chat";
 import 'firebase/firestore'
 import firestore from '../../helpers/FirebaseSVC';
 import { useSelector } from 'react-redux';
+import tailwind from 'tailwind-rn'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 export default function ChatRoom({ navigation, route }) {
   const therapist = route.params.therapist
@@ -66,9 +68,13 @@ export default function ChatRoom({ navigation, route }) {
     )
   }
   return (<>
-    <View style={{marginTop: 70, marginLeft: 30}}>
-      <Text style={{fontWeight: 'bold', fontSize: 20}}>{therapist.fullName}</Text>
-    </View>
+      <View style={tailwind('flex flex-row pt-12 pb-6 w-full justify-center border-b-2 border-green-400 relative')}>
+        <Text style={tailwind('py-2 text-lg text-gray-600')}>{ therapist.fullName }</Text>
+        <Ionicons 
+          onPress={() => navigation.navigate('Inbox')}
+          style={tailwind('mx-1 text-green-400 text-3xl absolute bottom-6 left-2')} name='arrow-back'
+        />
+      </View>
     <GiftedChat
       messages={messages}
       onSend={message => handleSendMessage(message)}

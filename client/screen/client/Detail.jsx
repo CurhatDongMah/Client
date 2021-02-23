@@ -143,6 +143,15 @@ export default function Detail({ navigation }) {
                     style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
                   >{ therapistDetail.about } </Text>
                 </View>
+                <View style={tailwind('mt-5')}>
+                  <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>License</Text>
+                  <Image 
+                    style={tailwind('w-full h-80')}
+                    source={{
+                      uri: therapistDetail.licenseUrl
+                    }}
+                  />
+                </View>
               </View>
             ) : <></>
           }

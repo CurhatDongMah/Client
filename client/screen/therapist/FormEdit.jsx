@@ -155,7 +155,14 @@ export default function EditForm({ navigation }) {
           </View>
           <View style={tailwind('mt-5')}>
             <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PHOTO URL</Text>
-            <Button title="Pick an image from gallery" onPress={pickImage} />
+            <TouchableOpacity
+              onPress={pickImage}
+              style={tailwind('items-center my-3 py-2 px-10 rounded-lg border border-green-400')}>
+              <Text 
+                style={tailwind('text-base text-green-400')}
+              >Pick an image from gallery</Text>
+            </TouchableOpacity>
+            {/* <Button title="Pick an image from gallery" onPress={pickImage} /> */}
             {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
             {
               error.photoUrl ? (
@@ -201,7 +208,14 @@ export default function EditForm({ navigation }) {
           </View>
           <View style={tailwind('mt-5')}>
             <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>LICENSE URL</Text>
-            <Button title="Pick an image from gallery" onPress={pickLicense} />
+            <TouchableOpacity
+              onPress={pickLicense}
+              style={tailwind('items-center my-3 py-2 px-10 rounded-lg border border-green-400')}>
+              <Text 
+                style={tailwind('text-base text-green-400')}
+              >Pick an image from gallery</Text>
+            </TouchableOpacity>
+            {/* <Button title="Pick an image from gallery" onPress={pickLicense} /> */}
             {image && <Image source={{ uri: license.uri }} style={{ width: 200, height: 200 }} />}
             {
               error.licenseUrl ? (
