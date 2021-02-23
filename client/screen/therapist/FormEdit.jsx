@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions } from 'react-native'
+import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions, Button, Image, Platform } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import tailwind from 'tailwind-rn'
 import { Datepicker } from '@ui-kitten/components'
@@ -7,6 +7,8 @@ import { Radio, RadioGroup} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { editTherapist } from '../../store/actions/therapist'
 import { useDispatch, useSelector } from 'react-redux'
+import * as ImagePicker from 'expo-image-picker';
+import handleUpload from '../../helpers/handleUpload'
 
 
 export default function EditForm({ navigation }) {
@@ -15,6 +17,8 @@ export default function EditForm({ navigation }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date(therapist.birthDate))
   const [error, setError] = useState({})
+  const [image, setImage] = useState({});
+  const [license, setLicense] = useState({});
   const [value, setValue] = useState({
     fullName: therapist.fullName,
     photoUrl: therapist.photoUrl,
@@ -30,6 +34,8 @@ export default function EditForm({ navigation }) {
   useEffect(() => {
     if (therapist.gender === 'female') setSelectedIndex(0)
     else setSelectedIndex(1)
+    setImage({uri: therapist.photoUrl})
+    setLicense({uri: therapist.licenseUrl})
   }, [])
   useEffect(() => {
     setValue({...value, birthDate: birthDate})
@@ -57,6 +63,55 @@ export default function EditForm({ navigation }) {
     }
     // else console.log(value);
   }
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5
+    });
+
+    // console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result)
+      setValue({ ...value, photoUrl: ''})
+      const newUrl = await handleUpload(result)
+      console.log(newUrl, "url dari axios")
+      setValue({ ...value, photoUrl: newUrl})
+      console.log(value.photoUrl, 'ini value new url')
+    }
+  };
+  const pickLicense = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5
+    });
+
+    // console.log(result);
+
+    if (!result.cancelled) {
+      setLicense(result)
+      setValue({ ...value, licenseUrl: ''})
+      const newUrl = await handleUpload(result)
+      console.log(newUrl, "url dari axios")
+      setValue({ ...value, licenseUrl: newUrl})
+      console.log(value.licenseUrl, 'ini value new url')
+    }
+  };
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <ScrollView 
@@ -81,11 +136,8 @@ export default function EditForm({ navigation }) {
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PHOTO URL</Text>
-          <TextInput
-            value={value.photoUrl}
-            onChangeText={(text) => handleChange(text, 'photoUrl')}
-            style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
-          ></TextInput>
+          <Button title="Pick an image from gallery" onPress={pickImage} />
+          {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
           {
             error.photoUrl ? (
               <View style={tailwind('flex flex-row items-center')}>
@@ -130,11 +182,8 @@ export default function EditForm({ navigation }) {
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>LICENSE URL</Text>
-          <TextInput
-            value={value.licenseUrl}
-            onChangeText={(text) => handleChange(text, 'licenseUrl')}
-            style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
-          ></TextInput>
+          <Button title="Pick an image from gallery" onPress={pickLicense} />
+          {image && <Image source={{ uri: license.uri }} style={{ width: 200, height: 200 }} />}
           {
             error.licenseUrl ? (
               <View style={tailwind('flex flex-row items-center')}>
