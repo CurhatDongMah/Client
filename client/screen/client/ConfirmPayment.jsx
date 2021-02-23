@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { SafeAreaView, Text, View, Image, TouchableOpacity, ScrollView, useWindowDimensions } from 'react-native';
 import tailwind from 'tailwind-rn';
 import curencyFormat from '../../helpers/curencyFormat'
+import { deleteOrder } from '../../store/actions/client'
 
 export default function ConfirmPayment({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const { therapistDetail, order } = useSelector(state => state.client)
+  const dispatch = useDispatch()
   console.log(therapistDetail, 'di detail');
   console.log(order, 'ini order');
+  const handleDelete = async () => {
+    await dispatch(deleteOrder(order.id))
+    navigation.navigate('Profile')
+  }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <View style={{ width: widthWindow * 9 /10}}>
@@ -48,7 +54,7 @@ export default function ConfirmPayment({ navigation }) {
           </View>
           <View style={tailwind('flex flex-row justify-between mt-4')}>
             <TouchableOpacity
-              // onPress={() => navigation.navigate('Payment')} delete order
+              onPress={handleDelete} delete order
               style={tailwind('items-center my-3 py-1 px-10 rounded-full border border-red-400')}>
               <Text 
                 style={tailwind('text-base text-red-400')}
