@@ -1,8 +1,8 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store';
 // const baseUrl = 'http://192.168.43.213:3000' //arif
-// const baseUrl = 'http://192.168.0.10:3000' //obed
-const baseUrl = 'http://192.168.8.104:3000' //riva
+const baseUrl = 'http://192.168.0.10:3000' //obed
+// const baseUrl = 'http://192.168.8.104:3000' //riva
 
 const getClients = () => {
   return async (dispatch) => {
@@ -31,6 +31,9 @@ const getClients = () => {
 export const clientRegister = (payload) => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: 'SET_LOADING_CLIENT'
+      })
       const resRegister = await axios({
         method: 'POST',
         url: `${baseUrl}/client/register`,
@@ -42,7 +45,10 @@ export const clientRegister = (payload) => {
         })
       }
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: 'SET_ERROR_CLIENT',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -50,6 +56,13 @@ export const clientRegister = (payload) => {
 export const clientLogin = (payload) => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: 'SET_ERROR_CLIENT',
+        payload: null
+      })
+      dispatch({
+        type: 'SET_LOADING_CLIENT'
+      })
       const res = await axios({
         method: 'POST',
         url: `${baseUrl}/client/login`,
@@ -66,7 +79,10 @@ export const clientLogin = (payload) => {
         })
       }
     } catch (error) {
-      console.log(error, 'action');
+      dispatch({
+        type: 'SET_ERROR_CLIENT',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -74,7 +90,9 @@ export const clientLogin = (payload) => {
 export const editClient = (payload, id)=> {
   return async (dispatch) => {
     try {
-      // console.log(payload);
+      dispatch({
+        type: 'SET_LOADING_CLIENT'
+      })
       const access_token = await SecureStore.getItemAsync('access_token')
       const res = await axios({
         method: 'PUT',
@@ -88,7 +106,10 @@ export const editClient = (payload, id)=> {
         payload: res.data
       })
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: 'SET_ERROR_CLIENT',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -106,7 +127,9 @@ export const setTherapist = (payload) => {
 export const createOrder = (payload) => {
   return async (dispatch) => {
     try {
-      console.log(payload, 'order');
+      dispatch({
+        type: 'SET_LOADING_CLIENT'
+      })
       const access_token = await SecureStore.getItemAsync('access_token')
       const res = await axios({
         method: 'POST',
@@ -120,7 +143,10 @@ export const createOrder = (payload) => {
         payload: res.data
       })
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: 'SET_ERROR_CLIENT',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -128,6 +154,9 @@ export const createOrder = (payload) => {
 export const deleteOrder = (id) => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: 'SET_LOADING_CLIENT'
+      })
       const access_token = await SecureStore.getItemAsync('access_token')
       const res = await axios({
         method: 'DELETE',
@@ -136,7 +165,10 @@ export const deleteOrder = (id) => {
       })
       console.log(res.data, 'success delete order');
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: 'SET_ERROR_CLIENT',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -144,6 +176,9 @@ export const deleteOrder = (id) => {
 export const getHistory = () => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: 'SET_LOADING_CLIENT'
+      })
       const access_token = await SecureStore.getItemAsync('access_token')
       const res = await axios({
         method: 'GET',
@@ -156,7 +191,8 @@ export const getHistory = () => {
       })
     } catch (error) {
       dispatch({
-        type: 'ERROR_GET_CLIENTS', payload: error
+        type: 'SET_ERROR_CLIENT',
+        payload: error.response.data.message
       })
     }
   }
@@ -165,6 +201,9 @@ export const getHistory = () => {
 export const getOnGoingOrder = () => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: 'SET_LOADING_CLIENT'
+      })
       const access_token = await SecureStore.getItemAsync('access_token')
       const res = await axios({
         method: 'GET',
@@ -177,7 +216,10 @@ export const getOnGoingOrder = () => {
         payload: res.data
       })
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: 'SET_ERROR_CLIENT',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -185,7 +227,9 @@ export const getOnGoingOrder = () => {
 export const setOnGoingOrder = (id) => {
   return async (dispatch) => {
     try {
-      console.log(id, 'id order');
+      dispatch({
+        type: 'SET_LOADING_CLIENT'
+      })
       const access_token = await SecureStore.getItemAsync('access_token')
       const status = 'ongoing'
       const res = await axios({
@@ -206,7 +250,10 @@ export const setOnGoingOrder = (id) => {
       })
       console.log(resOnGoing.data , 'ongoing');
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: 'SET_ERROR_CLIENT',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -214,7 +261,9 @@ export const setOnGoingOrder = (id) => {
 export const setCompletedOrder = (id) => {
   return async (dispatch) => {
     try {
-      console.log(id, 'id order');
+      dispatch({
+        type: 'SET_LOADING_CLIENT'
+      })
       const access_token = await SecureStore.getItemAsync('access_token')
       const status = 'completed'
       const res = await axios({
@@ -235,7 +284,10 @@ export const setCompletedOrder = (id) => {
       })
       console.log(resOnGoing.data , 'ongoing');
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: 'SET_ERROR_CLIENT',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -243,7 +295,9 @@ export const setCompletedOrder = (id) => {
 export const createReview = (payload) => {
   return async (dispatch) => {
     try {
-      console.log(payload);
+      dispatch({
+        type: 'SET_LOADING_CLIENT'
+      })
       const access_token = await SecureStore.getItemAsync('access_token')
       const res = await axios({
         method: 'POST',
@@ -257,7 +311,10 @@ export const createReview = (payload) => {
       //   payload: res.data
       // })
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: 'SET_ERROR_CLIENT',
+        payload: error.response.data.message
+      })
     }
   }
 }
@@ -265,7 +322,9 @@ export const createReview = (payload) => {
 export const getReview = (id) => {
   return async (dispatch) => {
     try {
-      console.log(id, 'id therapist');
+      dispatch({
+        type: 'SET_LOADING_CLIENT'
+      })
       const access_token = await SecureStore.getItemAsync('access_token')
       const res = await axios({
         method: 'GET',
@@ -278,7 +337,10 @@ export const getReview = (id) => {
         payload: res.data
       })
     } catch (error) {
-      console.log(error);
+      dispatch({
+        type: 'SET_ERROR_CLIENT',
+        payload: error.response.data.message
+      })
     }
   }
 }

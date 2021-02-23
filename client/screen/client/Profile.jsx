@@ -14,16 +14,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTherapists } from '../../store/actions/therapist';
 import { setTherapist, getOnGoingOrder, setCompletedOrder, getReview } from '../../store/actions/client'
 import TherapistCard from '../../components/TherapistCard'
+import Spinner from '../../components/Spinner'
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
 export default function Profile({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { client, onGoingOrders } = useSelector(state => state.client)
-  const [refreshing, setRefreshing] = useState(false);
-  console.log(onGoingOrders, 'di profile');
-  console.log(onGoingOrders.length, 'on going di profile');
+  const { client, onGoingOrders, loadingClient, errorClient } = useSelector(state => state.client)
+  const { therapists, errorTherapist, loadingTherapist } = useSelector(state => state.therapist)
+  const dispatch = useDispatch()
+  // pull refresh
+  const [refreshing, setRefreshing] = useState(false)
   const onRefresh = useCallback(() => {
     setRefreshing(true)
     dispatch(getTherapists())
@@ -31,8 +33,6 @@ export default function Profile({ navigation }) {
     wait(2000).then(() => setRefreshing(false))
   }, []);
   const ARR = [1,2,3,4,5]
-  const dispatch = useDispatch()
-  const { therapists, error, loading } = useSelector(state => state.therapist)
   const handleDetail = (therapist) => {
     dispatch(setTherapist(therapist))
     dispatch(getReview(therapist.id))
@@ -47,7 +47,10 @@ export default function Profile({ navigation }) {
     dispatch(getTherapists())
     dispatch(getOnGoingOrder())
   }, [])
-
+  
+  if (loadingClient || loadingTherapist) {
+    return <Spinner/>
+  }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
       <ScrollView
@@ -72,10 +75,6 @@ export default function Profile({ navigation }) {
             <Text style={tailwind('text-2xl text-gray-600')}>{ client.fullName }</Text>
             <Text style={tailwind('text-lg text-gray-500')}>{ client.city }</Text>
             <Text style={tailwind('text-lg text-gray-500')}>{ client.gender }</Text>
-            <Text 
-              onPress={() => navigation.navigate('ClientEdit')}
-              style={tailwind('text-green-400 text-base')}
-            >Edit Profile</Text>
           </View>
         </View>
         {

@@ -5,24 +5,44 @@ import tailwind from 'tailwind-rn'
 import { Datepicker } from '@ui-kitten/components'
 import { Radio, RadioGroup} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { editTherapist } from '../../store/actions/therapist'
+import { useDispatch, useSelector } from 'react-redux'
 
 
-export default function SignupForm({ navigation }) {
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [birthDate, setBirthDate] = useState(new Date())
-  const [value, setValue] = useState({})
-  const [error, setError] = useState({})
+export default function EditForm({ navigation }) {
   const widthWindow = useWindowDimensions().width
+  const { therapist } = useSelector(state => state.therapist)
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [birthDate, setBirthDate] = useState(new Date(therapist.birthDate))
+  const [error, setError] = useState({})
+  const [value, setValue] = useState({
+    fullName: therapist.fullName,
+    photoUrl: therapist.photoUrl,
+    city: therapist.city,
+    birthDate,
+    price: therapist.price,
+    licenseUrl: therapist.licenseUrl,
+    about: therapist.about
+  })
+  const dispatch = useDispatch()
+  const now = new Date()
+  
+  useEffect(() => {
+    if (therapist.gender === 'female') setSelectedIndex(0)
+    else setSelectedIndex(1)
+  }, [])
   useEffect(() => {
     setValue({...value, birthDate: birthDate})
   }, [birthDate])
   useEffect(() => {
     selectedIndex === 1 ? setValue({...value, gender: 'male'}) : setValue({...value, gender: 'female'})
   }, [selectedIndex])
+
   const handleChange = (text, name) => {
     setError({})
     setValue({ ...value, [name]: text})
   }
+
   const handleSubmit = () => {
     if (!value.fullName) setError({...error, fullName: 'Required'})
     else if (!value.photoUrl) setError({...error, photoUrl: 'Required'})
@@ -31,7 +51,10 @@ export default function SignupForm({ navigation }) {
     else if (!value.licenseUrl) setError({...error, licenseUrl: 'Required'})
     else if (!value.price) setError({...error, price: 'Required'})
     else if (!value.about) setError({...error, about: 'Required'})
-    else navigation.navigate('TherapistPage')
+    else {
+      dispatch(editTherapist(value, therapist.id))
+      navigation.navigate('Profile')
+    }
     // else console.log(value);
   }
   return (
@@ -43,6 +66,7 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>FULL NAME</Text>
           <TextInput
+          value={value.fullName}
             onChangeText={(text) => handleChange(text, 'fullName')}
             style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>
@@ -58,6 +82,7 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PHOTO URL</Text>
           <TextInput
+            value={value.photoUrl}
             onChangeText={(text) => handleChange(text, 'photoUrl')}
             style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>
@@ -73,6 +98,8 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>BIRTH DATE</Text>
           <Datepicker
+            min={new Date(now.getFullYear(), now.getMonth(), now.getDate() - 36000)}
+            max={now}
             date={birthDate}
             onSelect={nextDate => setBirthDate(nextDate)}
           />
@@ -88,6 +115,7 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>CITY</Text>
           <TextInput
+            value={value.city}
             onChangeText={(text) => handleChange(text, 'city')}
             style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>
@@ -103,6 +131,7 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>LICENSE URL</Text>
           <TextInput
+            value={value.licenseUrl}
             onChangeText={(text) => handleChange(text, 'licenseUrl')}
             style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>
@@ -118,6 +147,7 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PRICE</Text>
           <TextInput
+            value={value.price.toString()}
             onChangeText={(text) => handleChange(text, 'price')}
             style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>
@@ -133,6 +163,7 @@ export default function SignupForm({ navigation }) {
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>ABOUT</Text>
           <TextInput
+            value={value.about}
             onChangeText={(text) => handleChange(text, 'about')}
             style={tailwind('px-3 py-2 bg-white text-xl text-gray-500 border-b border-green-400 rounded-xl')}
           ></TextInput>

@@ -1,26 +1,92 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { Text, View, TouchableOpacity } from 'react-native'
+import { useSelector } from 'react-redux'
+import { Text, View, SafeAreaView, useWindowDimensions, Image  } from 'react-native'
 import * as SecureStore from 'expo-secure-store';
 import tailwind from 'tailwind-rn'
-import { handleLogoutTherapist } from '../../store/actions/therapist'
+import { ScrollView } from 'react-native-gesture-handler';
+import getAge from '../../helpers/getAge';
+import curencyFormat from '../../helpers/curencyFormat';
+
 
 export default function Logout({ navigation }) {
-  const dispatch = useDispatch()
+  const widthWindow = useWindowDimensions().width
+  const { therapist } = useSelector(state => state.therapist)
+
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <TouchableOpacity
-        onPress={async () => {
-          // await SecureStore.deleteItemAsync('access_token')
-          // await SecureStore.deleteItemAsync('email')
-          dispatch(handleLogoutTherapist())
-          navigation.navigate('Signin')
-        }} 
-        style={tailwind('w-80 items-center py-3 mt-8 rounded-full bg-red-400')}>
-        <Text 
-          style={tailwind('text-xl text-gray-100 tracking-wider')}
-        >LOGOUT</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
+    <ScrollView 
+      showsVerticalScrollIndicator={false}
+      style={{ width: widthWindow * 8 / 10, marginTop: 40}}
+    >
+      <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-start border-b-4 border-green-400')}>
+        <View>
+          <Image 
+            style={tailwind('w-20 h-20 rounded-full')}
+            source={{
+              uri: therapist.photoUrl
+            }}
+          />
+        </View>
+        <View style={tailwind('flex items-start justify-center px-6')}>
+          <Text style={tailwind('text-2xl text-gray-600')}>{ therapist.fullName }</Text>
+          <Text 
+            onPress={() => navigation.navigate('TherapistEdit')}
+            style={tailwind('text-green-400 text-base')}
+          >Edit Profile</Text>
+          <Text 
+            onPress={async () => {
+              await SecureStore.deleteItemAsync('access_token')
+              navigation.navigate('Signin')
+            }} 
+            style={tailwind('text-red-400 text-base mt-2')}
+          >Logout</Text>
+        </View>
+      </View>
+      <View style={tailwind('mt-5')}>
+        <View style={tailwind('mt-2')}>
+          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Email</Text>
+          <Text 
+            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+          >{therapist.email}</Text>
+        </View>
+        <View style={tailwind('mt-2')}>
+          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Age</Text>
+          <Text 
+            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+          >{getAge(therapist.birthDate)}</Text>
+        </View>
+        <View style={tailwind('mt-5')}>
+          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Gender</Text>
+          <Text 
+            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+          >{therapist.gender}</Text>
+        </View>
+        <View style={tailwind('mt-5')}>
+          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>City</Text>
+          <Text 
+            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+          >{therapist.city}</Text>
+        </View>
+        <View style={tailwind('mt-5')}>
+          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Price per Hour</Text>
+          <Text 
+            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+          >{curencyFormat(therapist.price)}</Text>
+        </View>
+        <View style={tailwind('mt-5')}>
+          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>License</Text>
+          <Text 
+            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+          >{therapist.licenseUrl}</Text>
+        </View>
+        <View style={tailwind('mt-5')}>
+          <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>About</Text>
+          <Text 
+            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+          >{therapist.about}</Text>
+        </View>
+      </View>
+    </ScrollView>
+  </SafeAreaView>
   )
 }
