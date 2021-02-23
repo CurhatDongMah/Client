@@ -103,10 +103,10 @@ export default function Detail({ navigation }) {
         >
         <View style={{ width: widthWindow * 9 /10}}>
           <View style={tailwind('mt-5')}>
-            <Text style={tailwind('text-lg text-gray-400 text-center tracking-wider')}>ON GOING</Text>
             {
               onGoingOrdersTherapist.length ? (
                 <View style={{ width: widthWindow * 9 / 10 }}>
+                  <Text style={tailwind('text-lg text-gray-400 text-center tracking-wider')}>ON GOING</Text>
                   <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-50 justify-start')}>
                     <View style={tailwind('px-5 flex items-center justify-center')}>
                       <Image 
@@ -143,7 +143,7 @@ export default function Detail({ navigation }) {
                     </View>
                   </View>
                 </View>
-              ) : <Text>No Patient</Text>
+              ) : <Text style={tailwind('text-lg text-gray-400 text-center tracking-wider')}>NO ORDER</Text>
             }
           </View>
         </View>
