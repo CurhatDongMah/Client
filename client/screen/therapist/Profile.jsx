@@ -41,7 +41,7 @@ export default function Detail({ navigation }) {
   const onRefresh = useCallback(() => {
     setRefreshing(true)
     dispatch(getOnGoingOrderTherapist())
-    wait(2000).then(() => setRefreshing(false))
+    wait(1000).then(() => setRefreshing(false))
   }, []);
   console.log(therapist, 'di profile')
   console.log(status, 'di profile');
@@ -155,7 +155,16 @@ export default function Detail({ navigation }) {
                       </View>
                     </View>
                   </View>
-                ) : <Text style={tailwind('text-lg text-gray-400 text-center tracking-wider')}>NO ORDER</Text>
+                ) : (
+                  <View style={tailwind('flex-1 justify-center items-center bg-white')}>
+                    <Text style={tailwind('text-lg text-gray-400 text-center tracking-wider')}>NO ORDER</Text>
+                    <Image 
+                      style={tailwind('w-full h-80 my-5')}
+                      source={require('../../assets/waiting.png')}
+                    />
+                    <Text style={tailwind('text-lg text-green-400 text-center tracking-wider')}>SABAR BOSS</Text>
+                  </View>
+                )
               }
             </View>
           </View>
