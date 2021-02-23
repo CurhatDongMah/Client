@@ -45,9 +45,10 @@ export default function SignupForm({ navigation }) {
     setValue({ ...value, [name]: text})
   }
   const handleSubmit = async () => {
-    setValue({ ...value, photoUrl: ''})
-    await handleUpload(image)
+    // setValue({ ...value, photoUrl: ''})
+    // const newUrl = await handleUpload(image)
     // setValue({ ...value, photoUrl: newUrl})
+    console.log(value.photoUrl)
     const validateEmail = validate({ emailAddress: value.email }, constraints)
     if (!value.fullName) setError({...error, fullName: 'Required'})
     else if (!value.email) setError({...error, email: 'Required'})
@@ -84,10 +85,15 @@ export default function SignupForm({ navigation }) {
 
     if (!result.cancelled) {
       setImage(result)
+      setValue({ ...value, photoUrl: ''})
+      const newUrl = await handleUpload(result)
+      console.log(newUrl, "url dari axios")
+      setValue({ ...value, photoUrl: newUrl})
+      console.log(value.photoUrl, 'ini value new url')
     }
   };
 
-  const handleUpload = (image) => {
+  const handleUpload = async (image) => {
     console.log('masuk upload')
     console.log(image)
     let newFile = {
@@ -101,20 +107,14 @@ export default function SignupForm({ navigation }) {
     data.append('cloud_name', 'kanzf')
     console.log(data)
 
-    axios({
+    const result = await axios({
       url: 'https://api.cloudinary.com/v1_1/kanzf/image/upload',
       method: 'POST',
       data: data
     })
-      .then(({data}) => {
-        console.log(data.url, 'ini result url nya')
-        // setImgUrl(data.url)
-        setValue({ ...value, photoUrl: data.url})
-        // return data.url
-      })
-      .catch(err => {
-        console.log(err)
-      })
+    // console.log(result.data.url, "ini dari axios")
+    // setValue({ ...value, photoUrl: result.data.url})
+    return result.data.url
 
   } 
 
