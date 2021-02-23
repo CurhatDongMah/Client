@@ -13,6 +13,7 @@ import { Button, Image, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import axios from 'axios'
+import { resetRegister } from '../../store/actions/client'
 
 export default function SignupForm({ navigation }) {
   const { successRegister } = useSelector(state => state.client)
@@ -26,7 +27,10 @@ export default function SignupForm({ navigation }) {
   const now = new Date()
   const dispatch = useDispatch()
   useEffect(() => {
-    // if (successRegister) navigation.navigate('Signin')
+    if (successRegister) {
+      navigation.navigate('Signin')
+      dispatch(resetRegister())
+    }
   }, [successRegister])
   useEffect(() => {
     setValue({...value, birthDate: birthDate})
@@ -164,7 +168,14 @@ export default function SignupForm({ navigation }) {
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>PHOTO</Text>
-          <Button title="Pick an image from gallery" onPress={pickImage} />
+          <TouchableOpacity
+            onPress={pickImage}
+            style={tailwind('items-center my-3 py-2 px-10 rounded-lg border border-green-400')}>
+            <Text 
+              style={tailwind('text-base text-green-400')}
+            >Pick an image from gallery</Text>
+          </TouchableOpacity>
+          {/* <Button title="Pick an image from gallery" onPress={pickImage} /> */}
           {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
           {
             error.photoUrl ? (

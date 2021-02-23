@@ -9,6 +9,7 @@ export default function Review({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const [rating, setRating] = useState(0)
   const [review, setReview] = useState('')
+  const [error, setError] = useState({})
   const { therapistDetail } = useSelector(state => state.client)
   const dispatch = useDispatch()
   const ARR = [1,2,3,4,5]
@@ -16,12 +17,15 @@ export default function Review({ navigation }) {
     setReview(text)
   }
   const handleSubmit = () => {
-    dispatch(createReview({
-      rating,
-      review,
-      TherapistId: therapistDetail.id
-    }))
-    navigation.navigate('ListHistory')
+    if (!review) setError({...error, review: 'Cannot post a blank review'})
+    else {
+      dispatch(createReview({
+        rating,
+        review,
+        TherapistId: therapistDetail.id
+      }))
+      navigation.navigate('ListHistory')
+    }
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>

@@ -21,7 +21,7 @@ export default function Detail({ navigation }) {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const widthWindow = useWindowDimensions().width
   const ARR = [1,2,3,4,5]
-  const { therapistDetail, reviews, loadingClient } = useSelector(state => state.client)
+  const { therapistDetail, reviews, loading: loadingClient } = useSelector(state => state.client)
   const [secreen, setSecreen] = useState('profile')
   const [error, setError] = useState('')
   const [order, setOrder] = useState({

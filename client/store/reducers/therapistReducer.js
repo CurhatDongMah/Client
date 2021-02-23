@@ -5,7 +5,7 @@ const initialState = {
   therapists: [],
   therapist: {},
   status: false,
-  successRegister: false,
+  successRegisterTherapist: false,
   onGoingOrdersTherapist: [],
   historiesTherapist: [],
   allTherapists: [] // fetch all without any condition
@@ -13,6 +13,12 @@ const initialState = {
 
 const therapistReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case 'RESET_REGISTER_THERAPIST':
+      return {
+        ...state,
+        successRegisterTherapist: false,
+      }
 
     case 'SET_LOADING_THERAPIST':
       return {

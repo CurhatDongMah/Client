@@ -1,18 +1,28 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions, Image } from 'react-native'
+import {
+  Text,
+  View,
+  SafeAreaView,
+  useWindowDimensions,
+  Image,
+  ActivityIndicator
+} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import tailwind from 'tailwind-rn'
-import { Datepicker } from '@ui-kitten/components'
-import { Radio, RadioGroup} from '@ui-kitten/components'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-import { editClient } from '../../store/actions/client'
 import * as SecureStore from 'expo-secure-store';
 import getAge from '../../helpers/getAge'
 
-export default function Logout({ navigation }) {
+export default function Account({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { client, onGoingOrders } = useSelector(state => state.client)
+  const { client, loading: loadingClient } = useSelector(state => state.client)
+  if (loadingClient) {
+    return (
+      <View style={tailwind('flex-1 justify-center items-center')}>
+        <ActivityIndicator color="34D399" size="large" />
+      </View>
+    )
+  }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
     <ScrollView 
