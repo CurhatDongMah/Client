@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View, ActivityIndicator, StyleSheet, Button } from 'react-native';
 import { WebView } from 'react-native-webview';
 import base64 from 'base-64';
 import tailwind from 'tailwind-rn';
 import { setOnGoingOrder } from '../../store/actions/client'
+import { FancyAlert } from 'react-native-expo-fancy-alerts';
 
 // const orderId = new Date().getTime()
 
 export default function App({ navigation }) {
+	const [visible, setVisible] = useState(false);
+  const toggleAlert = React.useCallback(() => {
+    setVisible(!visible);
+  }, [visible]);
+
+
+
 	const [mid, setMid] = useState(false)
   const [complete, setComplete] = useState(false)
 	const { therapistDetail, client, order } = useSelector(state => state.client)
-  console.log(therapistDetail, 'di payment');
-	console.log(order, 'di payment');
 	const dispatch = useDispatch()
   useEffect(() => {
     console.log('change')
@@ -21,11 +27,10 @@ export default function App({ navigation }) {
 	useEffect(() => {
     midtrans()
     .then(data => {
-      console.log(data)
       setMid(data)
     })
     .catch(err => {
-      console.log(err)
+      alert(err)
     })
 	}, [])
 	async function midtrans() {
@@ -80,33 +85,64 @@ export default function App({ navigation }) {
 		return response.json();
 	}
 	return (
-    <>
-      <WebView
-        source={{
-          uri: mid.redirect_url,
-        }}
-        style={tailwind('flex-1 justify-center items-center mt-6')}
-      />
-      <TouchableOpacity
-        onPress={() => {
-          check().then((data) => {
-            console.log(data.status_code)
-            if (data.status_code == 200) {
-              setComplete(true)
-							// change status order to on going
-							dispatch(setOnGoingOrder(order.id))
-              navigation.navigate('Success')
-            } else {
-							alert('Your payment has not been complete')
-						}
-          })
-        }}
-        style={tailwind('absolute p-5 h-20 w-20 bottom-16 right-5 flex justify-center items-center bg-gray-800 bg-opacity-80 rounded-full')}>
-        <Text 
-          style={tailwind('text-base text-gray-100')}
-        >Done</Text>
-      </TouchableOpacity>
-    </>
+		!mid ? (
+			<View
+				style={{
+					flex: 1,
+					justifyContent: 'center',
+					alignItems: 'center',
+				}}
+			>
+				<ActivityIndicator color="34D399" size="large" />
+			</View>
+		) : (
+			<>
+				<WebView
+					source={{
+						uri: mid.redirect_url,
+					}}
+					style={tailwind('flex-1 justify-center items-center mt-6')}
+				/>
+				<TouchableOpacity
+					onPress={() => {
+						check().then((data) => {
+							console.log(data.status_code)
+							if (data.status_code == 200) {
+								setComplete(true)
+								dispatch(setOnGoingOrder(order.id))
+								navigation.navigate('Success')
+							} else {
+								// alert('Your payment has not been complete')
+								toggleAlert()
+							}
+						})
+					}}
+					style={tailwind('absolute p-5 h-20 w-20 bottom-16 right-5 flex justify-center items-center bg-gray-800 bg-opacity-80 rounded-full')}>
+					<Text 
+						style={tailwind('text-base text-gray-100')}
+					>Done</Text>
+				</TouchableOpacity>
+
+				<FancyAlert
+        visible={visible}
+        icon={<View style={{
+          flex: 1,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'red',
+          borderRadius: 50,
+          width: '100%',
+        }}><Text>🤓</Text></View>}
+        style={{ backgroundColor: 'white' }}
+      >
+        <Text style={{ marginTop: -16, marginBottom: 32 }}>Hello there</Text>
+				<Button 
+					title="OK"
+					onPress={toggleAlert}
+				/>
+      </FancyAlert>
+			</>
+		)
 	);
 }
-
