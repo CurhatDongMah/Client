@@ -23,7 +23,7 @@ export default function Inbox({navigation}) {
 
   const messagesRef = firestore.collection('ChatRoom') // ambil collectionnya
   const query = messagesRef.limit(50); // sort isi collectionnya
-  const [messages] = useCollectionData(query, { idField: '_id' })
+  const [messages, loadingCollection] = useCollectionData(query, { idField: '_id' })
   const dispatch = useDispatch()
   const { allTherapists, error, loading } = useSelector(state => state.therapist)
   let chatWith = []
@@ -40,6 +40,7 @@ export default function Inbox({navigation}) {
       if(roomIdEmailFromFirebase[0] === client.email) {
         console.log(roomIdEmailFromFirebase[1]);
         let therapist = allTherapists[allTherapists.findIndex(therapist => therapist.email === roomIdEmailFromFirebase[1])]
+        therapist.lastMessage = messages[i].lastMessage
         chatWith.push(therapist)        
       }
     }
@@ -62,7 +63,11 @@ export default function Inbox({navigation}) {
             <Text 
               numberOfLines={1}
               ellipsizeMode='clip'
-              style={tailwind('w-36 text-base text-gray-500')}>{therapist.fullName}</Text>
+              style={tailwind('w-36 text-base text-black')}>{therapist.fullName}</Text>
+          <Text 
+              numberOfLines={1}
+              ellipsizeMode='clip'
+              style={tailwind('w-36 text-base text-gray-500')}>{therapist.lastMessage}</Text>
           </View>
         </View>
       </View>
@@ -81,7 +86,7 @@ export default function Inbox({navigation}) {
         <Text>Error</Text>
       </View>
     )
-  } else if (loading) {
+  } else if (loading || loadingCollection) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Loading</Text>
