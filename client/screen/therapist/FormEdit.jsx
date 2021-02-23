@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions, Button, Image, Platform } from 'react-native'
+import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions, Button, Image, Platform, ActivityIndicator } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import tailwind from 'tailwind-rn'
 import { Datepicker } from '@ui-kitten/components'
@@ -13,7 +13,7 @@ import handleUpload from '../../helpers/handleUpload'
 
 export default function EditForm({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { therapist, loading, error: errorTherapist} = useSelector(state => state.therapist)
+  const { therapist, loading, error: fetchError} = useSelector(state => state.therapist)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date(therapist.birthDate))
   const [error, setError] = useState({})
@@ -114,7 +114,7 @@ export default function EditForm({ navigation }) {
   };
 
 
-  if (errorTherapist) {
+  if (fetchError) {
     return (
       <View style={tailwind('flex-1 justify-center items-center bg-white')}>
         <Image 
