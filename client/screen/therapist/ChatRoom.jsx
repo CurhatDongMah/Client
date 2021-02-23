@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View } from 'react-native';
+import { Text, View, ActivityIndicator } from 'react-native';
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { GiftedChat } from "react-native-gifted-chat";
 import 'firebase/firestore'

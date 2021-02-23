@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Text, View, SafeAreaView, useWindowDimensions, Image  } from 'react-native'
+import { Text, View, SafeAreaView, useWindowDimensions, Image, ActivityIndicator  } from 'react-native'
 import * as SecureStore from 'expo-secure-store';
 import tailwind from 'tailwind-rn'
 import { ScrollView } from 'react-native-gesture-handler';

@@ -7,7 +7,8 @@ import {
   FlatList,
   TouchableOpacity,
   useWindowDimensions,
-  RefreshControl
+  RefreshControl,
+  ActivityIndicator
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
