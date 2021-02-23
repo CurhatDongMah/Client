@@ -1,6 +1,7 @@
 const initialState = {
   loading: false,
   error: null,
+  errorTherapist: null,
   therapists: [],
   therapist: {},
   status: false,
@@ -19,6 +20,12 @@ const therapistReducer = (state = initialState, action) => {
         loading: true
       }
 
+    case 'SET_ERROR_THERAPIST':
+      return {
+        ...state,
+        errorTherapist: action.payload,
+        loading: false,
+      }
     case 'SAVE_THERAPIST':
       return {
         ...state,

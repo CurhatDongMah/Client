@@ -127,6 +127,7 @@ export const setTherapist = (payload) => {
 export const createOrder = (payload) => {
   return async (dispatch) => {
     try {
+      console.log(payload, 'order nih');
       dispatch({
         type: 'SET_LOADING_CLIENT'
       })

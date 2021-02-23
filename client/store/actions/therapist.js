@@ -75,6 +75,13 @@ export const therapistRegister = (payload) => {
 export const therapistLogin = (payload) => {
   return async (dispatch) => {
     try {
+      dispatch({
+        type: 'SET_ERROR_THERAPIST',
+        payload: null
+      })
+      dispatch({
+        type: 'SET_LOADING_THERAPIST'
+      })
       const res = await axios({
         method: 'POST',
         url: `${baseUrl}/therapist/login`,
@@ -91,7 +98,11 @@ export const therapistLogin = (payload) => {
         })
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
+      dispatch({
+        type: 'SET_ERROR_THERAPIST',
+        payload: error.response.data.message
+      })
     }
   }
 }

@@ -57,7 +57,8 @@ const clientReducer = (state = initialState, action) => {
   
     case 'CLIENT_SUCCESS_REGISTER':
       return {
-        ...state, successRegister: true
+        ...state, successRegister: true,
+        loading: false
       }
 
     case 'SET_THERAPIST':
