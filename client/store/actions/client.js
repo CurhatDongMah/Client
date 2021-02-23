@@ -71,6 +71,28 @@ export const clientLogin = (payload) => {
   }
 }
 
+export const editClient = (payload, id)=> {
+  return async (dispatch) => {
+    try {
+      // console.log(payload);
+      const access_token = await SecureStore.getItemAsync('access_token')
+      const res = await axios({
+        method: 'PUT',
+        url: `${baseUrl}/client/${id}`,
+        headers: {access_token},
+        data: payload
+      })
+      console.log(res.data , 'success edit');
+      dispatch({
+        type: 'SAVE_CLIENT',
+        payload: res.data
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+}
+
 export const setTherapist = (payload) => {
   return (dispatch) => {
     console.log(payload);

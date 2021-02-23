@@ -4,6 +4,7 @@ const initialState = {
   clients: [],
   histories: [],
   client: {},
+  temporaryClient: {},
   therapistDetail: {},
   order: {},
   onGoingOrders: [],
@@ -22,9 +23,11 @@ const clientReducer = (state = initialState, action) => {
       }
 
     case 'SAVE_CLIENT':
+      let temporary = JSON.parse(JSON.stringify(action.payload))
       return {
         ...state,
         client: action.payload,
+        temporaryClient: temporary,
         loading: false,
       }
 
