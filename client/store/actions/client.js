@@ -11,7 +11,6 @@ const getClients = () => {
       dispatch({
         type: 'LOADING_GET_CLIENTS'
       })
-  
       const res = await axios({
         method: 'GET',
         url: `${baseUrl}/therapist/clients`,
@@ -124,6 +123,14 @@ export const setTherapist = (payload) => {
   }
 }
 
+export const resetRegister = () => {
+  return (dispatch) => {
+    dispatch({
+      type: 'RESET_REGISTER'
+    })
+  }
+}
+
 export const createOrder = (payload) => {
   return async (dispatch) => {
     try {
@@ -164,7 +171,9 @@ export const deleteOrder = (id) => {
         url: `${baseUrl}/client/order/${id}`,
         headers: { access_token }
       })
-      console.log(res.data, 'success delete order');
+      dispatch({
+        type: 'RESET_LOADING_CLIENT'
+      })
     } catch (error) {
       dispatch({
         type: 'SET_ERROR_CLIENT',

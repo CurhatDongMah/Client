@@ -20,7 +20,7 @@ const wait = (timeout) => {
 export default function ListHistory({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const [refreshing, setRefreshing] = useState(false);
-  const { histories, loadingClient } = useSelector(state => state.client)
+  const { histories, loading: loadingClient } = useSelector(state => state.client)
   console.log(histories, 'list');
   const dispatch = useDispatch()
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function ListHistory({ navigation }) {
   const onRefresh = useCallback(() => {
     setRefreshing(true)
     dispatch(getHistory())
-    wait(2000).then(() => setRefreshing(false))
+    wait(1000).then(() => setRefreshing(false))
   }, []);
   const handleDetail = (therapist) => {
     dispatch(setTherapist(therapist))

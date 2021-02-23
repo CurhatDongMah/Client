@@ -9,7 +9,6 @@ import {
   useWindowDimensions,
   ActivityIndicator
  } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import firestore from '../../helpers/FirebaseSVC'
 import { useCollectionData, useDocumentOnce } from "react-firebase-hooks/firestore";
 import 'firebase/firestore'

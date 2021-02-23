@@ -76,6 +76,14 @@ export const therapistRegister = (payload) => {
   }
 }
 
+export const resetRegisterTherapist = () => {
+  return (dispatch) => {
+    dispatch({
+      type: 'RESET_REGISTER_THERAPIST'
+    })
+  }
+}
+
 export const therapistLogin = (payload) => {
   return async (dispatch) => {
     try {
