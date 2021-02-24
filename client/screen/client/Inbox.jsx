@@ -103,7 +103,7 @@ export default function Inbox({navigation}) {
           <View style={tailwind('flex-1 justify-center items-center bg-white')}>
             <Image 
               style={tailwind('w-full h-80')}
-              source={require('../../assets/sad.png')}
+              source={require('../../assets/sad-green.png')}
             />
             <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>Empty . . .</Text>
           </View>

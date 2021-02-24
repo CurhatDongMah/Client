@@ -36,6 +36,8 @@ export default function Detail({ navigation }) {
       ...order, totalHour: Number(index)
     })
   }
+  const dataOption = [ '1 hour', '2 hour', '3 hour' ]
+  const displayValue = dataOption[selectedIndex.row]
   const handleOrder = async () => {
     if (!order.totalHour) setError('Please select duration')
     else {
@@ -171,6 +173,7 @@ export default function Detail({ navigation }) {
                         style={tailwind('mx-2 ml-4 flex-1')}
                         placeholder='Duration'
                         selectedIndex={selectedIndex}
+                        value={displayValue}
                         onSelect={index => handleSelect(index) }>
                         <SelectItem title='1 hour'/>
                         <SelectItem title='2 hour'/>
