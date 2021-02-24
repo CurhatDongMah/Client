@@ -80,6 +80,7 @@ export const clientLogin = (payload) => {
       console.log(res.data.data.email, 'email')
       if (res.data) {
         await SecureStore.setItemAsync('access_token', res.data.access_token)
+        await SecureStore.setItemAsync('role', 'client')
         dispatch({
           type: 'SAVE_CLIENT',
           payload: res.data.data
@@ -303,6 +304,15 @@ export const setCompletedOrder = (id) => {
         method: 'GET',
         url: `${baseUrl}/client/ongoing`,
         headers: {access_token}
+      })
+      const resHistory = await axios({
+        method: 'GET',
+        url: `${baseUrl}/client/history`,
+        headers: {access_token}
+      })
+      dispatch({
+        type: 'SAVE_HISTORIES',
+        payload: resHistory.data
       })
       dispatch({
         type: 'SAVE_ON_GOING',

@@ -173,8 +173,7 @@ export default function Detail({ navigation }) {
                       <View style={tailwind('flex flex-row items-center mx-2 mr-4 ')}>
                         <Text 
                           style={tailwind('text-lg text-yellow-500 font-bold tracking-wider')}
-                        >{ curencyFormat(therapistDetail.price) }</Text>
-                        <Text style={tailwind('text-gray-400 text-base font-bold')}>/h</Text>
+                        >{ curencyFormat(therapistDetail.price) }/h</Text>
                       </View>
                       <Select
                         style={tailwind('mx-2 ml-4 flex-1')}

@@ -45,11 +45,13 @@ export default function SigninForm({ navigation }) {
         const token = await SecureStore.getItemAsync('access_token')
         if (token) {
           navigation.navigate('ClientPage')
+          // console.log(props);
           setValue({})
         }
       }
     }
   }
+
   useEffect(() => {
     console.log(errorClient, 'client');
     console.log(errorTherapist, 'therappst');
@@ -75,7 +77,7 @@ export default function SigninForm({ navigation }) {
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <Image 
         style={tailwind('w-60 h-48')}
-        source={require('../assets/logo5.png')}
+        source={require('../assets/logo7.png')}
       />
       {/* <Text style={tailwind('text-center text-3xl text-green-400 font-bold my-2')}>Curhat Dong Mah</Text> */}
       <View style={{ width: widthWindow * 8 / 10}}>
