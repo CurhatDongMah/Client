@@ -69,6 +69,27 @@ export default function Profile({ navigation }) {
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
+      <View style={tailwind('flex flex-row px-10 pt-14 pb-6 w-full justify-start border-b-2 border-green-400')}>
+        <View>
+          <Image 
+            style={tailwind('w-16 h-16 rounded-full')}
+            source={{
+              uri: client.photoUrl
+            }}
+          />
+        </View>
+        <View style={tailwind('flex items-start justify-center px-6')}>
+          <Text style={tailwind('text-2xl text-gray-600')}>{ client.fullName }</Text>
+          <View style={tailwind('flex flex-row')}>
+            <View style={tailwind('flex flex-row')}>
+              <Ionicons style={tailwind('mr-1 text-gray-400 text-base')} name='location'/>
+              <Text style={tailwind('text-lg text-gray-500')}>{ client.city }</Text>
+            </View>
+            <Text style={tailwind('text-lg text-gray-500')}> | </Text>
+            <Text style={tailwind('text-lg text-gray-500 capitalize')}>{ client.gender }</Text>
+          </View>
+        </View>
+      </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -78,27 +99,6 @@ export default function Profile({ navigation }) {
           />
         }
       >
-        <View style={tailwind('flex flex-row px-5 pt-16 pb-8 w-full justify-start border-b-2 border-green-400')}>
-          <View>
-            <Image 
-              style={tailwind('w-16 h-16 rounded-full')}
-              source={{
-                uri: client.photoUrl
-              }}
-            />
-          </View>
-          <View style={tailwind('flex items-start justify-center px-6')}>
-            <Text style={tailwind('text-2xl text-gray-600')}>{ client.fullName }</Text>
-            <View style={tailwind('flex flex-row')}>
-              <View style={tailwind('flex flex-row')}>
-                <Ionicons style={tailwind('mr-1 text-gray-400 text-base')} name='location'/>
-                <Text style={tailwind('text-lg text-gray-500')}>{ client.city }</Text>
-              </View>
-              <Text style={tailwind('text-lg text-gray-500 mx-2')}> | </Text>
-              <Text style={tailwind('text-lg text-gray-500 capitalize')}>{ client.gender }</Text>
-            </View>
-          </View>
-        </View>
         {
           onGoingOrders.length ? (
             <View style={{ width: widthWindow * 9 / 10 }}>

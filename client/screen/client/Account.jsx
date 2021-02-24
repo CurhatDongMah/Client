@@ -45,11 +45,7 @@ export default function Account({ navigation }) {
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
-    <ScrollView 
-      showsVerticalScrollIndicator={false}
-      style={{ width: widthWindow * 9 / 10}}
-    >
-      <View style={tailwind('flex flex-row pt-16 pb-6 w-full justify-start border-b-2 border-green-400 relative')}>
+      <View style={tailwind('flex flex-row px-10 pt-14 pb-6 w-full justify-start border-b-2 border-green-400 relative')}>
         <View>
           <Image 
             style={tailwind('w-16 h-16 rounded-full')}
@@ -72,9 +68,13 @@ export default function Account({ navigation }) {
           onPress={async () => {
             toggleAlert()
           }} 
-          style={tailwind('absolute top-14 right-4 text-red-400 text-3xl')} name='power-sharp'
+          style={tailwind('absolute top-14 right-8 text-red-400 text-3xl')} name='power-sharp'
         />
       </View>
+      <ScrollView 
+        showsVerticalScrollIndicator={false}
+        style={{ width: widthWindow * 9 / 10}}
+      >
       <View style={tailwind('mt-5')}>
         <View style={tailwind('mt-2')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Email</Text>

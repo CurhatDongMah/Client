@@ -35,7 +35,7 @@ export default function App({ navigation }) {
 
 		const data = {
 			transaction_details: {
-				order_id: order.id,
+				order_id: order.id+77,
 				gross_amount: order.totalPrice,
 			},
 			item_details: [
@@ -65,7 +65,7 @@ export default function App({ navigation }) {
 	}
 
   async function check() {
-		const url = `https://api.sandbox.midtrans.com/v2/${order.id}/status`;
+		const url = `https://api.sandbox.midtrans.com/v2/${order.id+77}/status`;
 		const serverKey = 'SB-Mid-server-Q9D7Se5Y3_wBnvNBq-4GEme5:';
 		const base64Key = base64.encode(serverKey);
 

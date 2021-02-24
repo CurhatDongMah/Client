@@ -120,39 +120,46 @@ export default function Detail({ navigation }) {
           </View>
           {
             secreen === 'profile' ? (
-              <View style={tailwind('mt-5')}>
-                <View style={tailwind('mt-2')}>
-                  <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Age</Text>
-                  <Text 
-                    style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
-                  >{ getAge(therapistDetail.birthDate)} years old</Text>
-                </View>
+              <View style={{ width: widthWindow * 9 /10}}>
                 <View style={tailwind('mt-5')}>
-                  <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Gender</Text>
-                  <Text 
-                    style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
-                  >{ therapistDetail.gender }</Text>
-                </View>
-                <View style={tailwind('mt-5')}>
-                  <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>City</Text>
-                  <Text 
-                    style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
-                  >{ therapistDetail.city }</Text>
-                </View>
-                <View style={tailwind('mt-5')}>
-                  <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>About</Text>
-                  <Text 
-                    style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
-                  >{ therapistDetail.about } </Text>
-                </View>
-                <View style={tailwind('mt-5')}>
-                  <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>License</Text>
-                  <Image 
-                    style={tailwind('w-full h-80')}
-                    source={{
-                      uri: therapistDetail.licenseUrl
-                    }}
-                  />
+                  <View style={tailwind('mt-2')}>
+                    <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Age</Text>
+                    <Text 
+                      style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+                    >{ getAge(therapistDetail.birthDate)} years old</Text>
+                  </View>
+                  <View style={tailwind('mt-5')}>
+                    <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Gender</Text>
+                    <Text 
+                      style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+                    >{ therapistDetail.gender }</Text>
+                  </View>
+                  <View style={tailwind('mt-5')}>
+                    <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>City</Text>
+                    <Text 
+                      style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+                    >{ therapistDetail.city }</Text>
+                  </View>
+                  <View style={tailwind('mt-5')}>
+                    <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>About</Text>
+                    <Text 
+                      ellipsizeMode='clip'
+                      multiline={true}
+                      adjustsFontSizeToFit={true}
+                      style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+                    >{ therapistDetail.about } </Text>
+                  </View>
+                  <View style={tailwind('mt-5')}>
+                    <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>License</Text>
+                    <View style={tailwind('flex justify-center items-center p-2')}>
+                      <Image 
+                        style={tailwind('w-80 h-80 rounded-lg')}
+                        source={{
+                          uri: therapistDetail.licenseUrl
+                        }}
+                      />
+                    </View>
+                  </View>
                 </View>
               </View>
             ) : <></>
@@ -208,24 +215,26 @@ export default function Detail({ navigation }) {
               reviews.length ? (
                 reviews.map(review => {
                   return (
-                    <View key={review.id} style={tailwind('my-3 mt-5')}>
-                      <Text style={tailwind('text-lg text-gray-500 tracking-wider')}>{review.Client.fullName}</Text>
-                      <View style={tailwind('flex flex-row items-center py-1')}>
-                        {
-                          review.rating ? (
-                            ARR.map(arr => {
-                              return review.rating >= arr ? (
-                                <Ionicons key={arr} style={tailwind('mr-1 text-yellow-400')} name='star'/>
-                              ) : (
-                                <Ionicons key={arr} style={tailwind('mr-1 text-gray-400')} name='star'/>
-                              ) 
-                            })
-                          ) : <Text>No Review</Text>
-                        }
+                    <View  key={review.id} style={{ width: widthWindow * 9 /10}}>
+                      <View style={tailwind('my-3 mt-5')}>
+                        <Text style={tailwind('text-lg text-gray-500 tracking-wider')}>{review.Client.fullName}</Text>
+                        <View style={tailwind('flex flex-row items-center py-1')}>
+                          {
+                            review.rating ? (
+                              ARR.map(arr => {
+                                return review.rating >= arr ? (
+                                  <Ionicons key={arr} style={tailwind('mr-1 text-yellow-400')} name='star'/>
+                                ) : (
+                                  <Ionicons key={arr} style={tailwind('mr-1 text-gray-400')} name='star'/>
+                                ) 
+                              })
+                            ) : <Text>No Review</Text>
+                          }
+                        </View>
+                        <Text 
+                          style={tailwind('py-2 text-base text-gray-600 bg-gray-50 p-3 rounded-lg border-b border-gray-100')}
+                        >{ review.review }</Text>
                       </View>
-                      <Text 
-                        style={tailwind('py-2 text-base text-gray-600 bg-gray-50 p-3 rounded-lg border-b border-gray-100')}
-                      >{ review.review }</Text>
                     </View>
                   )
                 })
