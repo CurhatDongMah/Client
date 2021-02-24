@@ -33,8 +33,8 @@ export default function ListHistory({ navigation, history, handleDetail, handleR
               numberOfLines={1}
               ellipsizeMode='clip'
               style={tailwind('w-32 text-lg text-gray-600')}>{ history.Therapist.fullName }</Text>
-            <Text style={tailwind('text-gray-500')}>Date: { `${twoDigitFormat(new Date(history.createdAt).getDate())}/${twoDigitFormat(new Date(history.createdAt).getMonth()+1)}/${new Date(history.createdAt).getFullYear()}`}</Text>  
-            <Text style={tailwind('text-gray-500')}>Start at: { `${twoDigitFormat(new Date(history.createdAt).getHours())} : ${twoDigitFormat(new Date(history.createdAt).getMinutes())}`}</Text>
+            <Text style={tailwind('text-gray-500 text-base')}>Date: { `${twoDigitFormat(new Date(history.createdAt).getDate())}/${twoDigitFormat(new Date(history.createdAt).getMonth()+1)}/${new Date(history.createdAt).getFullYear()}`}</Text>  
+            <Text style={tailwind('text-gray-500 text-base')}>Start at: { `${twoDigitFormat(new Date(history.createdAt).getHours())} : ${twoDigitFormat(new Date(history.createdAt).getMinutes())}`}</Text>
             <Text style={tailwind('text-gray-500 text-base')}>Duration: { history.totalHour } Hour</Text>
           </View>
           <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
