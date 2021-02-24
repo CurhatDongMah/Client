@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions } from 'react-native'
+import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions, Image } from 'react-native'
 import tailwind from 'tailwind-rn'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { CheckBox } from '@ui-kitten/components'
@@ -67,8 +67,12 @@ export default function SigninForm({ navigation }) {
 
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
-      <Ionicons style={tailwind('mx-2 text-green-400 text-4xl')} name='leaf'/>
-      <Text style={tailwind('text-center text-3xl text-green-400 font-bold my-2')}>Curhat Dong Mah</Text>
+      {/* <Ionicons style={tailwind('mx-2 text-green-400 text-4xl')} name='leaf'/> */}
+      <Image 
+        style={tailwind('w-80 h-48')}
+        source={require('../assets/logo.png')}
+      />
+      {/* <Text style={tailwind('text-center text-3xl text-green-400 font-bold my-2')}>Curhat Dong Mah</Text> */}
       <View style={{ width: widthWindow * 8 / 10}}>
         <View style={tailwind('mt-5')}>
           <View style={tailwind('flex flex-row items-center')}>
