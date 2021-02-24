@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity,
   useWindowDimensions,
   RefreshControl,
   ScrollView,

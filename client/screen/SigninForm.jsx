@@ -45,7 +45,6 @@ export default function SigninForm({ navigation }) {
         const token = await SecureStore.getItemAsync('access_token')
         if (token) {
           navigation.navigate('ClientPage')
-          // console.log(props);
           setValue({})
         }
       }
@@ -79,7 +78,6 @@ export default function SigninForm({ navigation }) {
         style={tailwind('w-60 h-48')}
         source={require('../assets/logo7.png')}
       />
-      {/* <Text style={tailwind('text-center text-3xl text-green-400 font-bold my-2')}>Curhat Dong Mah</Text> */}
       <View style={{ width: widthWindow * 8 / 10}}>
         <View style={tailwind('mt-5')}>
           <View style={tailwind('flex flex-row items-center')}>

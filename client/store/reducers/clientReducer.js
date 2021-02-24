@@ -9,11 +9,23 @@ const initialState = {
   order: {},
   onGoingOrders: [],
   successRegister: false,
-  reviews: []
+  reviews: [],
+  isClientSignin: true
 }
 
 const clientReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case 'SET_CLIENT_SIGNIN':
+      return {
+        ...state,
+        isClientSignin: true,
+      }
+    case 'RESET_CLIENT_SIGNIN':
+      return {
+        ...state,
+        isClientSignin: false,
+      }
 
     case 'SET_LOADING_CLIENT':
       return {
