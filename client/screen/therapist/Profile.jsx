@@ -89,13 +89,13 @@ export default function Detail({ navigation }) {
         <View style={tailwind('mt-16 mb-2 border-b-2 border-green-400 pb-4 relative px-2')}>
           <View style={tailwind('flex flex-row items-center')}>
             <Image 
-              style={tailwind('w-20 h-20 rounded-full')}
+              style={tailwind('w-16 h-16 rounded-full')}
               source={{
                 uri: therapist.photoUrl
               }}
             />
-            <View style={tailwind('px-6')}>
-              <Text style={tailwind('text-2xl my-2 text-gray-600')}>{ therapist.fullName }</Text>
+            <View style={tailwind('flex items-start justify-center px-6')}>
+              <Text style={tailwind('text-2xl text-gray-600')}>{ therapist.fullName }</Text>
               <View style={tailwind('flex flex-row items-center')}>
               {
                 therapist.rating ? (
@@ -117,10 +117,17 @@ export default function Detail({ navigation }) {
                 )
               }
               </View>
-              <Text style={tailwind('text-lg my-2 text-gray-400')}>{ therapist.city }</Text>
+              <View style={tailwind('flex flex-row')}>
+                <View style={tailwind('flex flex-row')}>
+                  <Ionicons style={tailwind('mr-1 text-gray-400 text-base')} name='location'/>
+                  <Text style={tailwind('text-lg text-gray-500')}>{ therapist.city }</Text>
+                </View>
+                <Text style={tailwind('text-lg text-gray-200 mx-2')}> | </Text>
+                <Text style={tailwind('text-lg text-gray-500 capitalize')}>{ therapist.gender }</Text>
+              </View>
             </View>
             <Toggle 
-              style={tailwind('absolute right-6 top-2')}
+              style={tailwind('absolute right-0 top-2')}
               status='success'
               checked={checked} 
               onChange={onCheckedChange}>
@@ -132,9 +139,9 @@ export default function Detail({ navigation }) {
               {
                 onGoingOrdersTherapist.length ? (
                   <View style={{ width: widthWindow * 9 / 10 }}>
-                    <Text style={tailwind('text-lg text-gray-400 text-center tracking-wider')}>ON GOING</Text>
+                    <Text style={tailwind('text-lg text-gray-400 text-center tracking-wider py-2')}>ON GOING</Text>
                     <View style={tailwind('border border-green-400 px-5 py-2 rounded-lg my-2')}>
-                      <View style={tailwind('flex flex-row items-center justify-start')}>
+                      <View style={tailwind('flex flex-row items-center justify-start border-b pb-3 border-gray-300')}>
                         <Image 
                           style={tailwind('w-12 h-12 rounded-full')}
                           source={{
@@ -142,12 +149,15 @@ export default function Detail({ navigation }) {
                           }}
                         />
                         <View style={tailwind('flex items-start justify-center px-6')}>
-                          <Text 
-                            numberOfLines={1}
-                            ellipsizeMode='clip'
-                            style={tailwind('w-36 text-base text-gray-500 text-xl')}>{ onGoingOrdersTherapist[0].Client.fullName }</Text>
-                          <Text style={tailwind('text-gray-400 text-lg')}>{ onGoingOrdersTherapist[0].Client.gender }</Text>
-                          <Text style={tailwind('text-gray-400 text-lg')}>{ onGoingOrdersTherapist[0].Client.city }</Text>
+                          <Text style={tailwind('text-lg text-gray-600')}>{ onGoingOrdersTherapist[0].Client.fullName }</Text>
+                          <View style={tailwind('flex flex-row')}>
+                            <View style={tailwind('flex flex-row')}>
+                              <Ionicons style={tailwind('mr-1 text-gray-400 text-base')} name='location'/>
+                              <Text style={tailwind('text-lg text-gray-500')}>{ onGoingOrdersTherapist[0].Client.city }</Text>
+                            </View>
+                            <Text style={tailwind('text-lg text-gray-200 mx-1')}> | </Text>
+                            <Text style={tailwind('text-lg text-gray-500 capitalize')}>{ onGoingOrdersTherapist[0].Client.gender }</Text>
+                          </View>
                         </View>
                       </View>
                       <View style={tailwind('')}>
@@ -195,7 +205,7 @@ export default function Detail({ navigation }) {
                     </View>
                   </View>
                 ) 
-                : <View style={tailwind('mt-8 flex-1 justify-center items-center bg-white')}>
+                : <View style={tailwind('mt-16 flex-1 justify-center items-center bg-white')}>
                     <Image 
                       style={tailwind('w-full h-80')}
                       source={require('../../assets/sad-green.png')}

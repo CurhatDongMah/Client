@@ -46,7 +46,7 @@ export default function Inbox({navigation}) {
   const Item = ({ client }) => (
     <TouchableOpacity onPress={async () => navigation.navigate('ChatRoom', { client })} >
       <View style={{ width: widthWindow * 9 / 10 }}>
-        <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-50 justify-start')}>
+        <View style={tailwind('flex flex-row mt-4 rounded-xl py-4 bg-gray-100 justify-start')}>
           <View style={tailwind('px-5 flex items-center justify-center')}>
             <Image 
               style={tailwind('w-12 h-12 rounded-full')}
