@@ -28,7 +28,7 @@ export default function TherapistCard({ therapist, handleDetail, handleChat }) {
           <Text 
             numberOfLines={1}
             ellipsizeMode='clip'
-            style={tailwind('w-36 text-base text-gray-600')}>{therapist.fullName}</Text>
+            style={tailwind('w-36 text-lg text-gray-600')}>{therapist.fullName}</Text>
           <View style={tailwind('flex flex-row items-center')}>
             {
               therapist.rating ? (
@@ -45,10 +45,10 @@ export default function TherapistCard({ therapist, handleDetail, handleChat }) {
           <View style={tailwind('flex flex-row items-center justify-center')}>
             <View style={tailwind('flex flex-row justify-center items-center')}>
               <Ionicons style={tailwind('mr-1 text-gray-400 text-base')} name='location'/>
-              <Text style={tailwind('text-gray-500')}>{ therapist.city }</Text>
+              <Text style={tailwind('text-gray-500 text-base')}>{ therapist.city }</Text>
             </View>
             <Text style={tailwind('text-gray-500 mx-2')}> | </Text>
-            <Text style={tailwind('text-gray-500 capitalize')}>{ therapist.gender }</Text>
+            <Text style={tailwind('text-gray-500 text-base capitalize')}>{ therapist.gender }</Text>
           </View>
           <Text style={tailwind('text-yellow-400 text-base font-bold')}>{ curencyFormat(therapist.price) }/h</Text>
         </View>
@@ -57,14 +57,14 @@ export default function TherapistCard({ therapist, handleDetail, handleChat }) {
             onPress={() => handleDetail(therapist)}
             style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-gray-100 border border-r border-green-400')}>
             <Text 
-              style={tailwind('text-green-400')}
+              style={tailwind('text-green-400 text-base')}
             >Detail</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => handleChat(therapist)} 
             style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-green-400 border border-r border-green-400')}>
             <Text 
-              style={tailwind('text-gray-100')}
+              style={tailwind('text-gray-100 text-base')}
             >Chat</Text>
           </TouchableOpacity>
         </View>

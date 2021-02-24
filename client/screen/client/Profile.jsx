@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTherapists } from '../../store/actions/therapist';
 import { setTherapist, getOnGoingOrder, setCompletedOrder, getReview } from '../../store/actions/client'
 import TherapistCard from '../../components/TherapistCard'
+import ClientOngoingOrder from '../../components/ClientOngoingOrder'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 const wait = (timeout) => {
@@ -101,59 +102,11 @@ export default function Profile({ navigation }) {
       >
         {
           onGoingOrders.length ? (
-            <View style={{ width: widthWindow * 9 / 10 }}>
-              <View style={tailwind('border-b border-gray-300 pb-2')}>
-                <Text style={tailwind('py-2 text-lg text-gray-600 tracking-wider')}>ON GOING ORDER</Text>
-                <View style={tailwind('flex flex-row mt-2 rounded-xl py-4 bg-green-100 justify-start')}>
-                  <View style={tailwind('px-5 flex items-center justify-center')}>
-                    <Image 
-                      style={tailwind('w-12 h-12 rounded-full')}
-                      source={{
-                        uri: onGoingOrders[0].Therapist.photoUrl
-                      }}
-                    />
-                  </View>
-                  <View style={tailwind('flex items-start justify-center')}>
-                    <Text 
-                      numberOfLines={1}
-                      ellipsizeMode='clip'
-                      style={tailwind('w-32 text-base text-gray-600')}>{ onGoingOrders[0].Therapist.fullName }</Text>
-                    <View style={tailwind('flex flex-row')}>
-                      <Text style={tailwind('text-gray-400')}>Date: </Text>
-                      <Text 
-                        style={tailwind('text-gray-500')}
-                      >{ `${new Date(onGoingOrders[0].createdAt).getDate()}/${new Date(onGoingOrders[0].createdAt).getMonth()+1}/${new Date(onGoingOrders[0].createdAt).getFullYear()}`}</Text>
-                    </View>
-                    <View style={tailwind('flex flex-row')}>
-                      <Text style={tailwind('text-gray-400')}>Start at: </Text>
-                      <Text 
-                        style={tailwind('text-gray-500')}
-                      >{ `${new Date(onGoingOrders[0].createdAt).getHours()}:${new Date(onGoingOrders[0].createdAt).getMinutes()}`}</Text>
-                    </View>
-                    <View style={tailwind('flex flex-row')}>
-                      <Text style={tailwind('text-gray-400')}>Duration: </Text>
-                      <Text style={tailwind('text-gray-500')}>{ onGoingOrders[0].totalHour } Hour</Text>
-                    </View>
-                  </View>
-                  <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
-                    <TouchableOpacity
-                      onPress={() => dispatch(setCompletedOrder(onGoingOrders[0].id))}
-                      style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-gray-100 border border-r border-green-400')}>
-                      <Text 
-                        style={tailwind('text-green-400')}
-                      >Completed</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={async () => navigation.navigate('Messages', {screen: 'ChatRoom', params: {therapist: onGoingOrders[0].Therapist }})} 
-                      style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-green-400 border border-r border-green-400')}>
-                      <Text 
-                        style={tailwind('text-gray-100')}
-                      >Chat</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </View>
+            <ClientOngoingOrder 
+              onGoingOrders={onGoingOrders}
+              handleChat={async () => navigation.navigate('Messages', {screen: 'ChatRoom', params: {therapist: onGoingOrders[0].Therapist }})}
+              handleCompleted={(payload) => dispatch(setCompletedOrder(payload))}
+            />
           ) : <></>
         }
         <View style={tailwind('mb-4')}>

@@ -168,7 +168,7 @@ export default function Detail({ navigation }) {
             secreen === 'order' ? (
               therapistDetail.status ? ( 
                 !onGoingOrders.length ? (
-                  <View style={tailwind('border border-gray-300 rounded py-2 px-4 mt-5')}>
+                  <View style={tailwind('border-2 border-gray-400 rounded py-2 px-4 mt-5')}>
                     <View style={tailwind('mt-2 flex flex-row justify-between items-center')}>
                       <View style={tailwind('flex flex-row items-center mx-2 mr-4 ')}>
                         <Text 
@@ -194,9 +194,9 @@ export default function Detail({ navigation }) {
                     </View>
                     <TouchableOpacity
                       onPress={handleOrder}
-                      style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-green-400')}>
+                      style={tailwind('items-center my-3 py-1 px-10 rounded-lg border-2 border-green-400')}>
                       <Text 
-                        style={tailwind('text-base text-green-400')}
+                        style={tailwind('text-base font-bold text-green-400')}
                       >Book Now</Text>
                     </TouchableOpacity>
                     {

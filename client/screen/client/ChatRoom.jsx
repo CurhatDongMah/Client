@@ -68,7 +68,7 @@ export default function ChatRoom({ navigation, route }) {
     )
   }
   return (<>
-      <View style={tailwind('flex flex-row px-10 pt-14 pb-6 w-full justify-start border-b-2 border-green-400')}>
+      <View style={tailwind('flex flex-row px-14 pt-14 pb-6 w-full justify-start border-b-2 border-green-400')}>
         <View>
           <Image 
             style={tailwind('w-10 h-10 rounded-full')}
@@ -85,15 +85,15 @@ export default function ChatRoom({ navigation, route }) {
           style={tailwind('mx-1 text-green-400 text-3xl absolute bottom-6 left-2')} name='arrow-back'
         />
       </View>
-    <GiftedChat
-      messages={messages}
-      onSend={message => handleSendMessage(message)}
-      user={{
-        _id: client.email,
-        name: client.fullName,
-        avatar: client.photoUrl
-      }}
-      />
-    </>
+      <GiftedChat
+        messages={messages}
+        onSend={message => handleSendMessage(message)}
+        user={{
+          _id: client.email,
+          name: client.fullName,
+          avatar: client.photoUrl
+        }}
+        />
+      </>
   )
 }
