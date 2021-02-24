@@ -6,7 +6,6 @@ import Detail from './Detail'
 import Payment from './Payment'
 import Success from './Success'
 import ConfirmPayment from './ConfirmPayment'
-// import FormEdit from './FormEdit'
 
 const Stack = createStackNavigator();
 
@@ -16,7 +15,6 @@ export default function Home() {
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="ListTherapist" component={ListTherapist} />
-        {/* <Stack.Screen name="ClientEdit" component={FormEdit} /> */}
         <Stack.Screen name="Detail" component={Detail} />
         <Stack.Screen name="ConfirmPayment" component={ConfirmPayment} />
         <Stack.Screen name="Payment" component={Payment} />

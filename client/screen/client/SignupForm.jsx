@@ -7,11 +7,9 @@ import { Datepicker } from '@ui-kitten/components'
 import { Radio, RadioGroup} from '@ui-kitten/components'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { clientRegister } from '../../store/actions/client'
-import { async, validate } from 'validate.js';
+import { validate } from 'validate.js';
 import constraints from '../../helpers/constraints';
-import { Button, Image, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import Constants from 'expo-constants';
 import axios from 'axios'
 import { resetRegister } from '../../store/actions/client'
 import { FancyAlert } from 'react-native-expo-fancy-alerts'

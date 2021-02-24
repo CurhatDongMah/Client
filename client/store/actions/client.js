@@ -87,6 +87,7 @@ export const clientLogin = (payload) => {
         })
       }
     } catch (error) {
+      console.log(error);
       dispatch({
         type: 'SET_ERROR_CLIENT',
         payload: error.response.data.message
