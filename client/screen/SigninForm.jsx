@@ -74,8 +74,8 @@ export default function SigninForm({ navigation }) {
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <Image 
-        style={tailwind('w-80 h-48')}
-        source={require('../assets/logo.png')}
+        style={tailwind('w-60 h-48')}
+        source={require('../assets/logo5.png')}
       />
       {/* <Text style={tailwind('text-center text-3xl text-green-400 font-bold my-2')}>Curhat Dong Mah</Text> */}
       <View style={{ width: widthWindow * 8 / 10}}>

@@ -157,7 +157,7 @@ export default function ListHistory({ navigation }) {
                 </View>
               </View>
             })
-          ) : <Text style={tailwind('py-2 text-lg text-gray-500 tracking-wider')}>NO HISTORY ORDER</Text>
+          ) : <Text style={tailwind('py-4 text-lg text-gray-500 tracking-wider')}>No hisroty order</Text>
         }
       </ScrollView>
 

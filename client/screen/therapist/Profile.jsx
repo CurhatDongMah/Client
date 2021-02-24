@@ -77,16 +77,7 @@ export default function Detail({ navigation }) {
   } else {
     return (
       <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-        <ScrollView 
-          showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            />
-          }
-          >
-        <View style={tailwind('mt-16 mb-2 border-b-2 border-green-400 pb-4 relative px-2')}>
+        <View style={tailwind('w-full px-8 pt-14 pb-6 border-b-2 border-green-400 relative')}>
           <View style={tailwind('flex flex-row items-center')}>
             <Image 
               style={tailwind('w-16 h-16 rounded-full')}
@@ -127,13 +118,22 @@ export default function Detail({ navigation }) {
               </View>
             </View>
             <Toggle 
-              style={tailwind('absolute right-0 top-2')}
+              style={tailwind('absolute -right-3 bottom-1')}
               status='success'
               checked={checked} 
               onChange={onCheckedChange}>
             </Toggle>
           </View>
         </View>
+        <ScrollView 
+          showsVerticalScrollIndicator={false}
+          refreshControl={
+            <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            />
+          }
+          >
           <View style={{ width: widthWindow * 9 /10}}>
             <View style={tailwind('mt-2')}>
               {

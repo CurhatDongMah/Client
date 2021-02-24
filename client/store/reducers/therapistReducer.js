@@ -25,6 +25,11 @@ const therapistReducer = (state = initialState, action) => {
         ...state,
         loading: true
       }
+    case 'RESET_LOADING_THERAPIST':
+      return {
+        ...state,
+        loading: false
+      }
 
     case 'SET_ERROR_THERAPIST':
       return {
