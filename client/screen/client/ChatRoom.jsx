@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, ActivityIndicator, View } from 'react-native';
+import { Text, ActivityIndicator, View, Image } from 'react-native';
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { GiftedChat } from "react-native-gifted-chat";
 import 'firebase/firestore'
@@ -68,8 +68,18 @@ export default function ChatRoom({ navigation, route }) {
     )
   }
   return (<>
-      <View style={tailwind('flex flex-row pt-12 pb-6 w-full justify-center border-b-2 border-green-400 relative')}>
-        <Text style={tailwind('py-2 text-lg text-gray-600')}>{ therapist.fullName }</Text>
+      <View style={tailwind('flex flex-row px-10 pt-14 pb-6 w-full justify-start border-b-2 border-green-400')}>
+        <View>
+          <Image 
+            style={tailwind('w-10 h-10 rounded-full')}
+            source={{
+              uri: therapist.photoUrl
+            }}
+          />
+        </View>
+        <View style={tailwind('flex  items-start justify-center')}>
+          <Text style={tailwind('px-3 py-2 text-lg text-gray-600 ')}>{ therapist.fullName }</Text>
+        </View>
         <Ionicons 
           onPress={() => navigation.navigate('Inbox')}
           style={tailwind('mx-1 text-green-400 text-3xl absolute bottom-6 left-2')} name='arrow-back'
