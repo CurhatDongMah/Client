@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions, Image } from 'react-native'
 import tailwind from 'tailwind-rn'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { CheckBox } from '@ui-kitten/components'
-import { therapistLogin } from '../store/actions/therapist'
-import { clientLogin } from '../store/actions/client'
+import { therapistLogin, resetErrorTherapist } from '../store/actions/therapist'
+import { clientLogin, resetErrorClient } from '../store/actions/client'
 import * as SecureStore from 'expo-secure-store'
 import { validate } from 'validate.js'
 import constraints from '../helpers/constraints'
+import { FancyAlert } from 'react-native-expo-fancy-alerts'
 
 export default function SigninForm({ navigation }) {
   const widthWindow = useWindowDimensions().width
@@ -20,6 +21,7 @@ export default function SigninForm({ navigation }) {
     password: ''
   })
   const [error, setError] = useState({})
+  const [errorLogin, setErrorLogin] = useState('')
   const dispatch = useDispatch()
   const handleChange = (text, name) => {
     setError({})
@@ -35,18 +37,13 @@ export default function SigninForm({ navigation }) {
         await dispatch(therapistLogin(value))
         const token = await SecureStore.getItemAsync('access_token')
         if (token) {
-          console.log(token, 'login token')
           navigation.navigate('TherapistPage')
           setValue({})
-        } else {
-          console.log(errorClient, 'from sign in');
-          console.log(errorTherapist, 'from sign in');
-        }
+        } 
       } else {
         await dispatch(clientLogin(value))
         const token = await SecureStore.getItemAsync('access_token')
         if (token) {
-          console.log(token, 'login token')
           navigation.navigate('ClientPage')
           setValue({})
         }
@@ -54,20 +51,28 @@ export default function SigninForm({ navigation }) {
     }
   }
   useEffect(() => {
+    console.log(errorClient, 'client');
+    console.log(errorTherapist, 'therappst');
     if (errorClient) {
-      setError({...error, email: errorClient})
-      setError({...error, password: errorClient})
+      setErrorLogin(errorClient)
+      toggleAlert()
     }
     if (errorTherapist) {
-      console.log('error login');
-      setError({...error, email: errorTherapist})
-      setError({...error, password: errorTherapist})
+      setErrorLogin(errorTherapist)
+      toggleAlert()
     }
-  }, [errorClient])
+  }, [errorClient, errorTherapist])
+
+    // fancy alert
+    const [visible, setVisible] = useState(false);
+    const toggleAlert = useCallback(() => {
+      setVisible(!visible)
+      dispatch(resetErrorClient())
+      dispatch(resetErrorTherapist())
+    }, [visible]);
 
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
-      {/* <Ionicons style={tailwind('mx-2 text-green-400 text-4xl')} name='leaf'/> */}
       <Image 
         style={tailwind('w-80 h-48')}
         source={require('../assets/logo.png')}
@@ -139,6 +144,22 @@ export default function SigninForm({ navigation }) {
           style={tailwind('my-5 text-green-400 text-lg')}
         >Sign up</Text>
       </View>
+      <FancyAlert
+        visible={visible}
+        icon={<View 
+          style={tailwind('flex flex-1 justify-center items-center w-full rounded-full bg-red-500')}
+        ><Text style={tailwind('text-white text-2xl')}>X</Text></View>}
+        style={{ backgroundColor: 'white' }}
+      >
+        <Text style={tailwind('mb-2 text-lg text-gray-500')}>{ errorLogin }</Text>
+        <TouchableOpacity
+          onPress={toggleAlert}
+          style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-red-400')}>
+          <Text 
+            style={tailwind('text-base text-red-400')}
+          >Oke</Text>
+        </TouchableOpacity>
+      </FancyAlert>
     </SafeAreaView>
   )
 }

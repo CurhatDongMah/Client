@@ -21,7 +21,6 @@ export default function ListHistory({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const [refreshing, setRefreshing] = useState(false);
   const { histories, loading: loadingClient, error: errorClient } = useSelector(state => state.client)
-  console.log(histories, 'list');
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getHistory())

@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Text, TextInput, TouchableOpacity, View, SafeAreaView, useWindowDimensions } from 'react-native'
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  SafeAreaView,
+  useWindowDimensions,
+  Image,
+  Platform
+} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import tailwind from 'tailwind-rn'
-import { Datepicker } from '@ui-kitten/components'
-import { Radio, RadioGroup} from '@ui-kitten/components'
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import { Radio, RadioGroup, Datepicker} from '@ui-kitten/components'
 import { validate } from 'validate.js';
-import constraints from '../../helpers/constraints';
 import { therapistRegister } from '../../store/actions/therapist'
-import { Button, Image, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import Constants from 'expo-constants';
-import handleUpload from '../../helpers/handleUpload'
 import { resetRegisterTherapist } from '../../store/actions/therapist'
 import { FancyAlert } from 'react-native-expo-fancy-alerts';
+import constraints from '../../helpers/constraints';
+import handleUpload from '../../helpers/handleUpload'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import tailwind from 'tailwind-rn'
 
 export default function SignupForm({ navigation }) {
-  const [visible, setVisible] = useState(false);
-  const toggleAlert = React.useCallback(() => {
-    setVisible(!visible);
-  }, [visible]);
   const { successRegisterTherapist, error: errorTherapist } = useSelector(state => state.therapist)
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [birthDate, setBirthDate] = useState(new Date())
@@ -53,8 +55,6 @@ export default function SignupForm({ navigation }) {
     setValue({ ...value, [name]: text})
   }
   const handleSubmit = () => {
-    console.log(value.photoUrl)
-    console.log(value.licenseUrl)
     const validateEmail = validate({ emailAddress: value.email }, constraints)
     if (!value.fullName) setError({...error, fullName: 'Required'})
     else if (!value.email) setError({...error, email: 'Required'})
@@ -67,7 +67,6 @@ export default function SignupForm({ navigation }) {
     else if (!value.price) setError({...error, price: 'Required'})
     else if (!value.about) setError({...error, about: 'Required'})
     else {
-      console.log('noerror');
       dispatch(therapistRegister(value))
     }
   }
@@ -90,15 +89,11 @@ export default function SignupForm({ navigation }) {
       quality: 0.5
     });
 
-    // console.log(result);
-
     if (!result.cancelled) {
       setImage(result)
       setValue({ ...value, photoUrl: ''})
       const newUrl = await handleUpload(result)
-      console.log(newUrl, "url dari axios")
       setValue({ ...value, photoUrl: newUrl})
-      console.log(value.photoUrl, 'ini value new url')
     }
   };
   const pickLicense = async () => {
@@ -109,17 +104,19 @@ export default function SignupForm({ navigation }) {
       quality: 0.5
     });
 
-    // console.log(result);
-
     if (!result.cancelled) {
       setLicense(result)
       setValue({ ...value, licenseUrl: ''})
       const newUrl = await handleUpload(result)
-      console.log(newUrl, "url dari axios")
       setValue({ ...value, licenseUrl: newUrl})
-      console.log(value.licenseUrl, 'ini value new url')
     }
-  };
+  }
+  //fancy alert
+  const [visible, setVisible] = useState(false)
+  const toggleAlert = useCallback(() => {
+    setVisible(!visible)
+  }, [visible])
+  
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <ScrollView 

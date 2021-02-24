@@ -10,7 +10,6 @@ import {
   RefreshControl,
   ActivityIndicator
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import tailwind from 'tailwind-rn';
 import { getClients } from '../../store/actions/client';
@@ -23,7 +22,6 @@ export default function ListHistory({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const [refreshing, setRefreshing] = useState(false);
   const { historiesTherapist, loading, error } = useSelector(state => state.therapist)
-  console.log(historiesTherapist, 'list history');
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(getHistoryTherapist())

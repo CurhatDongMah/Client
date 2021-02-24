@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTherapists } from '../../store/actions/therapist';
 import { setTherapist, getOnGoingOrder, setCompletedOrder, getReview } from '../../store/actions/client'
 import TherapistCard from '../../components/TherapistCard'
-import ErrorImage from '../../assets/error.png'
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));

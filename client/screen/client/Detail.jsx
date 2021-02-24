@@ -199,7 +199,7 @@ export default function Detail({ navigation }) {
                       ): <Text></Text>
                     }
                   </View>
-                ) : <Text style={tailwind('pt-2 text-center text-lg text-gray-400 tracking-wider')}>You still have ongoing orders</Text>
+                ) : <Text style={tailwind('pt-2 text-center text-lg text-gray-400 tracking-wider')}>You still have ongoing order</Text>
               ) : <Text style={tailwind('pt-2 text-center text-lg text-gray-400 tracking-wider')}>Therapist Not Available</Text>
             ) : <></>
           }

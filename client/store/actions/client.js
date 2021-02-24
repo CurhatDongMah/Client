@@ -138,6 +138,14 @@ export const resetRegister = () => {
   }
 }
 
+export const resetErrorClient = () => {
+  return (dispatch) => {
+    dispatch({
+      type: 'RESET_ERROR_CLIENT'
+    })
+  }
+}
+
 export const createOrder = (payload) => {
   return async (dispatch) => {
     try {

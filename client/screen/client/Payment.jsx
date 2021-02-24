@@ -1,28 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { TouchableOpacity, Text, View, ActivityIndicator, Button, StyleSheet } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { WebView } from 'react-native-webview';
 import base64 from 'base-64';
 import tailwind from 'tailwind-rn';
 import { setOnGoingOrder } from '../../store/actions/client'
 
 export default function App({ navigation }) {
-	// web view to react
-	const webviewRef = useRef(null);
-	function LoadingIndicatorView() {
-    return (
-			<View style={tailwind('flex-1 justify-center items-center')}>
-				<ActivityIndicator color="34D399" size="large" />
-			</View>
-    );
-  }
 	const [mid, setMid] = useState(false)
-  const [complete, setComplete] = useState(false)
 	const { therapistDetail, client, order } = useSelector(state => state.client)
 	const dispatch = useDispatch()
-  useEffect(() => {
-    console.log('change')
-  }, [mid.redirect_url])
 	useEffect(() => {
     midtrans()
     .then(data => {
@@ -32,6 +19,15 @@ export default function App({ navigation }) {
       alert(err)
     })
 	}, [])
+	// web view to react
+	const webviewRef = useRef(null);
+	function LoadingIndicatorView() {
+    return (
+			<View style={tailwind('flex-1 justify-center items-center')}>
+				<ActivityIndicator color="34D399" size="large" />
+			</View>
+    );
+  }
 	async function midtrans() {
 		const url = 'https://app.sandbox.midtrans.com/snap/v1/transactions';
 		const serverKey = 'SB-Mid-server-Q9D7Se5Y3_wBnvNBq-4GEme5:';
@@ -99,11 +95,10 @@ export default function App({ navigation }) {
           startInLoadingState={true}
 					ref={webviewRef}
 					onNavigationStateChange={(event) => {
-						console.log(event.url, 'ini url');
+						console.log(event);
 						check().then((data) => {
 							console.log(data.status_code)
 							if (data.status_code == 200) {
-								setComplete(true)
 								dispatch(setOnGoingOrder(order.id))
 								navigation.navigate('Success')
 							} 

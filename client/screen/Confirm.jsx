@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Text, TextInput, TouchableOpacity, View, SafeAreaView, Button } from 'react-native'
+import React from 'react'
+import { Text, TouchableOpacity, View, SafeAreaView } from 'react-native'
 import tailwind from 'tailwind-rn'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
