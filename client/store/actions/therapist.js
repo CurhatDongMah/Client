@@ -122,6 +122,7 @@ export const therapistLogin = (payload) => {
       if (res.data) {
         await SecureStore.setItemAsync('access_token', res.data.access_token)
         await SecureStore.setItemAsync('email', res.data.data.email)
+        await SecureStore.setItemAsync('role', 'therapist')
         dispatch({
           type: 'SAVE_THERAPIST',
           payload: res.data.data
@@ -242,7 +243,17 @@ export const setCompletedOrderTherapist = (id) => {
         url: `${baseUrl}/therapist/ongoing`,
         headers: {access_token}
       })
-      console.log(resOnGoing.data , 'ongoing order');
+      const resHistory = await axios({
+        method: 'GET',
+        url: `${baseUrl}/therapist/history`,
+        headers: {access_token}
+      })
+      
+      dispatch({
+        type: 'SAVE_HISTORIES_THERAPIST',
+        payload: resHistory.data
+      })
+
       dispatch({
         type: 'SAVE_ON_GOING_THERAPIST',
         payload: resOnGoing.data
@@ -273,6 +284,7 @@ export const handleLogoutTherapist = () => {
       if (res.data) {
         await SecureStore.deleteItemAsync('access_token')
         await SecureStore.deleteItemAsync('email')
+        await SecureStore.deleteItemAsync('role')
         dispatch({
           type: 'RESET_LOADING_THERAPIST'
         })

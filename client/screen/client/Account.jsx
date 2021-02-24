@@ -113,6 +113,7 @@ export default function Account({ navigation }) {
             <TouchableOpacity
               onPress={async () => {
                 await SecureStore.deleteItemAsync('access_token')
+                await SecureStore.deleteItemAsync('role')
                 toggleAlert()
                 navigation.navigate('Signin')
               }} 
