@@ -32,7 +32,9 @@ export default function Inbox({navigation}) {
   }, [])
 
 
-  if (messages && clients) {
+  if (!messages) {
+    return (null)
+  } else if (messages.length && clients) {
     for (let i = 0; i < messages.length; i++) {
       const roomIdEmailFromFirebase = messages[i]._id.split('-');
       if(roomIdEmailFromFirebase[1] === therapist.email) {
