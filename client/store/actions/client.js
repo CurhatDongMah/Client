@@ -75,12 +75,11 @@ export const clientLogin = (payload) => {
         url: `${baseUrl}/client/login`,
         data: payload
       })
-      console.log(res.data)
-      console.log(res.data.access_token, 'access_token')
-      console.log(res.data.data.email, 'email')
       if (res.data) {
         await SecureStore.setItemAsync('access_token', res.data.access_token)
-        await SecureStore.setItemAsync('role', 'client')
+        dispatch({
+          type: 'SET_CLIENT_SIGNIN'
+        })
         dispatch({
           type: 'SAVE_CLIENT',
           payload: res.data.data
@@ -93,6 +92,15 @@ export const clientLogin = (payload) => {
         payload: error.response.data.message
       })
     }
+  }
+}
+
+export const clientLogout = () => {
+  return async (dispatch) => {
+    await SecureStore.deleteItemAsync('access_token')
+    dispatch({
+      type: 'RESET_CLIENT_SIGNIN'
+    })
   }
 }
 

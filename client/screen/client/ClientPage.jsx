@@ -10,6 +10,7 @@ import Messages from './Messages'
 
 const Tab = createBottomTabNavigator()
 export default function ClientPage({ navigation }) {
+  console.log('client page');
   return (
       <Tab.Navigator
         screenOptions={({ route }) => ({

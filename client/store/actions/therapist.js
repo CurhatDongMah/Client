@@ -122,7 +122,9 @@ export const therapistLogin = (payload) => {
       if (res.data) {
         await SecureStore.setItemAsync('access_token', res.data.access_token)
         await SecureStore.setItemAsync('email', res.data.data.email)
-        await SecureStore.setItemAsync('role', 'therapist')
+        dispatch({
+          type: 'SET_THERAPIST_SIGNIN'
+        })
         dispatch({
           type: 'SAVE_THERAPIST',
           payload: res.data.data
@@ -284,9 +286,11 @@ export const handleLogoutTherapist = () => {
       if (res.data) {
         await SecureStore.deleteItemAsync('access_token')
         await SecureStore.deleteItemAsync('email')
-        await SecureStore.deleteItemAsync('role')
         dispatch({
           type: 'RESET_LOADING_THERAPIST'
+        })
+        dispatch({
+          type: 'RESET_THERAPIST_SIGNIN'
         })
       }
     } catch (error) {
