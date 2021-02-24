@@ -168,7 +168,7 @@ export default function Detail({ navigation }) {
             secreen === 'order' ? (
               therapistDetail.status ? ( 
                 !onGoingOrders.length ? (
-                  <View style={tailwind('border-2 border-gray-400 rounded py-2 px-4 mt-5')}>
+                  <View style={tailwind('border-2 border-green-400 rounded py-2 px-4 mt-5')}>
                     <View style={tailwind('mt-2 flex flex-row justify-between items-center')}>
                       <View style={tailwind('flex flex-row items-center mx-2 mr-4 ')}>
                         <Text 
@@ -215,7 +215,7 @@ export default function Detail({ navigation }) {
                 reviews.map(review => {
                   return (
                     <View  key={review.id} style={{ width: widthWindow * 9 /10}}>
-                      <View style={tailwind('my-3 mt-5')}>
+                      <View style={tailwind('my-2')}>
                         <Text style={tailwind('text-lg text-gray-500 tracking-wider')}>{review.Client.fullName}</Text>
                         <View style={tailwind('flex flex-row items-center py-1')}>
                           {

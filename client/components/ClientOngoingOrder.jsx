@@ -7,6 +7,7 @@ import {
   useWindowDimensions
 } from 'react-native';
 import tailwind from 'tailwind-rn';
+import twoDigitFormat from '../helpers/twoDigitFormat'
 
 export default function Profile({ navigation, onGoingOrders, handleChat, handleCompleted }) {
   const widthWindow = useWindowDimensions().width
@@ -27,22 +28,22 @@ export default function Profile({ navigation, onGoingOrders, handleChat, handleC
             <Text 
               numberOfLines={1}
               ellipsizeMode='clip'
-              style={tailwind('w-32 text-base text-gray-600')}>{ onGoingOrders[0].Therapist.fullName }</Text>
+              style={tailwind('w-32 text-lg text-gray-600')}>{ onGoingOrders[0].Therapist.fullName }</Text>
             <View style={tailwind('flex flex-row')}>
-              <Text style={tailwind('text-gray-400')}>Date: </Text>
+              <Text style={tailwind('text-gray-400 text-base')}>Date: </Text>
               <Text 
-                style={tailwind('text-gray-500')}
-              >{ `${new Date(onGoingOrders[0].createdAt).getDate()}/${new Date(onGoingOrders[0].createdAt).getMonth()+1}/${new Date(onGoingOrders[0].createdAt).getFullYear()}`}</Text>
+                style={tailwind('text-gray-500 text-base')}
+              >{ `${twoDigitFormat(new Date(onGoingOrders[0].createdAt).getDate())}/${twoDigitFormat(new Date(onGoingOrders[0].createdAt).getMonth()+1)}/${new Date(onGoingOrders[0].createdAt).getFullYear()}`}</Text>
             </View>
             <View style={tailwind('flex flex-row')}>
-              <Text style={tailwind('text-gray-400')}>Start at: </Text>
+              <Text style={tailwind('text-gray-400 text-base')}>Start at: </Text>
               <Text 
-                style={tailwind('text-gray-500')}
-              >{ `${new Date(onGoingOrders[0].createdAt).getHours()}:${new Date(onGoingOrders[0].createdAt).getMinutes()}`}</Text>
+                style={tailwind('text-gray-500 text-base')}
+              >{ `${twoDigitFormat(new Date(onGoingOrders[0].createdAt).getHours())}:${twoDigitFormat(new Date(onGoingOrders[0].createdAt).getMinutes())}`}</Text>
             </View>
             <View style={tailwind('flex flex-row')}>
-              <Text style={tailwind('text-gray-400')}>Duration: </Text>
-              <Text style={tailwind('text-gray-500')}>{ onGoingOrders[0].totalHour } Hour</Text>
+              <Text style={tailwind('text-gray-400 text-base')}>Duration: </Text>
+              <Text style={tailwind('text-gray-500 text-base')}>{ onGoingOrders[0].totalHour } Hour</Text>
             </View>
           </View>
           <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
@@ -50,14 +51,14 @@ export default function Profile({ navigation, onGoingOrders, handleChat, handleC
               onPress={() => handleCompleted(onGoingOrders[0].id)}
               style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-gray-100 border border-r border-green-400')}>
               <Text 
-                style={tailwind('text-green-400')}
+                style={tailwind('text-green-400 text-base')}
               >Completed</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => handleChat()} 
               style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-green-400 border border-r border-green-400')}>
               <Text 
-                style={tailwind('text-gray-100')}
+                style={tailwind('text-gray-100 text-base')}
               >Chat</Text>
             </TouchableOpacity>
           </View>

@@ -54,7 +54,7 @@ export default function ChatRoom({ navigation, route }) {
     )
   } else {
     return (<>
-      <View style={tailwind('flex flex-row px-10 pt-14 pb-6 w-full justify-start border-b-2 border-green-400')}>
+      <View style={tailwind('flex flex-row px-14 pt-14 pb-6 w-full justify-start border-b-2 border-green-400')}>
         <View>
           <Image 
             style={tailwind('w-10 h-10 rounded-full')}

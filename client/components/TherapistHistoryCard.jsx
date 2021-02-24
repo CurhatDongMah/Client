@@ -27,12 +27,12 @@ export default function ListHistory({ navigation, history, handleChat }) {
           numberOfLines={1}
           ellipsizeMode='clip'
           style={tailwind('w-24 text-lg text-gray-500')}>{history.Client.fullName}</Text>
-        <Text style={tailwind('text-gray-400 text-base')}>{history.Client.city}</Text>
+        <Text style={tailwind('text-gray-400 text-lg')}>{history.Client.city}</Text>
         <TouchableOpacity
           onPress={() => handleChat()} 
           style={tailwind('items-center my-1 px-6 rounded border border-r border-green-400')}>
           <Text 
-            style={tailwind('text-green-400')}
+            style={tailwind('text-green-400 text-base')}
           >Chat</Text>
         </TouchableOpacity>
       </View>
