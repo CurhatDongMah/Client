@@ -72,7 +72,7 @@ export default function Detail({ navigation }) {
             <Image 
               style={tailwind('w-24 h-24 rounded-full')}
               source={{
-                uri: 'https://placeimg.com/140/140/any'
+                uri: therapistDetail.photoUrl
               }}
             />
             <Text style={tailwind('text-2xl my-2 text-gray-600')}>{ therapistDetail.fullName }</Text>

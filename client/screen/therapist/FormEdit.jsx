@@ -62,6 +62,8 @@ export default function EditForm({ navigation }) {
   }
 
   const handleSubmit = () => {
+    console.log(value.photoUrl)
+    console.log(value.licenseUrl)
     if (!value.fullName) setError({...error, fullName: 'Required'})
     else if (!value.photoUrl) setError({...error, photoUrl: 'Required'})
     else if (!value.birthDate) setError({...error, birthDate: 'Required'})
@@ -102,6 +104,21 @@ export default function EditForm({ navigation }) {
       console.log(value.photoUrl, 'ini value new url')
     }
   };
+  const openCamera = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5
+    });
+
+    if (!result.cancelled) {
+      setImage(result)
+      setValue({ ...value, photoUrl: ''})
+      const newUrl = await handleUpload(result)
+      setValue({ ...value, photoUrl: newUrl})
+    }
+  };
   const pickLicense = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -116,6 +133,21 @@ export default function EditForm({ navigation }) {
       console.log(newUrl, "url dari axios")
       setValue({ ...value, licenseUrl: newUrl})
       console.log(value.licenseUrl, 'ini value new url')
+    }
+  };
+  const openCameraLicense = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5
+    });
+
+    if (!result.cancelled) {
+      setLicense(result)
+      setValue({ ...value, licenseUrl: ''})
+      const newUrl = await handleUpload(result)
+      setValue({ ...value, licenseUrl: newUrl})
     }
   };
 
@@ -168,6 +200,13 @@ export default function EditForm({ navigation }) {
                 style={tailwind('text-base text-green-400')}
               >Pick an image from gallery</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+            onPress={openCamera}
+            style={tailwind('items-center my-3 py-2 px-10 rounded-lg border border-green-400')}>
+            <Text 
+              style={tailwind('text-base text-green-400')}
+            >Take a picture</Text>
+          </TouchableOpacity>
             {/* <Button title="Pick an image from gallery" onPress={pickImage} /> */}
             {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
             {
@@ -221,6 +260,13 @@ export default function EditForm({ navigation }) {
                 style={tailwind('text-base text-green-400')}
               >Pick an image from gallery</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+            onPress={openCameraLicense}
+            style={tailwind('items-center my-3 py-2 px-10 rounded-lg border border-green-400')}>
+            <Text 
+              style={tailwind('text-base text-green-400')}
+            >Take a picture</Text>
+          </TouchableOpacity>
             {/* <Button title="Pick an image from gallery" onPress={pickLicense} /> */}
             {image && <Image source={{ uri: license.uri }} style={{ width: 200, height: 200 }} />}
             {

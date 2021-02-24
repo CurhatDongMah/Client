@@ -100,6 +100,26 @@ export default function EditForm({ navigation }) {
       console.log(value.photoUrl, 'ini value new url')
     }
   };
+
+  const openCamera = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5
+    });
+
+    // console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result)
+      setValue({ ...value, photoUrl: ''})
+      const newUrl = await handleUpload(result)
+      console.log(newUrl, "url dari axios")
+      setValue({ ...value, photoUrl: newUrl})
+      console.log(value.photoUrl, 'ini value new url')
+    }
+  };
     
   if (loadingClient) {
     return (
@@ -149,6 +169,13 @@ export default function EditForm({ navigation }) {
             <Text 
               style={tailwind('text-base text-green-400')}
             >Pick an image from gallery</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={openCamera}
+            style={tailwind('items-center my-3 py-2 px-10 rounded-lg border border-green-400')}>
+            <Text 
+              style={tailwind('text-base text-green-400')}
+            >Take a picture</Text>
           </TouchableOpacity>
           {/* <Button title="Pick an image from gallery" onPress={pickImage} /> */}
           {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
