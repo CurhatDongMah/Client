@@ -46,6 +46,14 @@ export default function EditForm({ navigation }) {
   useEffect(() => {
     selectedIndex === 1 ? setValue({...value, gender: 'male'}) : setValue({...value, gender: 'female'})
   }, [selectedIndex])
+  useEffect(() => {
+    if (errorClient) {
+      setError({...error, fullName: errorClient})
+      setError({...error, photoUrl: errorClient})
+      setError({...error, birthDate: errorClient})
+      setError({...error, city: errorClient})
+    }
+  }, [errorClient])
 
   const handleChange = (text, name) => {
     setError({})
