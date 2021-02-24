@@ -1,64 +1,35 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, {  useState, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  SafeAreaView,
   Text,
   View,
-  Image,
-  TouchableOpacity,
-  ScrollView,
+  SafeAreaView,
   useWindowDimensions,
-  RefreshControl,
-  ActivityIndicator
-} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons'
+  Image,
+  ActivityIndicator,
+  TouchableOpacity
+} from 'react-native'
+import * as SecureStore from 'expo-secure-store';
 import tailwind from 'tailwind-rn'
-import { Toggle } from '@ui-kitten/components'
-import {
-  updateStatusTherapist,
-  getOnGoingOrderTherapist,
-  setCompletedOrderTherapist
-} from '../../store/actions/therapist'
+import { ScrollView } from 'react-native-gesture-handler';
+import getAge from '../../helpers/getAge';
 import curencyFormat from '../../helpers/curencyFormat'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 import { FancyAlert } from 'react-native-expo-fancy-alerts'
-import TherapistOngoingOrder from '../../components/TherapistOngoingOrder'
+import { handleLogoutTherapist, handleLogoutTherpaist } from '../../store/actions/therapist'
 
-const wait = (timeout) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
 
-export default function Detail({ navigation }) {
+export default function Profile({ navigation }) {
   const widthWindow = useWindowDimensions().width
-  const { therapist, status, onGoingOrdersTherapist, loading, error } = useSelector(state => state.therapist)
-  const [checked, setChecked] = useState(false);
-  const [client, setClient] = useState({ name: 'Client 1'})
-  const [refreshing, setRefreshing] = useState(false);
+  const { therapist, loading, error} = useSelector(state => state.therapist)
   const dispatch = useDispatch()
-  const ARR = [1,2,3,4,5]
 
-  useEffect(() => {
-    dispatch(getOnGoingOrderTherapist())
-  }, [])
-  const onCheckedChange = (isChecked) => {
-    if (onGoingOrdersTherapist.length) {
-      toggleAlert()
-    } else {
-      dispatch(updateStatusTherapist(!checked))
-      setChecked(isChecked)
-    }
-  }
-  const onRefresh = useCallback(() => {
-    setRefreshing(true)
-    dispatch(getOnGoingOrderTherapist())
-    wait(1000).then(() => setRefreshing(false))
-  }, [])
-  
-  // fancy alert
-  const [visible, setVisible] = useState(false)
-  const toggleAlert = React.useCallback(() => {
-    setVisible(!visible)
+  // fancy allert
+  const [visible, setVisible] = useState(false);
+  const toggleAlert = useCallback(() => {
+    setVisible(!visible);
   }, [visible])
-  
+
   if (error) {
     return (
       <View style={tailwind('flex-1 justify-center items-center bg-white')}>
@@ -77,102 +48,115 @@ export default function Detail({ navigation }) {
     )
   } else {
     return (
-      <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-        <View style={tailwind('w-full px-8 pt-14 pb-6 border-b-2 border-green-400 relative')}>
-          <View style={tailwind('flex flex-row items-center')}>
+      <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
+        <View style={tailwind('flex flex-row px-10 pt-16 pb-6 w-full justify-start border-b-2 border-green-400 relative')}>
+          <View>
             <Image 
               style={tailwind('w-16 h-16 rounded-full')}
               source={{
                 uri: therapist.photoUrl
               }}
             />
-            <View style={tailwind('flex items-start justify-center px-6')}>
-              <Text style={tailwind('text-2xl text-gray-600')}>{ therapist.fullName }</Text>
-              <View style={tailwind('flex flex-row items-center')}>
-              {
-                therapist.rating ? (
-                  ARR.map(arr => {
-                    return therapist.rating >= arr ? (
-                      <Ionicons key={arr} style={tailwind('mr-1 text-yellow-400 text-base')} name='star'/>
-                    ) : (
-                      <Ionicons key={arr} style={tailwind('mr-1 text-gray-400 text-base')} name='star'/>
-                    ) 
-                  })
-                ) : (
-                  <>
-                    <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
-                    <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
-                    <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
-                    <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
-                    <Ionicons style={tailwind('mx-1 text-gray-400 text-base')} name='star'/>
-                  </>
-                )
-              }
-              </View>
-              <View style={tailwind('flex flex-row')}>
-                <View style={tailwind('flex flex-row')}>
-                  <Ionicons style={tailwind('mr-1 text-gray-400 text-base')} name='location'/>
-                  <Text style={tailwind('text-lg text-gray-500')}>{ therapist.city }</Text>
-                </View>
-                <Text style={tailwind('text-lg text-gray-200 mx-2')}> | </Text>
-                <Text style={tailwind('text-lg text-gray-500 capitalize')}>{ therapist.gender }</Text>
-              </View>
-            </View>
-            <Toggle 
-              style={tailwind('absolute -right-3 bottom-1')}
-              status='success'
-              checked={checked} 
-              onChange={onCheckedChange}>
-            </Toggle>
           </View>
+          <View style={tailwind('flex items-start justify-center px-6')}>
+            <Text style={tailwind('text-2xl text-gray-600')}>{ therapist.fullName }</Text>
+            <View style={tailwind('flex flex-row items-center justify-center')}>
+              <Ionicons style={tailwind('text-green-400 text-xl')} name='people'/>
+              <Text 
+              onPress={() => navigation.navigate('TherapistEdit')}
+              style={tailwind('text-green-400 text-lg ml-1')}
+            >Edit Profile</Text>
+            </View>
+          </View>
+          <Ionicons 
+            onPress={async () => {
+              toggleAlert()
+            }} 
+            style={tailwind('absolute top-14 right-4 text-red-400 text-3xl')} name='power-sharp'
+          />
         </View>
         <ScrollView 
           showsVerticalScrollIndicator={false}
-          refreshControl={
-            <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            />
-          }
-          >
-          <View style={{ width: widthWindow * 9 /10}}>
+          style={{ width: widthWindow * 9 / 10}}
+        >        
+          <View style={tailwind('mt-5')}>
             <View style={tailwind('mt-2')}>
-              {
-                onGoingOrdersTherapist.length ? (
-                  <TherapistOngoingOrder 
-                    onGoingOrdersTherapist={onGoingOrdersTherapist}
-                    handleCompleted={(payload) => dispatch(setCompletedOrderTherapist(payload))}
-                    handleChat={async () => navigation.navigate('Messages', { screen: 'ChatRoom', params: {client: onGoingOrdersTherapist[0].Client },})}
-                  />
-                ) 
-                : <View style={tailwind('mt-16 flex-1 justify-center items-center bg-white')}>
-                    <Image 
-                      style={tailwind('w-full h-80')}
-                      source={require('../../assets/sad-green.png')}
-                    />
-                    <Text style={tailwind('py-2 text-lg text-green-400 font-bold tracking-wider')}>No order yet ...</Text>
-                  </View> 
-              }
+              <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Email</Text>
+              <Text 
+                style={tailwind('py-2 text-lg text-gray-500 border-b border-gray-100')}
+              >{therapist.email}</Text>
+            </View>
+            <View style={tailwind('mt-2')}>
+              <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Age</Text>
+              <Text 
+                style={tailwind('py-2 text-lg text-gray-500 border-b border-gray-100')}
+              >{getAge(therapist.birthDate)}</Text>
+            </View>
+            <View style={tailwind('mt-5')}>
+              <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Gender</Text>
+              <Text 
+                style={tailwind('py-2 text-lg text-gray-500 border-b border-gray-100')}
+              >{therapist.gender}</Text>
+            </View>
+            <View style={tailwind('mt-5')}>
+              <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>City</Text>
+              <Text 
+                style={tailwind('py-2 text-lg text-gray-500 border-b border-gray-100')}
+              >{therapist.city}</Text>
+            </View>
+            <View style={tailwind('mt-5')}>
+              <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Price per Hour</Text>
+              <Text 
+                style={tailwind('py-2 text-lg text-gray-500 border-b border-gray-100')}
+              >{curencyFormat(therapist.price)}</Text>
+            </View>
+            <View style={tailwind('mt-5')}>
+              <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>About</Text>
+              <Text 
+                style={tailwind('py-2 text-lg text-gray-500 border-b border-gray-100')}
+              >{therapist.about}</Text>
+            </View>
+            <View style={tailwind('mt-5')}>
+              <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>License</Text>
+              <Image 
+                style={tailwind('w-full h-80')}
+                source={{
+                  uri: therapist.licenseUrl
+                }}
+              />
             </View>
           </View>
           <FancyAlert
             visible={visible}
             icon={<View 
               style={tailwind('flex flex-1 justify-center items-center w-full rounded-full bg-red-500')}
-            ><Text style={tailwind('text-white text-2xl')}>X</Text></View>}
+            ><Text style={tailwind('text-white text-2xl')}>!</Text></View>}
             style={{ backgroundColor: 'white' }}
           >
-            <Text style={tailwind('mb-2 text-lg text-gray-500')}>You still have ongoing order</Text>
-            <TouchableOpacity
-              onPress={toggleAlert}
-              style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-red-400')}>
-              <Text 
-                style={tailwind('text-base text-red-400')}
-              >Oke</Text>
-            </TouchableOpacity>
+            <Text style={tailwind('mb-2 text-lg text-gray-500')}>Are you sure want to logout?</Text>
+            <View style={tailwind('flex flex-row ')}>
+              <TouchableOpacity
+                onPress={() => {
+                  dispatch(handleLogoutTherapist())
+                  toggleAlert()
+                  navigation.navigate('Signin')
+                }} 
+                style={tailwind('items-center my-3 py-1 px-5 mx-2 rounded-lg border border-red-500')}>
+                <Text 
+                  style={tailwind('text-lg text-red-500')}
+                >OK</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={toggleAlert} 
+                style={tailwind('items-center my-3 py-1 px-5 mx-2 rounded-lg border border-red-500 bg-red-500')}>
+                <Text 
+                  style={tailwind('text-lg text-gray-100')}
+                >Cancel</Text>
+              </TouchableOpacity>
+            </View>
           </FancyAlert>
-        </ScrollView>
-      </SafeAreaView>
+      </ScrollView>
+    </SafeAreaView>
     )
   }
 }
