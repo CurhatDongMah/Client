@@ -177,7 +177,6 @@ export default function EditForm({ navigation }) {
               style={tailwind('text-base text-green-400')}
             >Take a picture</Text>
           </TouchableOpacity>
-          {/* <Button title="Pick an image from gallery" onPress={pickImage} /> */}
           {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
           {
             error.photoUrl ? (
