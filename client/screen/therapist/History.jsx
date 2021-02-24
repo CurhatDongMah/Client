@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import tailwind from 'tailwind-rn';
+import minuteFormat from '../../helpers/minuteFormat';
 import { getClients } from '../../store/actions/client';
 import { getHistoryTherapist } from '../../store/actions/therapist'
 const wait = (timeout) => {
@@ -135,7 +136,7 @@ export default function ListHistory({ navigation }) {
                         </View>
                         <View style={tailwind('mx-2 border-l border-gray-200 px-3 flex justify-center')}>
                           <Text style={tailwind('text-gray-500 text-base')}>Date: { `${new Date(history.createdAt).getDate()}/${new Date(history.createdAt).getMonth()+1}/${new Date(history.createdAt).getFullYear()}`}</Text>
-                          <Text style={tailwind('text-gray-500 text-base')}>Start at: { `${new Date(history.createdAt).getHours()} : ${new Date(history.createdAt).getMinutes()}`}</Text>
+                          <Text style={tailwind('text-gray-500 text-base')}>Start at: { `${new Date(history.createdAt).getHours()} : ${minuteFormat(new Date(history.createdAt).getMinutes())}`}</Text>
                           <Text style={tailwind('text-gray-500 text-base')}>Duration: { history.totalHour } Hour</Text>
                         </View>
                       </View>
