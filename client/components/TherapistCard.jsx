@@ -42,8 +42,15 @@ export default function TherapistCard({ therapist, handleDetail, handleChat }) {
               ) : <Text>No Review</Text>
             }
           </View>
-          <Text style={tailwind('text-gray-400')}>Jakarta</Text>
-          <Text style={tailwind('text-gray-500')}>{ curencyFormat(therapist.price) }/h</Text>
+          <View style={tailwind('flex flex-row')}>
+            <View style={tailwind('flex flex-row')}>
+              <Ionicons style={tailwind('mr-1 text-gray-400 text-base')} name='location'/>
+              <Text style={tailwind('text-gray-500')}>{ therapist.city }</Text>
+            </View>
+            <Text style={tailwind('text-gray-500 mx-2')}> | </Text>
+            <Text style={tailwind('text-gray-500 capitalize')}>{ therapist.gender }</Text>
+          </View>
+          <Text style={tailwind('text-yellow-400')}>{ curencyFormat(therapist.price) }/h</Text>
         </View>
         <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
           <TouchableOpacity
