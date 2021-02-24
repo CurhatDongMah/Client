@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getTherapists } from '../../store/actions/therapist';
 import { setTherapist, getOnGoingOrder, setCompletedOrder, getReview } from '../../store/actions/client'
 import TherapistCard from '../../components/TherapistCard'
+import Ionicons from 'react-native-vector-icons/Ionicons'
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -77,10 +78,10 @@ export default function Profile({ navigation }) {
           />
         }
       >
-        <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-start border-b-2 border-green-400')}>
+        <View style={tailwind('flex flex-row px-5 pt-16 pb-8 w-full justify-start border-b-2 border-green-400')}>
           <View>
             <Image 
-              style={tailwind('w-20 h-20 rounded-full')}
+              style={tailwind('w-16 h-16 rounded-full')}
               source={{
                 uri: client.photoUrl
               }}
@@ -88,8 +89,14 @@ export default function Profile({ navigation }) {
           </View>
           <View style={tailwind('flex items-start justify-center px-6')}>
             <Text style={tailwind('text-2xl text-gray-600')}>{ client.fullName }</Text>
-            <Text style={tailwind('text-lg text-gray-500')}>{ client.city }</Text>
-            <Text style={tailwind('text-lg text-gray-500')}>{ client.gender }</Text>
+            <View style={tailwind('flex flex-row')}>
+              <View style={tailwind('flex flex-row')}>
+                <Ionicons style={tailwind('mr-1 text-gray-400 text-base')} name='location'/>
+                <Text style={tailwind('text-lg text-gray-500')}>{ client.city }</Text>
+              </View>
+              <Text style={tailwind('text-lg text-gray-500 mx-2')}> | </Text>
+              <Text style={tailwind('text-lg text-gray-500 capitalize')}>{ client.gender }</Text>
+            </View>
           </View>
         </View>
         {

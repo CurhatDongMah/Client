@@ -6,16 +6,25 @@ import {
   SafeAreaView,
   useWindowDimensions,
   Image,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableOpacity
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import tailwind from 'tailwind-rn'
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from 'expo-secure-store'
 import getAge from '../../helpers/getAge'
+import Ionicons from 'react-native-vector-icons/Ionicons'
+import { FancyAlert } from 'react-native-expo-fancy-alerts';
 
 export default function Account({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const { client, loading: loadingClient, error: errorClient } = useSelector(state => state.client)
+  // fancy allert
+  const [visible, setVisible] = useState(false);
+  const toggleAlert = React.useCallback(() => {
+    setVisible(!visible);
+  }, [visible])
+
   if (loadingClient) {
     return (
       <View style={tailwind('flex-1 justify-center items-center')}>
@@ -40,10 +49,10 @@ export default function Account({ navigation }) {
       showsVerticalScrollIndicator={false}
       style={{ width: widthWindow * 9 / 10}}
     >
-      <View style={tailwind('flex flex-row pt-16 pb-8 w-full justify-start border-b-2 border-green-400')}>
+      <View style={tailwind('flex flex-row pt-16 pb-6 w-full justify-start border-b-2 border-green-400 relative')}>
         <View>
           <Image 
-            style={tailwind('w-20 h-20 rounded-full')}
+            style={tailwind('w-16 h-16 rounded-full')}
             source={{
               uri: client.photoUrl
             }}
@@ -51,18 +60,22 @@ export default function Account({ navigation }) {
         </View>
         <View style={tailwind('flex items-start justify-center px-6')}>
           <Text style={tailwind('text-2xl text-gray-600')}>{ client.fullName }</Text>
-          <Text 
+          <View style={tailwind('flex flex-row items-center justify-center')}>
+            <Ionicons style={tailwind('text-green-400 text-xl')} name='people'/>
+            <Text 
             onPress={() => navigation.navigate('ClientEdit')}
-            style={tailwind('text-green-400 text-base')}
+            style={tailwind('text-green-400 text-lg ml-1')}
           >Edit Profile</Text>
-          <Text 
-            onPress={async () => {
-              await SecureStore.deleteItemAsync('access_token')
-              navigation.navigate('Signin')
-            }} 
-            style={tailwind('text-red-400 text-base mt-2')}
-          >Logout</Text>
+          </View>
         </View>
+        <Ionicons 
+          onPress={async () => {
+            // await SecureStore.deleteItemAsync('access_token')
+            // navigation.navigate('Signin')
+            toggleAlert()
+          }} 
+          style={tailwind('absolute top-14 right-4 text-red-400 text-3xl')} name='power-sharp'
+        />
       </View>
       <View style={tailwind('mt-5')}>
         <View style={tailwind('mt-2')}>
@@ -90,6 +103,35 @@ export default function Account({ navigation }) {
           >{client.city}</Text>
         </View>
       </View>
+      <FancyAlert
+					visible={visible}
+					icon={<View 
+						style={tailwind('flex flex-1 justify-center items-center w-full rounded-full bg-red-500')}
+					><Text style={tailwind('text-white text-2xl')}>!</Text></View>}
+					style={{ backgroundColor: 'white' }}
+				>
+					<Text style={tailwind('mb-2 text-lg text-gray-500')}>Are you sure want to logout?</Text>
+          <View style={tailwind('flex flex-row ')}>
+            <TouchableOpacity
+              onPress={async () => {
+                await SecureStore.deleteItemAsync('access_token')
+                toggleAlert()
+                navigation.navigate('Signin')
+              }} 
+              style={tailwind('items-center my-3 py-1 px-5 mx-2 rounded-lg border border-red-400')}>
+              <Text 
+                style={tailwind('text-base text-red-400')}
+              >OK</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={toggleAlert} 
+              style={tailwind('items-center my-3 py-1 px-5 mx-2 rounded-lg border border-red-400 bg-red-400')}>
+              <Text 
+                style={tailwind('text-base text-gray-100')}
+              >Cancel</Text>
+            </TouchableOpacity>
+          </View>
+        </FancyAlert>
     </ScrollView>
   </SafeAreaView>
   )

@@ -41,7 +41,7 @@ export default function ConfirmPayment({ navigation }) {
   return (
     <SafeAreaView style={tailwind('flex-1 items-center justify-center bg-white')}>
       <View style={{ width: widthWindow * 9 /10}}>
-        <View style={tailwind('border border-gray-400 p-4 py-6 rounded')}>
+        <View style={tailwind('border border-gray-400 p-4 py-6 rounded-lg')}>
           <Text style={tailwind('text-2xl my-2 text-gray-600 text-center')}>ORDER DETAIL</Text>
           <View style={tailwind('')}>
           <View style={tailwind('mt-5')}>

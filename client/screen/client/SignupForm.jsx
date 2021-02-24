@@ -14,7 +14,7 @@ import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import axios from 'axios'
 import { resetRegister } from '../../store/actions/client'
-import { FancyAlert } from 'react-native-expo-fancy-alerts';
+import { FancyAlert } from 'react-native-expo-fancy-alerts'
 
 export default function SignupForm({ navigation }) {
   const [visible, setVisible] = useState(false);
