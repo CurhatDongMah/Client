@@ -32,14 +32,15 @@ export default function Inbox({navigation}) {
   }, [])
 
 
-  if (!messages) {
+  if (!messages || !clients) {
     return (null)
-  } else if (messages.length && clients) {
+  } else if (messages.length >= 0 && clients) {
     for (let i = 0; i < messages.length; i++) {
       const roomIdEmailFromFirebase = messages[i]._id.split('-');
       if(roomIdEmailFromFirebase[1] === therapist.email) {
         let client = clients[clients.findIndex(client => client.email === roomIdEmailFromFirebase[0])]
         client.lastMessage = messages[i].lastMessage
+        console.log(client);
         chatWith.push(client)        
       }
     }
