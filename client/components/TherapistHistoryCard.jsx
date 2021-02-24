@@ -26,20 +26,20 @@ export default function ListHistory({ navigation, history, handleChat }) {
         <Text 
           numberOfLines={1}
           ellipsizeMode='clip'
-          style={tailwind('w-24 text-lg text-gray-500')}>{history.Client.fullName}</Text>
-        <Text style={tailwind('text-gray-400 text-lg')}>{history.Client.city}</Text>
+          style={tailwind('w-24 text-lg text-gray-600')}>{history.Client.fullName}</Text>
+        <Text style={tailwind('text-gray-500 text-lg')}>{history.Client.city}</Text>
         <TouchableOpacity
           onPress={() => handleChat()} 
-          style={tailwind('items-center my-1 px-6 rounded border border-r border-green-400')}>
+          style={tailwind('items-center my-1 px-6 rounded border border-green-400')}>
           <Text 
-            style={tailwind('text-green-400 text-base')}
+            style={tailwind('text-green-400 text-lg')}
           >Chat</Text>
         </TouchableOpacity>
       </View>
-      <View style={tailwind('mx-2 border-l border-gray-200 px-3 flex justify-center')}>
-        <Text style={tailwind('text-gray-500 text-base')}>Date: { `${twoDigitFormat(new Date(history.createdAt).getDate())}/${twoDigitFormat(new Date(history.createdAt).getMonth()+1)}/${new Date(history.createdAt).getFullYear()}`}</Text>
-        <Text style={tailwind('text-gray-500 text-base')}>Start at: { `${twoDigitFormat(new Date(history.createdAt).getHours())} : ${twoDigitFormat(new Date(history.createdAt).getMinutes())}`}</Text>
-        <Text style={tailwind('text-gray-500 text-base')}>Duration: { history.totalHour } Hour</Text>
+      <View style={tailwind('mx-2 border-l border-gray-200 px-3 flex justify-center items-start')}>
+        <Text style={tailwind('text-gray-500 text-lg')}>Date: { `${twoDigitFormat(new Date(history.createdAt).getDate())}/${twoDigitFormat(new Date(history.createdAt).getMonth()+1)}/${new Date(history.createdAt).getFullYear()}`}</Text>
+        <Text style={tailwind('text-gray-500 text-lg')}>Start at: { `${twoDigitFormat(new Date(history.createdAt).getHours())} : ${twoDigitFormat(new Date(history.createdAt).getMinutes())}`}</Text>
+        <Text style={tailwind('text-gray-500 text-lg')}>Duration: { history.totalHour } Hour</Text>
       </View>
     </View>
   </View>

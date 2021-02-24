@@ -79,25 +79,25 @@ export default function Account({ navigation }) {
         <View style={tailwind('mt-2')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Email</Text>
           <Text 
-            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+            style={tailwind('py-2 text-lg text-gray-500 border-b border-gray-100')}
           >{client.email}</Text>
         </View>
         <View style={tailwind('mt-2')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Age</Text>
           <Text 
-            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+            style={tailwind('py-2 text-lg text-gray-500 border-b border-gray-100')}
           >{getAge(client.birthDate)}</Text>
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>Gender</Text>
           <Text 
-            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+            style={tailwind('py-2 text-lg text-gray-500 border-b border-gray-100')}
           >{client.gender}</Text>
         </View>
         <View style={tailwind('mt-5')}>
           <Text style={tailwind('text-lg text-gray-400 tracking-wider')}>City</Text>
           <Text 
-            style={tailwind('py-2 text-base text-gray-500 border-b border-gray-100')}
+            style={tailwind('py-2 text-lg text-gray-500 border-b border-gray-100')}
           >{client.city}</Text>
         </View>
       </View>
@@ -119,14 +119,14 @@ export default function Account({ navigation }) {
               }} 
               style={tailwind('items-center my-3 py-1 px-5 mx-2 rounded-lg border border-red-500')}>
               <Text 
-                style={tailwind('text-base text-red-500')}
+                style={tailwind('text-lg text-red-500')}
               >OK</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={toggleAlert} 
               style={tailwind('items-center my-3 py-1 px-5 mx-2 rounded-lg border border-red-500 bg-red-500')}>
               <Text 
-                style={tailwind('text-base text-gray-100')}
+                style={tailwind('text-lg text-gray-100')}
               >Cancel</Text>
             </TouchableOpacity>
           </View>

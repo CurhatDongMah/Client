@@ -61,7 +61,7 @@ export default function Inbox({navigation}) {
             <Text 
               numberOfLines={1}
               ellipsizeMode='clip'
-              style={tailwind('w-36 text-base text-black')}>{therapist.fullName}</Text>
+              style={tailwind('w-36 text-lg text-gray-700')}>{therapist.fullName}</Text>
           <Text 
               numberOfLines={1}
               ellipsizeMode='clip'
