@@ -18,7 +18,7 @@ export default function ConfirmPayment({ navigation }) {
   const dispatch = useDispatch()
   const handleDelete = async () => {
     await dispatch(deleteOrder(order.id))
-    navigation.navigate('Profile')
+    navigation.navigate('ListTherapist')
   }
   if (loadingClient) {
     return (

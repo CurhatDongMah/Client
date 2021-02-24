@@ -140,7 +140,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Profile2 from './Profile2'
+import Profile from './Profile'
 import FormEdit from './FormEdit'
 
 const Stack = createStackNavigator();
@@ -150,7 +150,7 @@ export default function Home() {
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Profile2" component={Profile2} />
+        <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="ClientEdit" component={FormEdit} />
       </Stack.Navigator>
   );
