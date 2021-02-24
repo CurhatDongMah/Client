@@ -73,7 +73,6 @@ export default function EditForm({ navigation }) {
       dispatch(editTherapist(value, therapist.id))
       navigation.navigate('Profile')
     }
-    // else console.log(value);
   }
   useEffect(() => {
     (async () => {
@@ -94,8 +93,6 @@ export default function EditForm({ navigation }) {
       quality: 0.5
     });
 
-    // console.log(result);
-
     if (!result.cancelled) {
       setImage(result)
       setValue({ ...value, photoUrl: ''})
@@ -112,9 +109,6 @@ export default function EditForm({ navigation }) {
       aspect: [1, 1],
       quality: 0.5
     });
-
-    // console.log(result);
-
     if (!result.cancelled) {
       setLicense(result)
       setValue({ ...value, licenseUrl: ''})
@@ -281,7 +275,7 @@ export default function EditForm({ navigation }) {
             style={tailwind('mb-5 items-center py-3 mt-8 rounded-full bg-green-400')}>
             <Text 
               style={tailwind('text-xl text-gray-100')}
-            >SUBMIT</Text>
+            >EDIT</Text>
           </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>

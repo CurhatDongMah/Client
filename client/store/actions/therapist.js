@@ -93,6 +93,14 @@ export const resetRegisterTherapist = () => {
   }
 }
 
+export const resetErrorTherapist = () => {
+  return (dispatch) => {
+    dispatch({
+      type: 'RESET_ERROR_THERAPIST'
+    })
+  }
+}
+
 export const therapistLogin = (payload) => {
   return async (dispatch) => {
     try {

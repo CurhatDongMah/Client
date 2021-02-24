@@ -20,6 +20,7 @@ import {
   setCompletedOrderTherapist
 } from '../../store/actions/therapist'
 import curencyFormat from '../../helpers/curencyFormat'
+import { FancyAlert } from 'react-native-expo-fancy-alerts'
 
 const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
@@ -33,12 +34,13 @@ export default function Detail({ navigation }) {
   const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch()
   const ARR = [1,2,3,4,5]
+
   useEffect(() => {
     dispatch(getOnGoingOrderTherapist())
   }, [])
   const onCheckedChange = (isChecked) => {
     if (onGoingOrdersTherapist.length) {
-      alert('ad on going order')
+      toggleAlert()
     } else {
       dispatch(updateStatusTherapist(!checked))
       setChecked(isChecked)
@@ -48,10 +50,13 @@ export default function Detail({ navigation }) {
     setRefreshing(true)
     dispatch(getOnGoingOrderTherapist())
     wait(1000).then(() => setRefreshing(false))
-  }, []);
-  console.log(therapist, 'di profile')
-  console.log(status, 'di profile');
-  console.log(onGoingOrdersTherapist, 'on going di profile');
+  }, [])
+  
+  // fancy alert
+  const [visible, setVisible] = useState(false)
+  const toggleAlert = React.useCallback(() => {
+    setVisible(!visible)
+  }, [visible])
   
   if (error) {
     return (
@@ -188,41 +193,6 @@ export default function Detail({ navigation }) {
                         </TouchableOpacity>
                       </View>
                     </View>
-                    {/* <View style={tailwind('flex flex-row my-2 rounded-xl py-4 bg-gray-50 justify-start')}>
-                      <View style={tailwind('px-5 flex items-center justify-center')}>
-                        <Image 
-                          style={tailwind('w-12 h-12 rounded-full')}
-                          source={{
-                            uri: onGoingOrdersTherapist[0].Client.photoUrl
-                          }}
-                        />
-                      </View>
-                      <View style={tailwind('flex items-start justify-center')}>
-                        <Text 
-                          numberOfLines={1}
-                          ellipsizeMode='clip'
-                          style={tailwind('w-36 text-base text-gray-500')}>{ onGoingOrdersTherapist[0].Client.fullName }</Text>
-                        <Text style={tailwind('text-gray-500')}>{ onGoingOrdersTherapist[0].createdAt }</Text>
-                        <Text style={tailwind('text-gray-500')}>09.00 : 10.00 pm</Text>
-                        <Text style={tailwind('text-gray-400')}>{ onGoingOrdersTherapist[0].Client.fullName }</Text>
-                      </View>
-                      <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
-                        <TouchableOpacity
-                          onPress={() => dispatch(setCompletedOrderTherapist(onGoingOrdersTherapist[0].id))}
-                          style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-gray-100 border border-r border-green-400')}>
-                          <Text 
-                            style={tailwind('text-green-400')}
-                          >Completed</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                          onPress={async () => navigation.navigate('ChatRoom', { client: onGoingOrdersTherapist[0].Client })} 
-                          style={tailwind('items-center mt-2 py-1 px-4 rounded-lg bg-green-400 border border-r border-green-400')}>
-                          <Text 
-                            style={tailwind('text-gray-100')}
-                          >Chat</Text>
-                        </TouchableOpacity>
-                      </View>
-                    </View> */}
                   </View>
                 ) 
                 : <View style={tailwind('mt-8 flex-1 justify-center items-center bg-white')}>
@@ -235,6 +205,22 @@ export default function Detail({ navigation }) {
               }
             </View>
           </View>
+          <FancyAlert
+            visible={visible}
+            icon={<View 
+              style={tailwind('flex flex-1 justify-center items-center w-full rounded-full bg-red-500')}
+            ><Text style={tailwind('text-white text-2xl')}>X</Text></View>}
+            style={{ backgroundColor: 'white' }}
+          >
+            <Text style={tailwind('mb-2 text-lg text-gray-500')}>You still have ongoing order</Text>
+            <TouchableOpacity
+              onPress={toggleAlert}
+              style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-red-400')}>
+              <Text 
+                style={tailwind('text-base text-red-400')}
+              >Oke</Text>
+            </TouchableOpacity>
+          </FancyAlert>
         </ScrollView>
       </SafeAreaView>
     )

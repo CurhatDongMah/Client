@@ -9,7 +9,6 @@ import {
   useWindowDimensions,
   ActivityIndicator
  } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import firestore from '../../helpers/FirebaseSVC'
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import 'firebase/firestore'
@@ -21,14 +20,12 @@ import { getClients } from '../../store/actions/client';
 export default function Inbox({navigation}) {
   const widthWindow = useWindowDimensions().width
   const { therapist, loading: therapistLoading, error: errorTherapist } = useSelector(state => state.therapist)
-
   const messagesRef = firestore.collection('ChatRoom') // ambil collectionnya
   const query = messagesRef.limit(50); // sort isi collectionnya
   const [messages, loadingCollection] = useCollectionData(query, { idField: '_id' })
   const dispatch = useDispatch()
   const { clients, error: errorClient, loading: clientLoading } = useSelector(state => state.client)
   let chatWith = []
-  console.log(messages);
 
   useEffect(() => {
     dispatch(getClients())
@@ -39,13 +36,11 @@ export default function Inbox({navigation}) {
     for (let i = 0; i < messages.length; i++) {
       const roomIdEmailFromFirebase = messages[i]._id.split('-');
       if(roomIdEmailFromFirebase[1] === therapist.email) {
-        console.log(roomIdEmailFromFirebase[0]);
         let client = clients[clients.findIndex(client => client.email === roomIdEmailFromFirebase[0])]
         client.lastMessage = messages[i].lastMessage
         chatWith.push(client)        
       }
     }
-    console.log(chatWith);
   }
 
   const Item = ({ client }) => (
@@ -73,13 +68,11 @@ export default function Inbox({navigation}) {
         </View>
       </View>
     </TouchableOpacity>
-  );
+  )
 
   const renderItem = ({ item }) => (
     <Item client={item} />
-  );
-
-
+  )
 
   if (errorTherapist || errorClient) {
     return (

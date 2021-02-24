@@ -21,15 +21,13 @@ import tailwind from 'tailwind-rn';
 export default function Inbox({navigation}) {
   const widthWindow = useWindowDimensions().width
   const { client } = useSelector(state => state.client)
-
   const messagesRef = firestore.collection('ChatRoom') // ambil collectionnya
   const query = messagesRef.limit(50); // sort isi collectionnya
   const [messages, loadingCollection] = useCollectionData(query, { idField: '_id' })
   const dispatch = useDispatch()
   const { allTherapists, error, loading } = useSelector(state => state.therapist)
   let chatWith = []
-  console.log(messages);
-
+  
   useEffect(() => {
     dispatch(getAllTherapists())
   }, [])
@@ -45,7 +43,6 @@ export default function Inbox({navigation}) {
         chatWith.push(therapist)        
       }
     }
-    console.log(chatWith);
   }
 
   const Item = ({ therapist }) => (

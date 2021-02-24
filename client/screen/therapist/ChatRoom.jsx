@@ -10,16 +10,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 export default function ChatRoom({ navigation, route }) {
   const client = route.params.client
-  console.log(client, 'di chat');
   const { therapist, loading } = useSelector(state => state.therapist)
-
   const roomId = client.email + "-" + therapist.email
-
   const messagesRef = firestore.collection('ChatRoom').doc(roomId).collection(roomId); // ambil collectionnya
   const query = messagesRef.orderBy('createdAt', 'desc').limit(100); // sort isi collectionnya
   const [messages] = useCollectionData(query, { idField: '_id' });
-
-
   const sendMessage = async (user, message, roomId) => {
     const { _id, text, createdAt } = message[0]
     const roomMessage = firestore.collection('ChatRoom').doc(roomId)
