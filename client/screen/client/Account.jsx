@@ -7,14 +7,14 @@ import {
   useWindowDimensions,
   Image,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import tailwind from 'tailwind-rn'
 import * as SecureStore from 'expo-secure-store'
 import getAge from '../../helpers/getAge'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import { FancyAlert } from 'react-native-expo-fancy-alerts';
+import { FancyAlert } from 'react-native-expo-fancy-alerts'
 
 export default function Account({ navigation }) {
   const widthWindow = useWindowDimensions().width
@@ -70,8 +70,6 @@ export default function Account({ navigation }) {
         </View>
         <Ionicons 
           onPress={async () => {
-            // await SecureStore.deleteItemAsync('access_token')
-            // navigation.navigate('Signin')
             toggleAlert()
           }} 
           style={tailwind('absolute top-14 right-4 text-red-400 text-3xl')} name='power-sharp'
@@ -110,7 +108,7 @@ export default function Account({ navigation }) {
 					><Text style={tailwind('text-white text-2xl')}>!</Text></View>}
 					style={{ backgroundColor: 'white' }}
 				>
-					<Text style={tailwind('mb-2 text-lg text-gray-500')}>Are you sure want to logout?</Text>
+          <Text style={tailwind('mb-2 text-lg text-gray-500')}>Are you sure want to logout?</Text>
           <View style={tailwind('flex flex-row ')}>
             <TouchableOpacity
               onPress={async () => {
@@ -118,14 +116,14 @@ export default function Account({ navigation }) {
                 toggleAlert()
                 navigation.navigate('Signin')
               }} 
-              style={tailwind('items-center my-3 py-1 px-5 mx-2 rounded-lg border border-red-400')}>
+              style={tailwind('items-center my-3 py-1 px-5 mx-2 rounded-lg border border-red-500')}>
               <Text 
-                style={tailwind('text-base text-red-400')}
+                style={tailwind('text-base text-red-500')}
               >OK</Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={toggleAlert} 
-              style={tailwind('items-center my-3 py-1 px-5 mx-2 rounded-lg border border-red-400 bg-red-400')}>
+              style={tailwind('items-center my-3 py-1 px-5 mx-2 rounded-lg border border-red-500 bg-red-500')}>
               <Text 
                 style={tailwind('text-base text-gray-100')}
               >Cancel</Text>
