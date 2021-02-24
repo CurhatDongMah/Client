@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   RefreshControl,
-  ActivityIndicator
+  ActivityIndicator,
+  ScrollView
 } from 'react-native';
 import tailwind from 'tailwind-rn';
 import { getHistory, setTherapist, getReview } from '../../store/actions/client'
@@ -35,51 +36,52 @@ export default function ListHistory({ navigation }) {
     dispatch(getReview(therapist.id))
     navigation.navigate('Detail')
   }
+  console.log(histories, 'ini histories');
 
-  const Item = ( history ) => (
-    <View style={{ width: widthWindow * 9 / 10 }}>
-      <View style={tailwind('flex flex-row my-2 rounded-xl py-4 bg-gray-100 justify-start')}>
-        <View style={tailwind('px-5 flex items-center justify-center')}>
-          <Image 
-            style={tailwind('w-12 h-12 rounded-full')}
-            source={{
-              uri: history.title.Therapist.photoUrl
-            }}
-          />
-        </View>
-        <View style={tailwind('flex items-start justify-center')}>
-          <Text 
-            numberOfLines={1}
-            ellipsizeMode='clip'
-            style={tailwind('w-32 text-lg text-gray-600')}>{ history.title.Therapist.fullName }</Text>
-          <Text style={tailwind('text-gray-500')}>Date: { `${new Date(history.title.createdAt).getDate()}/${new Date(history.title.createdAt).getMonth()+1}/${new Date(history.title.createdAt).getFullYear()}`}</Text>  
-          <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(history.title.createdAt).getHours()} : ${new Date(history.title.createdAt).getMinutes()}`}</Text>
-          <Text style={tailwind('text-gray-500')}>Duration: { history.title.totalHour } Hour</Text>
-          {/* <Text style={tailwind('text-gray-400')}>{ history.title.Therapist.city }</Text> */}
-        </View>
-        <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
-          <TouchableOpacity
-            onPress={() => handleDetail(history.title.Therapist)}
-            style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-green-400')}>
-            <Text 
-              style={tailwind('text-gray-100')}
-            >Reorder</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Review')}
-            style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-gray-100 border border-r border-green-400')}>
-            <Text 
-              style={tailwind('text-green-400')}
-            >Add Review</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
-  );
+  // const Item = ( history ) => (
+  //   <View style={{ width: widthWindow * 9 / 10 }}>
+  //     <View style={tailwind('flex flex-row my-2 rounded-xl py-4 bg-gray-100 justify-start')}>
+  //       <View style={tailwind('px-5 flex items-center justify-center')}>
+  //         <Image 
+  //           style={tailwind('w-12 h-12 rounded-full')}
+  //           source={{
+  //             uri: history.title.Therapist.photoUrl
+  //           }}
+  //         />
+  //       </View>
+  //       <View style={tailwind('flex items-start justify-center')}>
+  //         <Text 
+  //           numberOfLines={1}
+  //           ellipsizeMode='clip'
+  //           style={tailwind('w-32 text-lg text-gray-600')}>{ history.title.Therapist.fullName }</Text>
+  //         <Text style={tailwind('text-gray-500')}>Date: { `${new Date(history.title.createdAt).getDate()}/${new Date(history.title.createdAt).getMonth()+1}/${new Date(history.title.createdAt).getFullYear()}`}</Text>  
+  //         <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(history.title.createdAt).getHours()} : ${new Date(history.title.createdAt).getMinutes()}`}</Text>
+  //         <Text style={tailwind('text-gray-500')}>Duration: { history.title.totalHour } Hour</Text>
+  //         {/* <Text style={tailwind('text-gray-400')}>{ history.title.Therapist.city }</Text> */}
+  //       </View>
+  //       <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
+  //         <TouchableOpacity
+  //           onPress={() => handleDetail(history.title.Therapist)}
+  //           style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-green-400')}>
+  //           <Text 
+  //             style={tailwind('text-gray-100')}
+  //           >Reorder</Text>
+  //         </TouchableOpacity>
+  //         <TouchableOpacity
+  //           onPress={() => navigation.navigate('Review')}
+  //           style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-gray-100 border border-r border-green-400')}>
+  //           <Text 
+  //             style={tailwind('text-green-400')}
+  //           >Add Review</Text>
+  //         </TouchableOpacity>
+  //       </View>
+  //     </View>
+  //   </View>
+  // );
 
-  const renderItem = ({ item }) => (
-    <Item title={item} />
-  );
+  // const renderItem = ({ item }) => (
+  //   <Item title={item} />
+  // );
 
     
   if (loadingClient) {
@@ -102,7 +104,64 @@ export default function ListHistory({ navigation }) {
   }
   return (
     <SafeAreaView style={tailwind('flex-1 items-center bg-white')}>
-      <View style={tailwind('flex flex-row pt-12 pb-6 w-full justify-center border-b-2 border-green-400')}>
+      <View style={tailwind('w-full flex flex-row pt-12 pb-6 w-full justify-center border-b-2 border-green-400')}>
+        <Text style={tailwind('py-2 text-lg text-gray-500 tracking-wider')}>HISTORY ORDER</Text>
+      </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefresh}
+          />
+        }
+      >
+        {
+          histories.length ? (
+            histories.map(history => {
+              return <View  key={history.id} style={{ width: widthWindow * 9 / 10 }}>
+                <View style={tailwind('flex flex-row my-2 rounded-xl py-4 bg-gray-100 justify-start')}>
+                  <View style={tailwind('px-5 flex items-center justify-center')}>
+                    <Image 
+                      style={tailwind('w-12 h-12 rounded-full')}
+                      source={{
+                        uri: history.Therapist.photoUrl
+                      }}
+                    />
+                  </View>
+                  <View style={tailwind('flex items-start justify-center')}>
+                    <Text 
+                      numberOfLines={1}
+                      ellipsizeMode='clip'
+                      style={tailwind('w-32 text-lg text-gray-600')}>{ history.Therapist.fullName }</Text>
+                    <Text style={tailwind('text-gray-500')}>Date: { `${new Date(history.createdAt).getDate()}/${new Date(history.createdAt).getMonth()+1}/${new Date(history.createdAt).getFullYear()}`}</Text>  
+                    <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(history.createdAt).getHours()} : ${new Date(history.createdAt).getMinutes()}`}</Text>
+                    <Text style={tailwind('text-gray-500')}>Duration: { history.totalHour } Hour</Text>
+                  </View>
+                  <View style={tailwind('mx-2 border-l border-gray-200 px-3')}>
+                    <TouchableOpacity
+                      onPress={() => handleDetail(history.Therapist)}
+                      style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-green-400')}>
+                      <Text 
+                        style={tailwind('text-gray-100')}
+                      >Reorder</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('Review')}
+                      style={tailwind('items-center mt-2 py-1 px-2 rounded-lg bg-gray-100 border border-r border-green-400')}>
+                      <Text 
+                        style={tailwind('text-green-400')}
+                      >Add Review</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            })
+          ) : <Text style={tailwind('py-2 text-lg text-gray-500 tracking-wider')}>NO HISTORY ORDER</Text>
+        }
+      </ScrollView>
+
+      {/* <View style={tailwind('flex flex-row pt-12 pb-6 w-full justify-center border-b-2 border-green-400')}>
         <Text style={tailwind('py-2 text-lg text-gray-500 tracking-wider')}>HISTORY ORDER</Text>
       </View>
         <FlatList
@@ -117,7 +176,7 @@ export default function ListHistory({ navigation }) {
             onRefresh={onRefresh}
             />
           }
-        />
+        /> */}
     </SafeAreaView>
   )
 }
