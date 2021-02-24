@@ -66,7 +66,7 @@ export default function EditForm({ navigation }) {
     else if (!value.city) setError({...error, city: 'Required'})
     else {
       dispatch(editClient(value, temporaryClient.id))
-      navigation.navigate('Profile')
+      navigation.navigate('Profile2')
     }
   }
 
