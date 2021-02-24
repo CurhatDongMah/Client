@@ -30,6 +30,18 @@ export default function EditForm({ navigation }) {
   })
   const dispatch = useDispatch()
   const now = new Date()
+
+  useEffect(() => {
+    if (fetchError) {
+      setError({...error, fullName: fetchError})
+      setError({...error, photoUrl: fetchError})
+      setError({...error, birthDate: fetchError})
+      setError({...error, city: fetchError})
+      setError({...error, licenseUrl: fetchError})
+      setError({...error, price: fetchError})
+      setError({...error, about: fetchError})
+    }
+  }, [fetchError])
   
   useEffect(() => {
     if (therapist.gender === 'female') setSelectedIndex(0)
