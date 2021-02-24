@@ -273,6 +273,9 @@ export const handleLogoutTherapist = () => {
       if (res.data) {
         await SecureStore.deleteItemAsync('access_token')
         await SecureStore.deleteItemAsync('email')
+        dispatch({
+          type: 'RESET_LOADING_THERAPIST'
+        })
       }
     } catch (error) {
       dispatch({
