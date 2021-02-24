@@ -21,6 +21,7 @@ const wait = (timeout) => {
   return new Promise(resolve => setTimeout(resolve, timeout));
 }
 export default function ListTherapist({ navigation }) {
+  console.log('list therapist');
   const widthWindow = useWindowDimensions().width
   const { client, onGoingOrders, loading: loadingClient, error: errorClient } = useSelector(state => state.client)
   const { therapists, error: errorTherapist, loading: loadingTherapist } = useSelector(state => state.therapist)

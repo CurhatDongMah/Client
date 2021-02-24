@@ -10,6 +10,7 @@ import ConfirmPayment from './ConfirmPayment'
 const Stack = createStackNavigator();
 
 export default function Home() {
+  console.log('home');
   return (
       <Stack.Navigator
         screenOptions={{ headerShown: false }}

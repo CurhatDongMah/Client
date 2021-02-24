@@ -139,7 +139,7 @@ export default function Profile({ navigation }) {
                 onPress={() => {
                   dispatch(handleLogoutTherapist())
                   toggleAlert()
-                  navigation.navigate('Signin')
+                  // navigation.navigate('Signin')
                 }} 
                 style={tailwind('items-center my-3 py-1 px-5 mx-2 rounded-lg border border-red-500')}>
                 <Text 

@@ -15,10 +15,12 @@ import * as SecureStore from 'expo-secure-store'
 import getAge from '../../helpers/getAge'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { FancyAlert } from 'react-native-expo-fancy-alerts'
+import { clientLogout } from '../../store/actions/client'
 
 export default function Profile({ navigation }) {
   const widthWindow = useWindowDimensions().width
   const { client, loading: loadingClient, error: errorClient } = useSelector(state => state.client)
+  const dispatch = useDispatch()
   // fancy allert
   const [visible, setVisible] = useState(false);
   const toggleAlert = React.useCallback(() => {
@@ -111,11 +113,9 @@ export default function Profile({ navigation }) {
           <Text style={tailwind('mb-2 text-lg text-gray-500')}>Are you sure want to logout?</Text>
           <View style={tailwind('flex flex-row ')}>
             <TouchableOpacity
-              onPress={async () => {
-                await SecureStore.deleteItemAsync('access_token')
-                await SecureStore.deleteItemAsync('role')
+              onPress={() => {
                 toggleAlert()
-                navigation.navigate('Signin')
+                dispatch(clientLogout())
               }} 
               style={tailwind('items-center my-3 py-1 px-5 mx-2 rounded-lg border border-red-500')}>
               <Text 

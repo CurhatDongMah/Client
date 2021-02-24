@@ -10,7 +10,7 @@ const initialState = {
   onGoingOrders: [],
   successRegister: false,
   reviews: [],
-  isClientSignin: true
+  isClientSignin: false
 }
 
 const clientReducer = (state = initialState, action) => {

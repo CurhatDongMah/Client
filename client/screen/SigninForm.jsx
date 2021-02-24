@@ -35,18 +35,18 @@ export default function SigninForm({ navigation }) {
     else {
       if (checked) {
         await dispatch(therapistLogin(value))
-        const token = await SecureStore.getItemAsync('access_token')
-        if (token) {
-          navigation.navigate('TherapistPage')
-          setValue({})
-        } 
+        // const token = await SecureStore.getItemAsync('access_token')
+        // if (token) {
+        //   navigation.navigate('TherapistPage')
+        //   setValue({})
+        // } 
       } else {
         await dispatch(clientLogin(value))
-        const token = await SecureStore.getItemAsync('access_token')
-        if (token) {
-          navigation.navigate('ClientPage')
-          setValue({})
-        }
+        // const token = await SecureStore.getItemAsync('access_token')
+        // if (token) {
+        //   navigation.navigate('ClientPage')
+        //   setValue({})
+        // }
       }
     }
   }

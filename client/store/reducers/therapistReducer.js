@@ -8,11 +8,23 @@ const initialState = {
   successRegisterTherapist: false,
   onGoingOrdersTherapist: [],
   historiesTherapist: [],
-  allTherapists: [] // fetch all without any condition
+  allTherapists: [], // fetch all without any condition,
+  isTherapistSignin: false
 }
 
 const therapistReducer = (state = initialState, action) => {
   switch (action.type) {
+
+    case 'SET_THERAPIST_SIGNIN':
+      return {
+        ...state,
+        isTherapistSignin: true,
+      }
+    case 'RESET_THERAPIST_SIGNIN':
+      return {
+        ...state,
+        isTherapistSignin: false,
+      }
 
     case 'RESET_REGISTER_THERAPIST':
       return {
