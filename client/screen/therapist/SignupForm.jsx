@@ -96,6 +96,21 @@ export default function SignupForm({ navigation }) {
       setValue({ ...value, photoUrl: newUrl})
     }
   };
+  const openCamera = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5
+    });
+
+    if (!result.cancelled) {
+      setImage(result)
+      setValue({ ...value, photoUrl: ''})
+      const newUrl = await handleUpload(result)
+      setValue({ ...value, photoUrl: newUrl})
+    }
+  };
   const pickLicense = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -111,6 +126,21 @@ export default function SignupForm({ navigation }) {
       setValue({ ...value, licenseUrl: newUrl})
     }
   }
+  const openCameraLicense = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5
+    });
+
+    if (!result.cancelled) {
+      setLicense(result)
+      setValue({ ...value, licenseUrl: ''})
+      const newUrl = await handleUpload(result)
+      setValue({ ...value, licenseUrl: newUrl})
+    }
+  };
   //fancy alert
   const [visible, setVisible] = useState(false)
   const toggleAlert = useCallback(() => {
@@ -178,6 +208,13 @@ export default function SignupForm({ navigation }) {
               style={tailwind('text-base text-green-400')}
             >Pick an image from gallery</Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            onPress={openCamera}
+            style={tailwind('items-center my-3 py-2 px-10 rounded-lg border border-green-400')}>
+            <Text 
+              style={tailwind('text-base text-green-400')}
+            >Take a picture</Text>
+          </TouchableOpacity>
           {/* <Button title="Pick an image from gallery" onPress={pickImage} /> */}
           {image && <Image source={{ uri: image.uri }} style={{ width: 200, height: 200 }} />}
           {
@@ -229,6 +266,13 @@ export default function SignupForm({ navigation }) {
             <Text 
               style={tailwind('text-base text-green-400')}
             >Pick an image from gallery</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={openCameraLicense}
+            style={tailwind('items-center my-3 py-2 px-10 rounded-lg border border-green-400')}>
+            <Text 
+              style={tailwind('text-base text-green-400')}
+            >Take a picture</Text>
           </TouchableOpacity>
           {/* <Button title="Pick an image from gallery" onPress={pickLicense} /> */}
           {license && <Image source={{ uri: license.uri }} style={{ width: 200, height: 200 }} />}
