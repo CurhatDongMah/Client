@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { TouchableOpacity, Text, View, ActivityIndicator, Button } from 'react-native';
+import { TouchableOpacity, Text, View, ActivityIndicator, Button, StyleSheet } from 'react-native';
 import { WebView } from 'react-native-webview';
 import base64 from 'base-64';
 import tailwind from 'tailwind-rn';
 import { setOnGoingOrder } from '../../store/actions/client'
-import { FancyAlert } from 'react-native-expo-fancy-alerts';
 
 export default function App({ navigation }) {
-	const [visible, setVisible] = useState(false);
-  const toggleAlert = React.useCallback(() => {
-    setVisible(!visible);
-  }, [visible]);
-
+	// web view to react
+	const webviewRef = useRef(null);
+	function LoadingIndicatorView() {
+    return (
+			<View style={tailwind('flex-1 justify-center items-center')}>
+				<ActivityIndicator color="34D399" size="large" />
+			</View>
+    );
+  }
 	const [mid, setMid] = useState(false)
   const [complete, setComplete] = useState(false)
 	const { therapistDetail, client, order } = useSelector(state => state.client)
@@ -82,13 +85,7 @@ export default function App({ navigation }) {
 	}
 	return (
 		!mid ? (
-			<View
-				style={{
-					flex: 1,
-					justifyContent: 'center',
-					alignItems: 'center',
-				}}
-			>
+			<View style={tailwind('flex-1 justify-center items-center')}>
 				<ActivityIndicator color="34D399" size="large" />
 			</View>
 		) : (
@@ -98,43 +95,21 @@ export default function App({ navigation }) {
 						uri: mid.redirect_url,
 					}}
 					style={tailwind('flex-1 justify-center items-center mt-6')}
-				/>
-				<TouchableOpacity
-					onPress={() => {
+					renderLoading={LoadingIndicatorView}
+          startInLoadingState={true}
+					ref={webviewRef}
+					onNavigationStateChange={(event) => {
+						console.log(event.url, 'ini url');
 						check().then((data) => {
 							console.log(data.status_code)
 							if (data.status_code == 200) {
 								setComplete(true)
 								dispatch(setOnGoingOrder(order.id))
 								navigation.navigate('Success')
-							} else {
-								// alert('Your payment has not been complete')
-								toggleAlert()
-							}
+							} 
 						})
 					}}
-					style={tailwind('absolute p-5 h-20 w-20 bottom-16 right-5 flex justify-center items-center border-4 border-gray-600 rounded-full')}>
-					<Text 
-						style={tailwind('text-base font-bold text-gray-600')}
-					>Done</Text>
-				</TouchableOpacity>
-
-				<FancyAlert
-					visible={visible}
-					icon={<View 
-						style={tailwind('flex flex-1 justify-center items-center w-full rounded-full bg-red-500')}
-					><Text style={tailwind('text-white text-2xl')}>X</Text></View>}
-					style={{ backgroundColor: 'white' }}
-				>
-					<Text style={tailwind('mb-2')}>Your payment has not been complete</Text>
-					<TouchableOpacity
-						onPress={toggleAlert}
-						style={tailwind('items-center my-3 py-1 px-10 rounded-lg border border-red-400')}>
-						<Text 
-							style={tailwind('text-base text-red-400')}
-						>Continue Payment</Text>
-					</TouchableOpacity>
-      </FancyAlert>
+				/>
 			</>
 		)
 	);

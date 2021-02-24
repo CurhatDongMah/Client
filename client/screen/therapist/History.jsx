@@ -38,8 +38,8 @@ export default function ListHistory({ navigation }) {
   }, [])
 
   const Item = ( history ) => (
-    <View style={{ width: widthWindow * 85 / 100 }}>
-      <View style={tailwind('flex flex-row my-2 rounded-xl py-4 bg-gray-100 justify-start')}>
+    <View style={{ width: widthWindow * 9 / 10 }}>
+      <View style={tailwind('flex flex-row my-2 rounded-xl py-2 bg-gray-100 justify-start')}>
         <View style={tailwind('px-5 flex items-center justify-center')}>
           <Image 
             style={tailwind('w-12 h-12 rounded-full')}
@@ -48,12 +48,12 @@ export default function ListHistory({ navigation }) {
             }}
           />
         </View>
-        <View style={tailwind('flex items-start justify-center px-3')}>
+        <View style={tailwind('flex items-start justify-center px-2')}>
           <Text 
             numberOfLines={1}
             ellipsizeMode='clip'
-            style={tailwind('w-24 text-base text-gray-500')}>{history.title.Client.fullName}</Text>
-          <Text style={tailwind('text-gray-400')}>{history.title.Client.city}</Text>
+            style={tailwind('w-24 text-lg text-gray-500')}>{history.title.Client.fullName}</Text>
+          <Text style={tailwind('text-gray-400 text-base')}>{history.title.Client.city}</Text>
           <TouchableOpacity
             onPress={async () => navigation.navigate('Messages', { screen: 'ChatRoom', params: {client: history.title.Client }})} 
             style={tailwind('items-center my-1 px-6 rounded border border-r border-green-400')}>
@@ -62,10 +62,10 @@ export default function ListHistory({ navigation }) {
             >Chat</Text>
           </TouchableOpacity>
         </View>
-        <View style={tailwind('mx-2 border-l border-gray-200 px-3 flex items-center justify-center')}>
-          <Text style={tailwind('text-gray-500')}>Date: { `${new Date(history.title.createdAt).getDate()}/${new Date(history.title.createdAt).getMonth()+1}/${new Date(history.title.createdAt).getFullYear()}`}</Text>
-          <Text style={tailwind('text-gray-500')}>Start at: { `${new Date(history.title.createdAt).getHours()} : ${new Date(history.title.createdAt).getMinutes()}`}</Text>
-          <Text style={tailwind('text-gray-500')}>Duration: { history.title.totalHour } Hour</Text>
+        <View style={tailwind('mx-2 border-l border-gray-200 px-3 flex justify-center')}>
+          <Text style={tailwind('text-gray-500 text-base')}>Date: { `${new Date(history.title.createdAt).getDate()}/${new Date(history.title.createdAt).getMonth()+1}/${new Date(history.title.createdAt).getFullYear()}`}</Text>
+          <Text style={tailwind('text-gray-500 text-base')}>Start at: { `${new Date(history.title.createdAt).getHours()} : ${new Date(history.title.createdAt).getMinutes()}`}</Text>
+          <Text style={tailwind('text-gray-500 text-base')}>Duration: { history.title.totalHour } Hour</Text>
         </View>
       </View>
     </View>

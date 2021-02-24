@@ -37,8 +37,12 @@ export default function Detail({ navigation }) {
     dispatch(getOnGoingOrderTherapist())
   }, [])
   const onCheckedChange = (isChecked) => {
-    dispatch(updateStatusTherapist(!checked))
-    setChecked(isChecked)
+    if (onGoingOrdersTherapist.length) {
+      alert('ad on going order')
+    } else {
+      dispatch(updateStatusTherapist(!checked))
+      setChecked(isChecked)
+    }
   }
   const onRefresh = useCallback(() => {
     setRefreshing(true)

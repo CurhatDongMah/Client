@@ -96,8 +96,8 @@ export default function Profile({ navigation }) {
         {
           onGoingOrders.length ? (
             <View style={{ width: widthWindow * 9 / 10 }}>
-              <View style={tailwind('border-b border-gray-300 pb-3')}>
-                <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>ON GOING ORDER</Text>
+              <View style={tailwind('border-b border-gray-300 pb-2')}>
+                <Text style={tailwind('py-2 text-lg text-gray-600 tracking-wider')}>ON GOING ORDER</Text>
                 <View style={tailwind('flex flex-row mt-2 rounded-xl py-4 bg-green-100 justify-start')}>
                   <View style={tailwind('px-5 flex items-center justify-center')}>
                     <Image 
@@ -151,7 +151,7 @@ export default function Profile({ navigation }) {
           ) : <></>
         }
         <View style={tailwind('mb-4')}>
-          <Text style={tailwind('py-2 text-lg text-gray-400 font-bold tracking-wider')}>CHOOSE A THERAPIST</Text>
+          <Text style={tailwind('pt-2 text-lg text-gray-600 tracking-wider')}>CHOOSE A THERAPIST</Text>
           {
             therapists.map(therapist => {
               return (
